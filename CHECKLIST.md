@@ -4,6 +4,8 @@ Publishing is the one step you cannot fully take back. Anything public can be co
 
 Examples come from this repository, Roll and Read, a small phone spelling game.
 
+**The two-minute version:** *No secrets. No other people's private data. A license. An honest README that says what you used and how, including AI. Test the live link in a private window. Know how to take it down.* Then do the full list below.
+
 ## 1. Before you start
 
 - [ ] **Do I know exactly what I am making public?** Write the list of files. Publish a deliberate copy, not your whole working folder.

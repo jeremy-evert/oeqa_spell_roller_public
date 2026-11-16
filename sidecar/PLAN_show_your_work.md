@@ -87,6 +87,16 @@ Items to confirm or fix, taken from reading the repo as it stands:
 - [ ] Add the link to the course Start Here Google Doc under Quick links.
 - [ ] Work the repo to-do list above and write `BEFORE_AND_AFTER.md`.
 
-## Not in scope this week
+## Moving WordWild in (staged, 2026-11-16; supersedes the line below)
+
+Steps used, in order, for the worked example:
+1. Fresh export of the games (no private history) into `wordwild/`.
+2. Relative paths so it works under the project web address; tests adjusted and listed in `sidecar/LANDING_MANIFEST.md`.
+3. `scripts/public_audit.py` (names kept in an untracked local file; counts only) and `scripts/audio_transcript_audit.py` for spoken audio; receipt in `sidecar/runs/`.
+4. License line for every asset in `wordwild/ASSETS.md`; unknown means it does not ship.
+5. Honest notes: `HOW_IT_WAS_MADE.md`, `PRIVACY.md`, `KNOWN_LIMITS.md`, `STORY.md`.
+6. Flo reviews the diff against `CHECKLIST.md`; Jeremy says "publish"; then live-link test and rollback note.
+
+## Not in scope this week (original)
 
 Moving any private `wordwild` code or content here. Editing the Start Here Google Doc before you say go. Changing the game itself.

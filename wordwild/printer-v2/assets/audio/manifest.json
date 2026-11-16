@@ -1,0 +1,370 @@
+{
+  "engine": "kokoro-onnx (local)",
+  "model": "kokoro-v1.0",
+  "voice": "af_heart",
+  "lang": "en-us",
+  "licence_note": "Kokoro-82M is Apache-2.0. Clips are original synthesized audio created locally for this project.",
+  "provenance": "Word, slow and original sentence clips are copied unchanged from the original Flashcards edition (PR #4, branch anna/m003-flashcards, flashcards/assets/audio), generated locally with Kokoro af_heart on 2026-11-15. Each pre-answer context sentence includes the target word when spoken but never displays its spelling. Separate spelling-memory narration clips are played only after deliberate help or the completed attempt.",
+  "words": {
+    "supper": {
+      "word": "supper.mp3",
+      "slow": "supper_slow.mp3",
+      "sentence": "supper_sentence.mp3"
+    },
+    "number": {
+      "word": "number.mp3",
+      "slow": "number_slow.mp3",
+      "sentence": "number_sentence.mp3"
+    },
+    "over": {
+      "word": "over.mp3",
+      "slow": "over_slow.mp3",
+      "sentence": "over_sentence.mp3"
+    },
+    "ladder": {
+      "word": "ladder.mp3",
+      "slow": "ladder_slow.mp3",
+      "sentence": "ladder_sentence.mp3"
+    },
+    "sister": {
+      "word": "sister.mp3",
+      "slow": "sister_slow.mp3",
+      "sentence": "sister_sentence.mp3"
+    },
+    "spider": {
+      "word": "spider.mp3",
+      "slow": "spider_slow.mp3",
+      "sentence": "spider_sentence.mp3"
+    },
+    "soccer": {
+      "word": "soccer.mp3",
+      "slow": "soccer_slow.mp3",
+      "sentence": "soccer_sentence.mp3"
+    },
+    "thunder": {
+      "word": "thunder.mp3",
+      "slow": "thunder_slow.mp3",
+      "sentence": "thunder_sentence.mp3"
+    },
+    "tiger": {
+      "word": "tiger.mp3",
+      "slow": "tiger_slow.mp3",
+      "sentence": "tiger_sentence.mp3"
+    },
+    "chapter": {
+      "word": "chapter.mp3",
+      "slow": "chapter_slow.mp3",
+      "sentence": "chapter_sentence.mp3"
+    },
+    "afternoon": {
+      "word": "afternoon.mp3",
+      "slow": "afternoon_slow.mp3",
+      "sentence": "afternoon_sentence.mp3"
+    },
+    "scattering": {
+      "word": "scattering.mp3",
+      "slow": "scattering_slow.mp3",
+      "sentence": "scattering_sentence.mp3"
+    },
+    "whispered": {
+      "word": "whispered.mp3",
+      "slow": "whispered_slow.mp3",
+      "sentence": "whispered_sentence.mp3"
+    },
+    "understand": {
+      "word": "understand.mp3",
+      "slow": "understand_slow.mp3",
+      "sentence": "understand_sentence.mp3"
+    },
+    "newspaper": {
+      "word": "newspaper.mp3",
+      "slow": "newspaper_slow.mp3",
+      "sentence": "newspaper_sentence.mp3"
+    },
+    "butterfly": {
+      "word": "butterfly.mp3",
+      "slow": "butterfly_slow.mp3",
+      "sentence": "butterfly_sentence.mp3"
+    },
+    "upstairs": {
+      "word": "upstairs.mp3",
+      "slow": "upstairs_slow.mp3",
+      "sentence": "upstairs_sentence.mp3"
+    },
+    "staring": {
+      "word": "staring.mp3",
+      "slow": "staring_slow.mp3",
+      "sentence": "staring_sentence.mp3"
+    },
+    "animal": {
+      "word": "animal.mp3",
+      "slow": "animal_slow.mp3",
+      "sentence": "animal_sentence.mp3"
+    },
+    "another": {
+      "word": "another.mp3",
+      "slow": "another_slow.mp3",
+      "sentence": "another_sentence.mp3"
+    }
+  },
+  "narration": {
+    "list14-supper-primary-v1": "narration/list14-supper-primary-v1.mp3",
+    "list14-supper-alternate-v1": "narration/list14-supper-alternate-v1.mp3",
+    "list14-tiger-primary-v1": "narration/list14-tiger-primary-v1.mp3",
+    "list14-upstairs-primary-v1": "narration/list14-upstairs-primary-v1.mp3",
+    "list14-supper-extra-v1": "narration/list14-supper-extra-v1.mp3",
+    "list14-number-primary-v1": "narration/list14-number-primary-v1.mp3",
+    "list14-number-alternate-v1": "narration/list14-number-alternate-v1.mp3",
+    "list14-over-primary-v1": "narration/list14-over-primary-v1.mp3",
+    "list14-over-alternate-v1": "narration/list14-over-alternate-v1.mp3",
+    "list14-ladder-primary-v1": "narration/list14-ladder-primary-v1.mp3",
+    "list14-ladder-alternate-v1": "narration/list14-ladder-alternate-v1.mp3",
+    "list14-sister-primary-v1": "narration/list14-sister-primary-v1.mp3",
+    "list14-sister-alternate-v1": "narration/list14-sister-alternate-v1.mp3",
+    "list14-spider-primary-v1": "narration/list14-spider-primary-v1.mp3",
+    "list14-spider-alternate-v1": "narration/list14-spider-alternate-v1.mp3",
+    "list14-soccer-primary-v1": "narration/list14-soccer-primary-v1.mp3",
+    "list14-soccer-alternate-v1": "narration/list14-soccer-alternate-v1.mp3",
+    "list14-thunder-primary-v1": "narration/list14-thunder-primary-v1.mp3",
+    "list14-thunder-alternate-v1": "narration/list14-thunder-alternate-v1.mp3",
+    "list14-tiger-alternate-v1": "narration/list14-tiger-alternate-v1.mp3",
+    "list14-chapter-primary-v1": "narration/list14-chapter-primary-v1.mp3",
+    "list14-chapter-alternate-v1": "narration/list14-chapter-alternate-v1.mp3",
+    "list14-afternoon-primary-v1": "narration/list14-afternoon-primary-v1.mp3",
+    "list14-afternoon-alternate-v1": "narration/list14-afternoon-alternate-v1.mp3",
+    "list14-scattering-primary-v1": "narration/list14-scattering-primary-v1.mp3",
+    "list14-scattering-alternate-v1": "narration/list14-scattering-alternate-v1.mp3",
+    "list14-whispered-primary-v1": "narration/list14-whispered-primary-v1.mp3",
+    "list14-whispered-alternate-v1": "narration/list14-whispered-alternate-v1.mp3",
+    "list14-understand-primary-v1": "narration/list14-understand-primary-v1.mp3",
+    "list14-understand-alternate-v1": "narration/list14-understand-alternate-v1.mp3",
+    "list14-newspaper-primary-v1": "narration/list14-newspaper-primary-v1.mp3",
+    "list14-newspaper-alternate-v1": "narration/list14-newspaper-alternate-v1.mp3",
+    "list14-butterfly-primary-v1": "narration/list14-butterfly-primary-v1.mp3",
+    "list14-butterfly-alternate-v1": "narration/list14-butterfly-alternate-v1.mp3",
+    "list14-upstairs-alternate-v1": "narration/list14-upstairs-alternate-v1.mp3",
+    "list14-staring-primary-v1": "narration/list14-staring-primary-v1.mp3",
+    "list14-staring-alternate-v1": "narration/list14-staring-alternate-v1.mp3",
+    "list14-staring-extra-v1": "narration/list14-staring-extra-v1.mp3",
+    "list14-animal-primary-v1": "narration/list14-animal-primary-v1.mp3",
+    "list14-animal-alternate-v1": "narration/list14-animal-alternate-v1.mp3",
+    "list14-another-primary-v1": "narration/list14-another-primary-v1.mp3",
+    "list14-another-alternate-v1": "narration/list14-another-alternate-v1.mp3"
+  },
+  "narrationMeta": {
+    "list14-supper-primary-v1": {
+      "seconds": 8.38,
+      "generated": "2026-11-16T03:12:59+00:00",
+      "status": "audition_sample"
+    },
+    "list14-supper-alternate-v1": {
+      "seconds": 9.83,
+      "generated": "2026-11-16T03:13:00+00:00",
+      "status": "audition_sample"
+    },
+    "list14-tiger-primary-v1": {
+      "seconds": 9.64,
+      "generated": "2026-11-16T03:13:02+00:00",
+      "status": "audition_sample"
+    },
+    "list14-upstairs-primary-v1": {
+      "seconds": 6.36,
+      "generated": "2026-11-16T03:13:03+00:00",
+      "status": "audition_sample"
+    },
+    "list14-supper-extra-v1": {
+      "seconds": 4.14,
+      "generated": "2026-11-16T04:40:25+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-number-primary-v1": {
+      "seconds": 4.44,
+      "generated": "2026-11-16T04:40:26+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-number-alternate-v1": {
+      "seconds": 6.21,
+      "generated": "2026-11-16T04:40:27+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-over-primary-v1": {
+      "seconds": 4.74,
+      "generated": "2026-11-16T04:40:28+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-over-alternate-v1": {
+      "seconds": 6.14,
+      "generated": "2026-11-16T04:40:30+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-ladder-primary-v1": {
+      "seconds": 4.25,
+      "generated": "2026-11-16T04:40:31+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-ladder-alternate-v1": {
+      "seconds": 7.25,
+      "generated": "2026-11-16T04:40:32+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-sister-primary-v1": {
+      "seconds": 4.99,
+      "generated": "2026-11-16T04:40:33+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-sister-alternate-v1": {
+      "seconds": 4.61,
+      "generated": "2026-11-16T04:40:33+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-spider-primary-v1": {
+      "seconds": 7.13,
+      "generated": "2026-11-16T04:40:34+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-spider-alternate-v1": {
+      "seconds": 8.94,
+      "generated": "2026-11-16T04:40:36+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-soccer-primary-v1": {
+      "seconds": 6.08,
+      "generated": "2026-11-16T04:40:36+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-soccer-alternate-v1": {
+      "seconds": 8.7,
+      "generated": "2026-11-16T04:40:38+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-thunder-primary-v1": {
+      "seconds": 5.97,
+      "generated": "2026-11-16T04:44:24+00:00",
+      "status": "rendered_unapproved",
+      "voiceOverride": true
+    },
+    "list14-thunder-alternate-v1": {
+      "seconds": 4.8,
+      "generated": "2026-11-16T04:40:39+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-tiger-alternate-v1": {
+      "seconds": 6.23,
+      "generated": "2026-11-16T04:43:25+00:00",
+      "status": "rendered_unapproved",
+      "voiceOverride": true
+    },
+    "list14-chapter-primary-v1": {
+      "seconds": 3.99,
+      "generated": "2026-11-16T04:43:26+00:00",
+      "status": "rendered_unapproved",
+      "voiceOverride": true
+    },
+    "list14-chapter-alternate-v1": {
+      "seconds": 7.08,
+      "generated": "2026-11-16T04:40:42+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-afternoon-primary-v1": {
+      "seconds": 6.51,
+      "generated": "2026-11-16T04:40:43+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-afternoon-alternate-v1": {
+      "seconds": 9.79,
+      "generated": "2026-11-16T04:40:45+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-scattering-primary-v1": {
+      "seconds": 4.97,
+      "generated": "2026-11-16T04:40:45+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-scattering-alternate-v1": {
+      "seconds": 7.96,
+      "generated": "2026-11-16T04:40:47+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-whispered-primary-v1": {
+      "seconds": 5.16,
+      "generated": "2026-11-16T04:40:47+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-whispered-alternate-v1": {
+      "seconds": 7.79,
+      "generated": "2026-11-16T04:40:49+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-understand-primary-v1": {
+      "seconds": 8.94,
+      "generated": "2026-11-16T04:40:50+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-understand-alternate-v1": {
+      "seconds": 5.23,
+      "generated": "2026-11-16T04:40:51+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-newspaper-primary-v1": {
+      "seconds": 7.51,
+      "generated": "2026-11-16T04:40:52+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-newspaper-alternate-v1": {
+      "seconds": 5.97,
+      "generated": "2026-11-16T04:40:53+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-butterfly-primary-v1": {
+      "seconds": 4.2,
+      "generated": "2026-11-16T04:40:53+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-butterfly-alternate-v1": {
+      "seconds": 5.82,
+      "generated": "2026-11-16T04:40:54+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-upstairs-alternate-v1": {
+      "seconds": 5.03,
+      "generated": "2026-11-16T04:40:55+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-staring-primary-v1": {
+      "seconds": 9.83,
+      "generated": "2026-11-16T04:40:56+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-staring-alternate-v1": {
+      "seconds": 6.12,
+      "generated": "2026-11-16T04:40:57+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-staring-extra-v1": {
+      "seconds": 5.78,
+      "generated": "2026-11-16T04:40:58+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-animal-primary-v1": {
+      "seconds": 5.59,
+      "generated": "2026-11-16T04:43:27+00:00",
+      "status": "rendered_unapproved",
+      "voiceOverride": true
+    },
+    "list14-animal-alternate-v1": {
+      "seconds": 6.91,
+      "generated": "2026-11-16T04:41:00+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-another-primary-v1": {
+      "seconds": 5.46,
+      "generated": "2026-11-16T04:41:01+00:00",
+      "status": "rendered_unapproved"
+    },
+    "list14-another-alternate-v1": {
+      "seconds": 5.14,
+      "generated": "2026-11-16T04:41:02+00:00",
+      "status": "rendered_unapproved"
+    }
+  }
+}

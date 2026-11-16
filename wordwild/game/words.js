@@ -1,0 +1,23 @@
+// List 14 source order is preserved. Clues describe meanings and scenes, not spelling rules.
+export const words = [
+  { word: 'supper', clue: 'An evening meal. The first sound of this word is the same as the first sound in “sun.”', sentence: 'After playing outside, we sat down to eat ___.', hint: 'Picture an evening meal at the table.' },
+  { word: 'number', clue: 'A word for an amount or a counting symbol, such as 8.', sentence: 'Write the ___ of shells you collected.', hint: 'Think of counting: one, two, three…' },
+  { word: 'over', clue: 'Across or above something; the opposite direction from under.', sentence: 'The kite flew ___ the trees.', hint: 'Picture something passing above.' },
+  { word: 'ladder', clue: 'A tool with steps that helps someone climb up or down.', sentence: 'The firefighter climbed the ___ carefully.', hint: 'Imagine two rails with steps between them.' },
+  { word: 'sister', clue: 'A girl or woman who has the same parent as you.', sentence: 'My ___ and I built a blanket fort.', hint: 'Think of a sibling who is a girl.' },
+  { word: 'spider', clue: 'A small animal with eight legs that may spin a web.', sentence: 'A ___ made a web between the branches.', hint: 'Picture the eight-legged web spinner.' },
+  { word: 'soccer', clue: 'A team sport where players kick a ball toward a goal.', sentence: 'We passed the ball during ___ practice.', hint: 'Think of the game played with a round ball and goals.' },
+  { word: 'thunder', clue: 'The deep, rumbling sound heard during a storm.', sentence: 'We heard ___ after the bright flash.', hint: 'Listen in your imagination for a storm’s low rumble.' },
+  { word: 'tiger', clue: 'A large striped wild cat.', sentence: 'The ___ padded through the tall grass.', hint: 'Picture an orange-and-black striped cat.' },
+  { word: 'chapter', clue: 'One section of a book, usually with its own heading or number.', sentence: 'We read one ___ before bedtime.', hint: 'Think of a book’s smaller sections.' },
+  { word: 'afternoon', clue: 'The part of the day after noon and before evening.', sentence: 'We rode our bikes in the ___ sunshine.', hint: 'Picture the hours after lunchtime.' },
+  { word: 'scattering', clue: 'Spreading or tossing many things across different places.', sentence: 'The wind was ___ leaves across the path.', hint: 'Imagine many little things spreading out.' },
+  { word: 'whispered', clue: 'Spoke very softly, almost in a secret voice.', sentence: 'He ___ the surprise so it stayed secret.', hint: 'Think of talking so quietly that only one nearby person can hear.' },
+  { word: 'understand', clue: 'To know what something means or how it works.', sentence: 'After the example, I could ___ the puzzle.', hint: 'Think of knowing the meaning, not just hearing the words.' },
+  { word: 'newspaper', clue: 'A printed paper that shares news and stories.', sentence: 'Grandpa read the ___ at breakfast.', hint: 'Picture folded pages full of current events.' },
+  { word: 'butterfly', clue: 'An insect with large colorful wings that begins life as a caterpillar.', sentence: 'A blue ___ landed on the flower.', hint: 'Imagine a winged insect visiting a flower.' },
+  { word: 'upstairs', clue: 'Toward or on a higher floor of a building.', sentence: 'The sleepy puppy followed us ___.', hint: 'Picture going up the steps to another floor.' , list13Review: true },
+  { word: 'staring', clue: 'Looking at something for a long time without looking away.', sentence: 'The astronaut was ___ at the bright planet.', hint: 'Imagine keeping your eyes fixed on one thing.', list13Review: true },
+  { word: 'animal', clue: 'A living creature that can move and needs food.', sentence: 'The shelter helped each ___ find a safe home.', hint: 'Think of a living creature, such as a rabbit or whale.' },
+  { word: 'another', clue: 'One more, or a different one of the same kind.', sentence: 'I finished one cookie and asked for ___.', hint: 'Think of one more after the first.' },
+];

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WordWild grown-up corner</title>
+<style>body{font:17px/1.5 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:16px;color:#23233a;background:#fff8ec}
+table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #ddd;padding:6px 8px;text-align:left}
+button{font:inherit;min-height:44px;padding:6px 14px;border-radius:10px;border:2px solid #999;background:#fff;cursor:pointer;margin:4px 6px 4px 0}
+.note{background:#fff3cd;padding:8px 12px;border-radius:10px}pre{background:#fff;border:1px solid #ddd;padding:8px;overflow:auto;max-height:240px}
+@media (prefers-color-scheme:dark){body{background:#171726;color:#f1f1fa}table td,table th{border-color:#3a3a58}.note{background:#4a3b00;color:#ffe9a8}pre,button{background:#232338;color:#f1f1fa}}</style></head>
+<body>
+<h1>Grown-up corner</h1>
+<p><a href="../printer-v2/">← Back to the printer game</a></p>
+<p class="note">Progress is saved only in this browser, on this exact address (<code id="origin"></code>). It never leaves this computer. A different address or port keeps separate progress.</p>
+<div id="out">Loading…</div>
+<p>
+  <button id="export">Show a copy of the saved data</button>
+  <button id="clear">Erase all saved progress here</button>
+</p>
+<pre id="dump" hidden></pre>
+<script type="module">
+import { SharedProgress } from "./local_progress.js";
+document.getElementById("origin").textContent = location.origin;
+const doc = await (await fetch("../content/list14_words_v1.json")).json();
+const words = doc.words.map((w) => w.word);
+const p = new SharedProgress({ words });
+const label = { independent: "all by myself", after_retry: "after a retry", assisted: "with help", after_reveal: "after seeing it", skipped: "skipped" };
+function draw() {
+  const s = p.summary(words), me = p.activePlayer();
+  document.getElementById("out").innerHTML = `<p>Player: <strong>${me.label}</strong>. Practiced ${s.practiced} of 20 words; ${s.independentNow} last spelled all by themselves. Jokes marked funny: ${s.funnyCount}. Marked "helped me remember": ${s.helpedCount}. Storage: ${p.state}.</p>` +
+    `<table><tr><th>Word</th><th>Times</th><th>Last result</th></tr>` + s.rows.map((r) => `<tr><td>${r.word}</td><td>${r.runs}</td><td>${r.last ? label[r.last] : "not yet"}</td></tr>`).join("") + `</table>` +
+    `<p class="note">"Last result" is only what really happened in this browser. A 👍 is a preference, not proof of learning.</p>`;
+}
+draw();
+document.getElementById("export").onclick = () => { const d = document.getElementById("dump"); d.hidden = false; d.textContent = p.exportJSON(); };
+document.getElementById("clear").onclick = () => { if (confirm("Erase all saved WordWild progress in this browser?")) { p.clearAll(); draw(); document.getElementById("dump").hidden = true; } };
+</script></body></html>

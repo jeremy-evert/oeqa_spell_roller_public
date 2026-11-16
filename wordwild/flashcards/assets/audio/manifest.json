@@ -1,0 +1,210 @@
+{
+  "engine": "kokoro-onnx (local)",
+  "model": "kokoro-v1.0",
+  "voice": "af_heart",
+  "lang": "en-us",
+  "generated": "2026-11-15T18:16:41+00:00",
+  "licence_note": "Kokoro-82M is Apache-2.0. Clips are original synthesized audio created locally for this project.",
+  "clips": {
+    "supper": {
+      "word": "supper.mp3",
+      "slow": "supper_slow.mp3",
+      "sentence": "supper_sentence.mp3",
+      "seconds": [
+        0.77,
+        0.92,
+        5.72
+      ]
+    },
+    "number": {
+      "word": "number.mp3",
+      "slow": "number_slow.mp3",
+      "sentence": "number_sentence.mp3",
+      "seconds": [
+        0.81,
+        0.94,
+        6.76
+      ]
+    },
+    "over": {
+      "word": "over.mp3",
+      "slow": "over_slow.mp3",
+      "sentence": "over_sentence.mp3",
+      "seconds": [
+        0.79,
+        0.87,
+        4.31
+      ]
+    },
+    "ladder": {
+      "word": "ladder.mp3",
+      "slow": "ladder_slow.mp3",
+      "sentence": "ladder_sentence.mp3",
+      "seconds": [
+        0.83,
+        0.98,
+        5.57
+      ]
+    },
+    "sister": {
+      "word": "sister.mp3",
+      "slow": "sister_slow.mp3",
+      "sentence": "sister_sentence.mp3",
+      "seconds": [
+        0.85,
+        1.05,
+        5.4
+      ]
+    },
+    "spider": {
+      "word": "spider.mp3",
+      "slow": "spider_slow.mp3",
+      "sentence": "spider_sentence.mp3",
+      "seconds": [
+        0.9,
+        1.13,
+        4.07
+      ]
+    },
+    "soccer": {
+      "word": "soccer.mp3",
+      "slow": "soccer_slow.mp3",
+      "sentence": "soccer_sentence.mp3",
+      "seconds": [
+        0.87,
+        0.96,
+        6.38
+      ]
+    },
+    "thunder": {
+      "word": "thunder.mp3",
+      "slow": "thunder_slow.mp3",
+      "sentence": "thunder_sentence.mp3",
+      "seconds": [
+        0.79,
+        0.92,
+        6.72
+      ]
+    },
+    "tiger": {
+      "word": "tiger.mp3",
+      "slow": "tiger_slow.mp3",
+      "sentence": "tiger_sentence.mp3",
+      "seconds": [
+        0.81,
+        0.94,
+        5.12
+      ]
+    },
+    "chapter": {
+      "word": "chapter.mp3",
+      "slow": "chapter_slow.mp3",
+      "sentence": "chapter_sentence.mp3",
+      "seconds": [
+        0.9,
+        1.07,
+        3.95
+      ]
+    },
+    "afternoon": {
+      "word": "afternoon.mp3",
+      "slow": "afternoon_slow.mp3",
+      "sentence": "afternoon_sentence.mp3",
+      "seconds": [
+        1.05,
+        1.24,
+        3.86
+      ]
+    },
+    "scattering": {
+      "word": "scattering.mp3",
+      "slow": "scattering_slow.mp3",
+      "sentence": "scattering_sentence.mp3",
+      "seconds": [
+        0.92,
+        1.15,
+        5.16
+      ]
+    },
+    "whispered": {
+      "word": "whispered.mp3",
+      "slow": "whispered_slow.mp3",
+      "sentence": "whispered_sentence.mp3",
+      "seconds": [
+        0.87,
+        1.02,
+        4.14
+      ]
+    },
+    "understand": {
+      "word": "understand.mp3",
+      "slow": "understand_slow.mp3",
+      "sentence": "understand_sentence.mp3",
+      "seconds": [
+        1.05,
+        1.15,
+        5.48
+      ]
+    },
+    "newspaper": {
+      "word": "newspaper.mp3",
+      "slow": "newspaper_slow.mp3",
+      "sentence": "newspaper_sentence.mp3",
+      "seconds": [
+        1.02,
+        1.17,
+        5.4
+      ]
+    },
+    "butterfly": {
+      "word": "butterfly.mp3",
+      "slow": "butterfly_slow.mp3",
+      "sentence": "butterfly_sentence.mp3",
+      "seconds": [
+        1.05,
+        1.17,
+        4.05
+      ]
+    },
+    "upstairs": {
+      "word": "upstairs.mp3",
+      "slow": "upstairs_slow.mp3",
+      "sentence": "upstairs_sentence.mp3",
+      "seconds": [
+        0.96,
+        1.17,
+        4.27
+      ]
+    },
+    "staring": {
+      "word": "staring.mp3",
+      "slow": "staring_slow.mp3",
+      "sentence": "staring_sentence.mp3",
+      "seconds": [
+        0.9,
+        1.11,
+        4.76
+      ]
+    },
+    "animal": {
+      "word": "animal.mp3",
+      "slow": "animal_slow.mp3",
+      "sentence": "animal_sentence.mp3",
+      "seconds": [
+        0.81,
+        0.96,
+        4.44
+      ]
+    },
+    "another": {
+      "word": "another.mp3",
+      "slow": "another_slow.mp3",
+      "sentence": "another_sentence.mp3",
+      "seconds": [
+        0.77,
+        0.92,
+        3.63
+      ]
+    }
+  }
+}

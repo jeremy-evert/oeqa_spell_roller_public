@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b38">
+  <meta name="description" content="Choose a WordWild game to play.">
+  <title>WordWild Arcade</title>
+  <link rel="stylesheet" href="arcade/style.css">
+  <script type="module" src="arcade/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#games">Skip to games</a>
+  <main class="arcade-shell">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="WordWild Arcade home">
+        <span class="brand-mark" aria-hidden="true">W!</span>
+        <span>WORDWILD <span class="brand-sub">ARCADE</span></span>
+      </a>
+      <p class="local-note"><span class="local-dot" aria-hidden="true"></span> At home on this device</p>
+    </header>
+
+    <section class="welcome" aria-labelledby="welcome-title">
+      <div class="welcome-copy">
+        <p class="eyebrow">THE VERY IMPORTANT GAME ROOM</p>
+        <h1 id="welcome-title">Pick a game.<br><span>Make a little mischief.</span></h1>
+        <p class="welcome-text">Choose a world to jump into. The ones still being built are safely behind the workshop door.</p>
+      </div>
+      <div class="mascot" aria-hidden="true">
+        <div class="mascot-spark spark-one">✦</div><div class="mascot-spark spark-two">✦</div>
+        <div class="potato"><i></i><b></b><span></span></div>
+        <div class="mascot-caption">NO HOMEWORK<br><strong>(allegedly)</strong></div>
+      </div>
+    </section>
+
+    <section id="games" class="games-section" aria-labelledby="games-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">CHOOSE YOUR PORTAL</p><h2 id="games-title">Your games</h2></div>
+        <button class="refresh-button" id="refresh-games" type="button" aria-describedby="availability-note">↻ <span>Check again</span></button>
+      </div>
+      <p id="availability-note" class="availability-note" role="status" aria-live="polite">Checking which game doors are open…</p>
+      <div id="game-grid" class="game-grid" aria-busy="true"></div>
+      <noscript><p class="noscript">Turn on JavaScript to check which games are ready in this local copy.</p></noscript>
+    </section>
+
+    <footer class="arcade-footer">
+      <span>WORDWILD · A tiny local game universe</span>
+      <span>No accounts. No ads. No surprise sounds.</span>
+    </footer>
+  </main>
+</body>
+</html>

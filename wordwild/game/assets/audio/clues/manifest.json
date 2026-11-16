@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "job": "wordwild-list14-clue-narration",
+  "generatedUtc": "2026-11-15T19:56:00+00:00",
+  "source": {
+    "path": "game/words.js",
+    "sha256": "a3511916640798578887e2c074d45c367e3c52e29facfdda5732cd110415f91b"
+  },
+  "normalizedTextSha256": "2efe241682a58bc08327920a272dd91e133d60e8d38229a696c87a7cb520dda2",
+  "expectedChunks": 20,
+  "engine": "kokoro-onnx",
+  "engineVersion": "0.6.1",
+  "model": {
+    "name": "Kokoro v1.0",
+    "path": ".local/kokoro/models/kokoro-v1.0.onnx",
+    "sha256": "7d5df8ecf7d4b1878015a32686053fd0eebe2bc377234608764cc0ef3636a6c5"
+  },
+  "voiceBundle": {
+    "path": ".local/kokoro/models/voices-v1.0.bin",
+    "sha256": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d"
+  },
+  "voice": "af_heart",
+  "language": "en-us",
+  "renderer": {
+    "path": "game/tools/render_kokoro_clues.py",
+    "version": "1.0",
+    "sha256": "d113301018db3b1272e5ba53f000d50f77fe8a78181d038678304b893891f23f"
+  },
+  "sampleRate": 24000,
+  "format": "wav-pcm16-mono",
+  "clips": [
+    {
+      "card": 1,
+      "file": "clue-01.wav",
+      "textSha256": "8e182758d189c33a54f55e5ce4d88ded0f402f6f61eace5fce0f75ab2e829756",
+      "sha256": "792fbdb5126058289989a2979f313983f0b621ed57e9d0e67aa2e3f0ad7464bd",
+      "bytes": 246828,
+      "seconds": 5.141,
+      "status": "validated"
+    },
+    {
+      "card": 2,
+      "file": "clue-02.wav",
+      "textSha256": "75870355e4e45a49109ce556a0a48c4e9c33ea9bfe1d0167a6ff75135001dbd6",
+      "sha256": "9d82961148e764e7ea0a3eadbc7c6543112ad6bc6e05cbcf88fb36048e0356a8",
+      "bytes": 155692,
+      "seconds": 3.243,
+      "status": "validated"
+    },
+    {
+      "card": 3,
+      "file": "clue-03.wav",
+      "textSha256": "ac79da3699f0bb07b6039882c8e9591f253c8d92b5ed1ca9453adf05efff4c27",
+      "sha256": "db9c6b76719e761dbd968577f1abc56c655aff1e0b168e52e35b6dd675dbaece",
+      "bytes": 184364,
+      "seconds": 3.84,
+      "status": "validated"
+    },
+    {
+      "card": 4,
+      "file": "clue-04.wav",
+      "textSha256": "823e1647892b4a17b3835996fdd0c55aaa50ef873e0314b996093c0041c595b5",
+      "sha256": "b0ebf06b7b498a769f6ec4c2bdeaee98d36852198d8a664e4d5467a36e9b96b0",
+      "bytes": 141356,
+      "seconds": 2.944,
+      "status": "validated"
+    },
+    {
+      "card": 5,
+      "file": "clue-05.wav",
+      "textSha256": "a36335834125d251f941ef86f16eada8304ecc83fe32a49c56c2b3b83300d56b",
+      "sha256": "60380eb15ef6603d2fb691363fbcb1b661648aec03b38a780d8df7b39cd6c193",
+      "bytes": 143404,
+      "seconds": 2.987,
+      "status": "validated"
+    },
+    {
+      "card": 6,
+      "file": "clue-06.wav",
+      "textSha256": "6273a9290a66a189c62eb371603ed5124074341001e192d5cdb8fca1b4dc904b",
+      "sha256": "e9f760c67cb8369cfe1ad0baddd7460a33175843bb4c23a90cc05680ff7656ea",
+      "bytes": 145452,
+      "seconds": 3.029,
+      "status": "validated"
+    },
+    {
+      "card": 7,
+      "file": "clue-07.wav",
+      "textSha256": "b83dfc59fdf052dc6d9cf096b4bf10c13227ddc2788bc48c93009dd084bbbea6",
+      "sha256": "6259bf3fb85c57d4545de3241f413f555b8ff0b41261b69b707f239010f2341a",
+      "bytes": 142380,
+      "seconds": 2.965,
+      "status": "validated"
+    },
+    {
+      "card": 8,
+      "file": "clue-08.wav",
+      "textSha256": "9658e73f325326b9a7df6471fb4f1fa6d7330989fce317762ae9b5a978fe2909",
+      "sha256": "ad82e6b3b8f902152f0549c704f1f12a834ffe7960026c7f2912dbc68a77510d",
+      "bytes": 129068,
+      "seconds": 2.688,
+      "status": "validated"
+    },
+    {
+      "card": 9,
+      "file": "clue-09.wav",
+      "textSha256": "e34ee5c4442baa86574d97f4cc039ce2144c4f8a161c74230f4178b83e09cef5",
+      "sha256": "904ca5dc525fa483964a3fd4f74450edabe7a0021708421723e81993a9df9a7a",
+      "bytes": 87084,
+      "seconds": 1.813,
+      "status": "validated"
+    },
+    {
+      "card": 10,
+      "file": "clue-10.wav",
+      "textSha256": "4300b4c1489bcc68619c33d0b24e1929d978d61b657c684599cd26a8bfaf086a",
+      "sha256": "7230cb24935abe552da0b8c2ee91446dd014c713e09028a67b66e22e51a6b01e",
+      "bytes": 174124,
+      "seconds": 3.627,
+      "status": "validated"
+    },
+    {
+      "card": 11,
+      "file": "clue-11.wav",
+      "textSha256": "a7c792f77be8bb4edcb1b76495c14388d865a514de6941012ee3159f1932e7c5",
+      "sha256": "c0e15833e1f2739c984b2a2f144f421bebed25820df3db743ed230f23f894b08",
+      "bytes": 136236,
+      "seconds": 2.837,
+      "status": "validated"
+    },
+    {
+      "card": 12,
+      "file": "clue-12.wav",
+      "textSha256": "86ed8ef4ebc7259508bbdbe36c5eb4803f616798b163d771aac342e22012c612",
+      "sha256": "f7cc8d89442a6f6158b2416871ee910e54e42e32c2ada577d596833643e36aea",
+      "bytes": 160812,
+      "seconds": 3.349,
+      "status": "validated"
+    },
+    {
+      "card": 13,
+      "file": "clue-13.wav",
+      "textSha256": "4cff84aeb5d2b90bc555c943bf65e9befdf8908c42f04c169d480a99327fe5b2",
+      "sha256": "42247366e2789b88b71458b06e159e289df6d9ff3d0c8d9d4b913d52e105e137",
+      "bytes": 147500,
+      "seconds": 3.072,
+      "status": "validated"
+    },
+    {
+      "card": 14,
+      "file": "clue-14.wav",
+      "textSha256": "1ff2509f0b43f1048b9b40dc577ffa04a3a4a84c4bf24afdc58c41877329f5ae",
+      "sha256": "09ad1eace83bd32610ee733816188c616e9a58207eaf08d2c0d5c8941a1fa98c",
+      "bytes": 124972,
+      "seconds": 2.603,
+      "status": "validated"
+    },
+    {
+      "card": 15,
+      "file": "clue-15.wav",
+      "textSha256": "f16f9bfdc707f34583da8fad7f5a78ad2c943e9c5f31e08c184f8cda9d5a501c",
+      "sha256": "0436e7fa13dabdac8c776c96fac2d3d98d60d3c4fcec0fffe4febef831cd7642",
+      "bytes": 133164,
+      "seconds": 2.773,
+      "status": "validated"
+    },
+    {
+      "card": 16,
+      "file": "clue-16.wav",
+      "textSha256": "cb724c01923018d31f969c4dda323d2e4c5207ddb932f074b15f228dec4b9d76",
+      "sha256": "4b4809ba613c994c46578709027f177fdc4c58af125b3456aa263bf448f5d4dd",
+      "bytes": 222252,
+      "seconds": 4.629,
+      "status": "validated"
+    },
+    {
+      "card": 17,
+      "file": "clue-17.wav",
+      "textSha256": "a0dcd87146ed3aa33bb91fdb9978494dd7044752c487ee92d956acd65bbe962a",
+      "sha256": "a3b95b29442020d3357795fe7f9ba73f706a61a696b8532f31be818fa9a58385",
+      "bytes": 123948,
+      "seconds": 2.581,
+      "status": "validated"
+    },
+    {
+      "card": 18,
+      "file": "clue-18.wav",
+      "textSha256": "b63c28c149b2f04260cc6787e77e38b7e20d937723e2ba936a9ac2513546a9a4",
+      "sha256": "5ec2a879e5efa3a8d4fa22e4bf1c344930fa70a956764af179e1f4b78890770d",
+      "bytes": 151596,
+      "seconds": 3.157,
+      "status": "validated"
+    },
+    {
+      "card": 19,
+      "file": "clue-19.wav",
+      "textSha256": "a416a2789a129a8733abfb6920eac5921bf9a61c021aa1f72c98a4301594f9bf",
+      "sha256": "286c84551a0413a194d7afd60e3a53f1f7ff4362474bdebfab5c3c79b14d4701",
+      "bytes": 135212,
+      "seconds": 2.816,
+      "status": "validated"
+    },
+    {
+      "card": 20,
+      "file": "clue-20.wav",
+      "textSha256": "66787aba59c533e48fcb119f3bd779eb5039f16f6f2dc39a00e3b43b4e8c779f",
+      "sha256": "a1816f31e62e42786c0230c9f2ee83f2122cb4eb9faba80324b99fb80c02ab6a",
+      "bytes": 125996,
+      "seconds": 2.624,
+      "status": "validated"
+    }
+  ],
+  "validatedChunks": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "publication": {
+    "kind": "static-game-assets",
+    "outputDirectory": "game/assets/audio/clues",
+    "status": "ready-for-commit"
+  }
+}

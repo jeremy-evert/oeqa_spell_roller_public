@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131c2b">
+  <title>The Impossible 3D Printer · WordWild</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="WordWild home">WORD<span>WILD</span></a>
+      <div class="top-actions"><span class="local-tag"><i></i> Made right here</span><button class="icon-button" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn clue voice on">🔈 <span>Voice off</span></button><button class="icon-button" id="reset-button" type="button">↺ <span>Reset</span></button></div>
+    </header>
+
+    <section id="home-screen" class="screen home-screen">
+      <div class="intro">
+        <div class="eyebrow">A WORDWILD MAKER ADVENTURE <span>✦</span> LIST 14</div>
+        <h1>The Impossible<br><em>3D Printer</em></h1>
+        <p class="lead">Choose a wild blueprint. Solve word clues to print it, one impossible layer at a time.</p>
+        <div class="no-pressure"><span aria-hidden="true">✳</span> Make a little, take a break, come back whenever.</div>
+      </div>
+      <div class="choice-wrap">
+        <h2>What should we print?</h2><p>Pick a blueprint. Your choice shapes every layer.</p>
+        <div class="blueprints" role="group" aria-label="Choose what to print">
+          <button class="blueprint selected" data-theme="bot" type="button" aria-pressed="true">
+            <span class="blueprint-art art-bot" aria-hidden="true"><span class="bot-head">◉</span><span class="bot-body"></span><span class="bot-foot"></span></span><strong>Beep the<br>moon-bot</strong><small>curious companion</small>
+          </button>
+          <button class="blueprint" data-theme="garden" type="button" aria-pressed="false">
+            <span class="blueprint-art art-garden" aria-hidden="true"><span class="moon">☾</span><span class="flower f1">✿</span><span class="flower f2">✿</span><span class="stem"></span></span><strong>Moonlight<br>garden</strong><small>glowing flowers</small>
+          </button>
+          <button class="blueprint" data-theme="tower" type="button" aria-pressed="false">
+            <span class="blueprint-art art-tower" aria-hidden="true"><span class="tower-top">✦</span><span class="tower-mid"></span><span class="tower-base"></span></span><strong>Upside-down<br>tower</strong><small>defies gravity</small>
+          </button>
+        </div>
+        <button class="primary-button" id="start-button" type="button">Start printing <span aria-hidden="true">→</span></button>
+        <div class="bank-note">20 words · no timer · skip or pause any time</div>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen game-screen" hidden>
+      <div class="game-heading"><div><div class="eyebrow" id="theme-label">YOUR MOON-BOT IS PRINTING</div><h2 class="progress-title"><span id="progress-count">Layer 1</span><span class="progress-divider">/</span><span>20</span><span class="review-badge" id="review-badge" hidden>LIST 13 REVIEW</span></h2></div><button type="button" class="text-button" id="pause-button">Save &amp; pause <span aria-hidden="true">↗</span></button></div>
+      <div class="progress-track" role="progressbar" aria-label="Printer progress" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><div id="progress-fill"></div></div>
+      <div class="game-grid">
+        <section class="printer-card" aria-label="Your printer and creation">
+          <div class="scene-stars" aria-hidden="true"><i>✦</i><i>·</i><i>✧</i><i>·</i><i>✦</i><i>·</i><i>✧</i></div>
+          <div class="scene-caption"><span class="printer-live"><i></i> PRINTER READY</span><span id="layer-caption">FIRST LAYER</span></div>
+          <div class="printer" aria-hidden="true">
+            <div class="rail"><div class="print-head"><span></span><i></i></div></div>
+            <div class="printer-chamber"><div class="side-light"></div><div class="object-wrap" id="object-wrap" data-theme="bot"><div class="object-glow"></div><div class="object" id="printed-object"><div class="part part-base"></div><div class="part part-body"></div><div class="part part-head"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div><div class="part part-arm-left"></div><div class="part part-arm-right"></div><div class="part part-top"></div><div class="part part-extra"></div></div></div><div class="build-plate"><span></span></div></div>
+            <div class="printer-foot"></div>
+          </div>
+          <div class="scene-footer"><span id="layer-status">Nothing built yet—your first layer is next.</span><span class="layers-count"><b id="built-count">0</b> layers</span></div>
+          <div class="break-note"><span aria-hidden="true">☕</span> Taking a break? Your build stays saved on this device.</div>
+        </section>
+        <section class="challenge-card" aria-labelledby="challenge-title">
+          <div class="challenge-top"><span class="challenge-label">WORD BLUEPRINT</span><span class="word-index" id="word-index">01 / 20</span></div>
+          <h3 id="challenge-title">Can you figure it out?</h3>
+          <div class="clue-box"><div class="clue-icon" aria-hidden="true">☁</div><div><p id="clue-text"></p><p class="sentence" id="sentence-text"></p></div></div>
+          <div class="voice-row"><button id="hear-button" class="hear-button" type="button"><span aria-hidden="true">◖))</span> Hear clue</button><button id="stop-audio-button" class="hear-button stop-audio" type="button" disabled>Stop audio</button><span class="voice-hint">Kokoro voice · or read the clue</span></div>
+          <form id="answer-form" autocomplete="off">
+            <label for="answer-input">Type the word you think it is</label>
+            <div class="answer-row"><input id="answer-input" name="answer" type="text" autocapitalize="none" spellcheck="false" aria-describedby="feedback" enterkeyhint="done"><button type="submit" class="check-button">Print it <span aria-hidden="true">↗</span></button></div>
+          </form>
+          <div id="feedback" class="feedback" role="status" aria-live="polite" data-state="idle">Your word is your key. Take your time.</div>
+          <div id="study-panel" class="study-panel" hidden><div class="study-word" id="study-word" hidden></div><p id="study-message">A quick peek can help. Want to see the word, then try it from memory?</p><button type="button" id="peek-button" class="secondary-button">Show me, then practice</button><button type="button" id="ready-button" class="secondary-button" hidden>I’m ready to try</button></div>
+          <div class="challenge-actions"><button class="text-button" id="skip-button" type="button">Skip this word <span aria-hidden="true">→</span></button><button class="next-button" id="next-button" type="button" hidden>Next layer <span aria-hidden="true">→</span></button></div>
+          <div class="gentle-note" aria-hidden="true"><span>✳</span> Every try helps your printer learn.</div>
+        </section>
+      </div>
+    </section>
+
+    <section id="finish-screen" class="screen finish-screen" hidden>
+      <div class="finish-copy"><div class="eyebrow">PRINT COMPLETE <span>✦</span></div><h2 id="finish-title">Look what you made!</h2><p id="finish-message">Twenty words turned into something impossible.</p><div class="finish-stats"><div><strong id="finish-built">20</strong><span>layers printed</span></div><div><strong id="finish-independent">20</strong><span>spelled on your own</span></div><div><strong id="finish-review">0</strong><span>to revisit</span></div></div><div class="finish-actions"><button type="button" class="primary-button" id="review-button">Try tricky words again <span aria-hidden="true">→</span></button><button type="button" class="secondary-button" id="play-again-button">Print something else</button></div></div>
+      <div class="finish-art" id="finish-art" data-theme="bot"><div class="finish-orbit orbit-a"></div><div class="finish-orbit orbit-b"></div><div class="finish-spark">✦</div><div class="mini-creation"><span class="mini-head"><i></i><i></i></span><span class="mini-body"></span><span class="mini-base"></span></div><div class="finish-confetti">✦　·　✧　·　✦</div></div>
+    </section>
+    <footer><span>WORDWILD <b>·</b> THE IMPOSSIBLE 3D PRINTER</span><span>All clues are about meaning. You’re the maker.</span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

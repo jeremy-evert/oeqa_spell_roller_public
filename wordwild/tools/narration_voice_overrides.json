@@ -1,0 +1,21 @@
+{
+  "_note": "voiceText is spoken instead of jokes[].narration for that clip only. The joke id and content JSON are unchanged. Reason is recorded for each. See docs/KOKORO_NARRATION.md.",
+  "overrides": {
+    "list14-tiger-alternate-v1": {
+      "reason": "Kokoro read 'liger' like 'Elijah' (soft g). Respelled so it says LIE-gurr.",
+      "voiceText": "A lie-gurr swapped his first letter, his mane fell off and tiptoed away, and ROAR, he was a tiger again."
+    },
+    "list14-thunder-primary-v1": {
+      "reason": "Kokoro spells 'THHH' letter by letter (T-H-H-H) however it is written. Voice says 'made the th sound' instead; on-screen text is unchanged.",
+      "voiceText": "When the thunder boomed, my little brother stuck out his tongue, made the th sound, and dove under the bed."
+    },
+    "list14-chapter-primary-v1": {
+      "reason": "'TER!' was spelled T-E-R. Respelled 'turr' so it is the burp syllable.",
+      "voiceText": "A chatty chipmunk chomped a chapter book, chirped 'CHAP!' and burped 'turr!'"
+    },
+    "list14-animal-primary-v1": {
+      "reason": "'AN! ih! MAL!' was garbled. Respelled 'Ann! Ih! Mull!' so each syllable is heard.",
+      "voiceText": "Penguin cheerleaders chanted 'Ann! Ih! Mull!' and belly-slid into the pond yelling 'ANIMAL!'"
+    }
+  }
+}

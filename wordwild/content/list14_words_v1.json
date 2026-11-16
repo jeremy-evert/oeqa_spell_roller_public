@@ -1,0 +1,2301 @@
+{
+  "schemaVersion": 1,
+  "listId": "grade3-list14",
+  "contentVersion": "1.0.0-candidate",
+  "status": "candidate_parent_review",
+  "statusNote": "All text is candidate_parent_review. No child has laughed at these variants yet. No mnemonic here has been shown to improve spelling.",
+  "legend": {
+    "claimType": {
+      "MNEMONIC": "a silly image that cues letters; not a reason for the spelling",
+      "WORD_OBSERVATION": "a checkable fact about THIS word's letters",
+      "RULE_CANDIDATE": "touches a general spelling rule that is review-only; may not be shown as an approved rule"
+    },
+    "jokeMode": [
+      "visual_letter",
+      "sound_chunk",
+      "rhyme_family",
+      "letter_swap",
+      "build_transform"
+    ],
+    "answerKind": {
+      "whole_word": "correct option equals the word",
+      "feature": "correct option is a piece of the word",
+      "build": "correct option joins to the word when '+' and spaces are removed",
+      "count": "count of countLetter in the word equals countValue"
+    },
+    "preAnswerFields": [
+      "clues.primary",
+      "clues.secondary"
+    ],
+    "postAnswerFields": "everything else (narration, spellingCue, accessibleDescription, artPlaceholder, tapAction, help, miniCheck) may show or say letters and requires the child to have asked for help, studied, or answered first. Any letter exposure marks the attempt assisted."
+  },
+  "helpLadder": [
+    "1 listen again (word, slow, sentence)",
+    "2 clues.primary then clues.secondary",
+    "3 help.pronunciationNote",
+    "4 help.patternHint",
+    "5 help.partialLetterHint (assisted)",
+    "6 a joke: Help A (primary) then Try another joke (alternate)",
+    "7 miniCheck (assisted, not a rule quiz)",
+    "8 show the word, hide it, spell again (after_reveal)",
+    "9 skip for now"
+  ],
+  "corrections": [
+    {
+      "where": "flashcards/words.js (original Flashcards, PR #4, not modified here)",
+      "claim": "tiger: 'The g sounds like a j here'",
+      "fact": "tiger has a hard g (/g/ as in goat). The claim is false."
+    },
+    {
+      "where": "flashcards/words.js (original Flashcards, PR #4, not modified here)",
+      "claim": "soccer: 'the second one sounds like s'",
+      "fact": "soccer is spelled with two c letters written together and the middle of the word is pronounced /k/; the claim that the second c sounds like s is false. Do not assign a sound to one of the two C's."
+    },
+    {
+      "where": "docs/design/list14_story_bible_v2.md (PR #7, not modified here)",
+      "claim": "tiger Hint 2: 'starts with a j sound'",
+      "fact": "false for the same reason; superseded by this package."
+    }
+  ],
+  "generalRuleBank": [
+    {
+      "id": "RC-01",
+      "title": "Compound words keep both whole words",
+      "statement": "Some words are two whole words joined with no letters lost, such as after + noon, news + paper and up + stairs.",
+      "examples": [
+        "afternoon",
+        "newspaper",
+        "upstairs"
+      ],
+      "counterexamples": [
+        "butterfly (not a meaning compound)",
+        "understand (not a meaning compound)"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval of statement, scope and counterexamples (Mission 004)."
+    },
+    {
+      "id": "RC-02",
+      "title": "Drop a silent final e before -ing",
+      "statement": "Many words that end in a silent e lose it when -ing is added, such as stare to staring.",
+      "examples": [
+        "staring",
+        "caring",
+        "sharing"
+      ],
+      "counterexamples": [
+        "being",
+        "seeing",
+        "canoeing"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval; scope of the pattern."
+    },
+    {
+      "id": "RC-03",
+      "title": "Adding -ing can leave the existing doubled letters alone",
+      "statement": "Adding -ing to scatter keeps its existing tt and does not add a new double; compare stare to staring and star to starring.",
+      "examples": [
+        "scattering",
+        "starring"
+      ],
+      "counterexamples": [
+        "run to running (a new double is added)"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval; do not present as one rule with RC-02."
+    },
+    {
+      "id": "RC-04",
+      "title": "Regular past tense is written -ed even when it sounds like d",
+      "statement": "Regular past-tense verbs end in -ed whether the ending is heard as /d/, /t/ or /id/.",
+      "examples": [
+        "whispered"
+      ],
+      "counterexamples": [
+        "said",
+        "ran (irregular verbs)"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval."
+    },
+    {
+      "id": "RC-05",
+      "title": "A doubled consonant after a short vowel",
+      "statement": "In many words a short vowel is followed by a doubled consonant letter, as in supper, ladder, soccer, butterfly.",
+      "examples": [
+        "supper",
+        "ladder",
+        "butterfly"
+      ],
+      "counterexamples": [
+        "lemon",
+        "robin",
+        "super (long vowel, one p)"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval. A mnemonic about pp is NOT a rule quiz."
+    },
+    {
+      "id": "RC-06",
+      "title": "Letter teams th, ch and wh stand for one sound",
+      "statement": "The letter teams th, ch and wh are written together to spell a single sound at the start of words such as thunder, chapter and whispered.",
+      "examples": [
+        "thunder",
+        "chapter",
+        "whispered"
+      ],
+      "counterexamples": [
+        "school (ch says /k/)",
+        "chef (ch says /sh/)",
+        "who (wh says /h/)"
+      ],
+      "status": "review_only",
+      "needsReview": "Educator approval; accent differences for wh."
+    }
+  ],
+  "words": [
+    {
+      "id": "supper",
+      "word": "supper",
+      "isReview": false,
+      "meaning": "the evening meal",
+      "clues": {
+        "primary": "The meal a family eats in the evening, after the sun goes down.",
+        "secondary": "Breakfast comes first, lunch comes next, and this is the last meal of the day. (Dinner is a different word for it, so listen to the spoken word.)",
+        "spokenWordDisambiguates": true,
+        "note": "dinner is a reasonable synonym; the spoken word settles which one to spell"
+      },
+      "audio": {
+        "word": "supper",
+        "slowWord": "supper",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_count",
+          "letters": "pp",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "upper",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-supper-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "visual_letter",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0
+          ],
+          "narration": "At supper, Dad sneezed so hard that two peas shot out of his nose and landed on the plate, side by side. P, P. Two P's!",
+          "spellingCue": "The two flying peas are the two P letters, pp, in the middle of su-pp-er.",
+          "accessibleDescription": "Dad at the table mid-sneeze; two peas fly out and land side by side as two lowercase p letters between su and er.",
+          "artPlaceholder": "[ART TODO: Dad at a dinner table mid-sneeze, two green peas sailing out of his nose toward a plate; on landing each pea turns into a lowercase p.]",
+          "tapAction": "Tap each flying pea: it lands in a gap in su__er and becomes a p with a tiny plop, then Dad says 'Bless me.'",
+          "provenance": "Parent-proposed premise (Jeremy), editorial rewrite. Note: Grok A echoed this premise after it was in the prompt, so it is example-anchored, not independent.",
+          "whyThisVersion": "Funniest nose gag on the list, and the comic payoff (two peas) cannot happen without exactly two P's.",
+          "caveat": "Pun is on the letter NAME P (pea). It does not claim supper has two p sounds.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-supper-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Captain Super flew in for supper, but he was missing one P, so he was only super, and very hungry. Then a second P dropped out of the sky and dinner was served!",
+          "spellingCue": "super plus one more p, placed after the first p, makes supper: su-pp-er.",
+          "accessibleDescription": "A caped hero at an empty table; a falling p snaps into his word, and food appears.",
+          "artPlaceholder": "[ART TODO: A caped hero at an empty table; above him floats the word super with a gap; a plump letter p falls from the sky and snaps in.]",
+          "tapAction": "Drag the falling p into the gap in su_er; it snaps in, the table fills with food, and the cape twirls.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #1, gemini_pilot_mode_c_five_entries.md; rewritten.",
+          "whyThisVersion": "Different route: the child fixes a real near-miss word instead of counting peas.",
+          "caveat": "The vowel sounds of super and supper also differ. Any 'double consonant keeps the vowel short' claim is review-only rule RC-05 (counterexamples: lemon, robin).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-supper-extra-v1",
+          "version": 1,
+          "slot": "extra",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1
+          ],
+          "narration": "My pup climbed the upper bunk at supper and burped all the way down to the cat.",
+          "spellingCue": "upper and supper end in the same letters: u-p-p-e-r. Supper is upper with an s on the front.",
+          "accessibleDescription": "A pup on the top bunk with a bowl, the cat below; the letters upper glow in both words.",
+          "artPlaceholder": "[ART TODO: A pup on a top bunk holding a food bowl, a startled cat on the floor below, a speech burp-bubble.]",
+          "tapAction": "Tap the pup: it burps, the word upper glows, and an s hops onto the front to make supper.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #1; trimmed.",
+          "whyThisVersion": "Optional third: a pure rhyme-family route.",
+          "caveat": "Exact only for upper/supper; do not generalize to all -upper rhymes (cuppa, super do not match).",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: SUP-er. Doubled letters in the spelling are not said twice.",
+        "patternHint": "There are two P letters in a row in the middle.",
+        "partialLetterHint": "su__er",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "Which spelling has two P letters in a row?",
+        "options": [
+          "super",
+          "supper"
+        ],
+        "correctIndex": 1,
+        "answerKind": "whole_word",
+        "feedback": "Yes. Supper has two P letters in a row, and super has only one."
+      },
+      "generalRuleRefs": [
+        "RC-05"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "pp in supper",
+          "supper = s + upper"
+        ],
+        "mnemonicOnly": [
+          "pea/P letter-name pun"
+        ],
+        "unreviewedRules": [
+          "RC-05"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "number",
+      "word": "number",
+      "isReview": false,
+      "meaning": "a counting symbol or an amount, like 7 or 42",
+      "clues": {
+        "primary": "What you count with. The 1, the 2, the 3 and the 42 are each one of these.",
+        "secondary": "Every phone has a long string of them, and your age is one.",
+        "spokenWordDisambiguates": true,
+        "note": "digit and amount are reasonable answers; the spoken word settles it"
+      },
+      "audio": {
+        "word": "number",
+        "slowWord": "number",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "umber",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        },
+        {
+          "kind": "letter_pair",
+          "letters": "mb",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-number-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "A cucumber took a slumber on a pile of lumber and dreamed about its lucky number.",
+          "spellingCue": "cucumber, slumber, lumber and number all end in u-m-b-e-r, and you can hear the b in each one.",
+          "accessibleDescription": "A sleepy cucumber in a nightcap on stacked boards; in its dream bubble is a big 7.",
+          "artPlaceholder": "[ART TODO: A sleepy cucumber in a nightcap on a pile of boards; dream bubble holds a giant lucky 7.]",
+          "tapAction": "Tap the dream bubble: a giant 7 pops out and the letters umber light up in all four words.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #2; tightened.",
+          "whyThisVersion": "Four rhymes in one breath, and the ending (with its pronounced b) comes along for free.",
+          "caveat": "Look-alike traps: plumber ends in the same letters but its b is silent. Number is not numb + er.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-number-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "A beaver swapped one letter on his lumber pile, and POOF! Every log turned into a giant number seven.",
+          "spellingCue": "lumber with its l swapped for n is number; the ending u-m-b-e-r stays the same.",
+          "accessibleDescription": "A beaver beside a log pile; the first letter of lumber flips to n and the logs become 7s.",
+          "artPlaceholder": "[ART TODO: A beaver whacking a log pile; each log transforms into a huge numeral 7; the word lumber floats overhead with its first letter flipping.]",
+          "tapAction": "Tap the l in lumber: it flips to n, and the log pile pops into giant 7s.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #2.",
+          "whyThisVersion": "Different route: transform one letter instead of chanting a rhyme list.",
+          "caveat": "Letter puzzle only; number does not come from lumber.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: NUM-ber. You can hear the b before the er.",
+        "patternHint": "After the m comes a b, and you can hear it.",
+        "partialLetterHint": "nu__er",
+        "firstLetter": "n"
+      },
+      "miniCheck": {
+        "question": "Which two letters sit between the u and the e in number?",
+        "options": [
+          "mb",
+          "nn",
+          "mp"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Number has m and b together: u-m-b-e-r, just like lumber."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "umber ending with pronounced b"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": []
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "over",
+      "word": "over",
+      "isReview": false,
+      "meaning": "above or across; also finished",
+      "clues": {
+        "primary": "A cow went up and across the top of the moon instead of under it. Which small word describes that path?",
+        "secondary": "It is the opposite of under. It is also what you say when a game is finished: 'Game ______!'",
+        "spokenWordDisambiguates": true,
+        "note": "above and across are reasonable answers; the spoken word settles it"
+      },
+      "audio": {
+        "word": "over",
+        "slowWord": "over",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "ver",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_ending",
+          "letters": "er",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-over-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Rover the dog rolled over in the clover and got up wearing a bumblebee mustache.",
+          "spellingCue": "Rover, clover and over all end in the same letters: o-v-e-r.",
+          "accessibleDescription": "A dog rolling in a clover field and standing up with a bee on his lip like a mustache.",
+          "artPlaceholder": "[ART TODO: A dog rolling over in a field of clover; he stands up with a bumblebee sitting under his nose like a mustache.]",
+          "tapAction": "Tap Rover: he rolls over, the bee buzzes onto his lip, and the letters over glow in Rover, clover and over.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #3.",
+          "whyThisVersion": "Short word, short joke: the whole word rides in on the rhyme.",
+          "caveat": "Word observation only. Do not teach o-v-e-r as a rule for other words.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-over-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Grandma's oven lost its last letter, got an r instead, and the birthday cake blasted over the roof.",
+          "spellingCue": "oven with its last letter n swapped for r is over: o-v-e is the same, then r.",
+          "accessibleDescription": "A kitchen oven whose door pops open and fires a birthday cake over the house; the n on its label flips to r.",
+          "artPlaceholder": "[ART TODO: A kitchen oven with a label reading oven; the last letter flips to r as the door pops and a birthday cake sails across the roof.]",
+          "tapAction": "Tap the n at the end of oven: it flips to r, the door pops, and the cake flies over the house.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #3.",
+          "whyThisVersion": "Different route: transform one letter in a word she already knows.",
+          "caveat": "The o sounds different in oven and over, so this is a letter puzzle only.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: OH-ver.",
+        "patternHint": "Just four letters. It ends in er.",
+        "partialLetterHint": "o__r",
+        "firstLetter": "o"
+      },
+      "miniCheck": {
+        "question": "Which letter sits between the o and the e in over?",
+        "options": [
+          "v",
+          "w",
+          "b"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Over is o, v, e, r."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "rhymes with Rover and clover; oven to over swap"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": []
+      },
+      "editorialNote": "Weakest joke pair on the list; short words give less to work with. Flag for the parent reviewer."
+    },
+    {
+      "id": "ladder",
+      "word": "ladder",
+      "isReview": false,
+      "meaning": "a climbing tool with rungs",
+      "clues": {
+        "primary": "You climb it one rung at a time to reach a high place.",
+        "secondary": "Painters lean one against a wall, and firefighters carry a long one on the truck.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "ladder",
+        "slowWord": "ladder",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_count",
+          "letters": "dd",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "adder",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-ladder-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "A grumpy snake called an adder slithered up the ladder and got madder and madder.",
+          "spellingCue": "adder, madder and ladder all end in a-d-d-e-r, with two D letters, dd, in the middle.",
+          "accessibleDescription": "A snake with a scowl climbing a ladder; the letters adder glow in the snake's name, madder and ladder.",
+          "artPlaceholder": "[ART TODO: A scowling green snake halfway up a ladder, steam coming from its ears, a speech bubble showing a red angry face.]",
+          "tapAction": "Tap the snake: it slides back down hissing, its face turns redder, and the dd glows in adder, madder and ladder.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #4, claude_opus_full_mode_c.md #4.",
+          "whyThisVersion": "The cleanest dd rhyme on the list, with a snake who gets madder every tap.",
+          "caveat": "An adder is a real snake (preview card if unfamiliar). The two D letters are not two d sounds.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-ladder-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "visual_letter",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Two dachshunds ran up the ladder at the same time, got stuck belly to belly, and barked, 'D! D!' like two big letters.",
+          "spellingCue": "The two dachshunds are the two D letters, dd, side by side in la-dd-er.",
+          "accessibleDescription": "Two long dogs squeezed on a ladder, each round belly shaped like a lowercase d.",
+          "artPlaceholder": "[ART TODO: Two dachshunds wedged on a ladder, round bellies pressed together; each belly and tail forms a lowercase d.]",
+          "tapAction": "Tap each dog: it barks, its belly turns into a lowercase d, and the two snap into the gap in la__er.",
+          "provenance": "docs/design/second_attempt/deepseek_pilot_mode_a_five_entries.md, gemini_pilot_mode_a_five_entries.md; rewritten.",
+          "whyThisVersion": "Visual route: a child who likes counting can point to the two D's.",
+          "caveat": "Barking the letter name D is a joke. The word does not have two d sounds.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: LAD-der. Doubled letters in the spelling are not said twice.",
+        "patternHint": "Two D letters sit side by side in the middle.",
+        "partialLetterHint": "la__er",
+        "firstLetter": "l"
+      },
+      "miniCheck": {
+        "question": "How many D letters are in the middle of ladder?",
+        "options": [
+          "one",
+          "two",
+          "three"
+        ],
+        "correctIndex": 1,
+        "answerKind": "count",
+        "countLetter": "d",
+        "countValue": 2,
+        "feedback": "Yes. Ladder has two D letters, side by side."
+      },
+      "generalRuleRefs": [
+        "RC-05"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "dd in ladder",
+          "ladder = l + adder"
+        ],
+        "mnemonicOnly": [
+          "dachshund letter shapes"
+        ],
+        "unreviewedRules": [
+          "RC-05"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "sister",
+      "word": "sister",
+      "isReview": false,
+      "meaning": "a girl who is a child in your family, like a brother but a girl",
+      "clues": {
+        "primary": "A girl who is a kid in your family, like a brother but a girl.",
+        "secondary": "She might borrow your things and say, 'I was going to give it back.'",
+        "spokenWordDisambiguates": true,
+        "note": "cousin and sibling are reasonable answers; the spoken word settles it. Wording avoids assuming shared parents or one household."
+      },
+      "audio": {
+        "word": "sister",
+        "slowWord": "sister",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "ister",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "sis",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-sister-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Mister Mustache swapped his first letter and turned into my sister, but he kept the mustache.",
+          "spellingCue": "mister with its m swapped for s is sister: the ending i-s-t-e-r is copied exactly.",
+          "accessibleDescription": "A name tag reading mister flips its first letter; a man with a huge mustache swirls into a girl in pigtails, mustache and all.",
+          "artPlaceholder": "[ART TODO: A man with an enormous curly mustache in a glitter swirl turning into a girl with pigtails, still wearing the mustache; a name tag flips its first letter.]",
+          "tapAction": "Tap the first letter of mister: it flips to s, glitter swirls, and a girl with pigtails and a giant mustache waves.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #5.",
+          "whyThisVersion": "A picture of a grown man turning into a girl with the same mustache is funny without any words.",
+          "caveat": "Letter puzzle only. Mister and sister are not related words.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-sister-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "My sister got a blister running away from a twister, and the twister said, 'Sorry!'",
+          "spellingCue": "sister, blister, twister and mister all end in the same letters: i-s-t-e-r.",
+          "accessibleDescription": "A girl hopping on one foot, a tiny embarrassed tornado behind her; the ister endings glow in four words.",
+          "artPlaceholder": "[ART TODO: A girl hopping on one foot with a blister bandage, chased by a small blushing tornado holding a tiny flag that says sorry.]",
+          "tapAction": "Tap the tornado: it blushes, apologizes, and spins away; the ister glows in all four words.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #5; edited (removed the 'kiss my blister' line).",
+          "whyThisVersion": "Different route: a rhyme family with a polite tornado instead of a swap.",
+          "caveat": "Twister means the weather here. Word observation only: register is not in this family.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: SIS-ter. Many families shorten it to 'sis'.",
+        "patternHint": "It ends in ister, like mister and blister.",
+        "partialLetterHint": "s__ter",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "Mister swaps his first letter and becomes a girl in your family. Which word?",
+        "options": [
+          "sister",
+          "mister"
+        ],
+        "correctIndex": 0,
+        "answerKind": "whole_word",
+        "feedback": "Yes. Change the m to an s and mister becomes sister."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "ister ending shared with mister, blister"
+        ],
+        "mnemonicOnly": [
+          "mister swap"
+        ],
+        "unreviewedRules": []
+      },
+      "editorialNote": "Clue rewritten after PR #11 review to be inclusive of step, half and adopted siblings and not assume one household; a parent should still read it."
+    },
+    {
+      "id": "spider",
+      "word": "spider",
+      "isReview": false,
+      "meaning": "an eight-legged creature that spins webs",
+      "clues": {
+        "primary": "A small eight-legged creature that spins silky webs to catch flies.",
+        "secondary": "A famous one in a book saved a pig by writing words in her web.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "spider",
+        "slowWord": "spider",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "ider",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "single_letter",
+          "letters": "i",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "sp",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-spider-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "A cowboy rider dropped his R, grabbed an S and a P, and turned into a spider with eight legs and a tiny hat.",
+          "spellingCue": "rider with its r swapped for sp is spider: the ending i-d-e-r, with an i, is copied exactly.",
+          "accessibleDescription": "A cowboy on a horse; his hat stays on while six more legs pop out; the first letter of rider flips to s-p.",
+          "artPlaceholder": "[ART TODO: A cowboy on a horse; hat tipped; eight spindly legs pop out of his vest; a speech tag below him flips from r to sp.]",
+          "tapAction": "Tap the cowboy's hat: sp drops in for r, eight legs pop out, and the hat stays on.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #6.",
+          "whyThisVersion": "A cowboy sprouting eight legs with his hat on is the cartoon image of the letter swap.",
+          "caveat": "Letter puzzle only. Spelling with i rather than y is an orthographic choice; spy and spi- can share a vowel sound, so do not say the sound proves the i.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-spider-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "visual_letter",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            1
+          ],
+          "narration": "The spider hung from the little dot of the letter i like a tiny dangling skier. 'Nope,' it said, when somebody offered a y. 'Where would I hang?'",
+          "spellingCue": "sp-i-der: a lowercase i has a dot to hang from; a y has no dot.",
+          "accessibleDescription": "A spider dangling on a silk thread from the dot above an i; a y shows up and has nowhere to hang it.",
+          "artPlaceholder": "[ART TODO: A small spider hanging on a thread from the dot of a giant lowercase i inside the word; a letter y waves, thread-less, and the spider shakes its head.]",
+          "tapAction": "Tap the dot: the spider drops and bounces on its thread; tap the y: the spider climbs back up and the i glows.",
+          "provenance": "docs/design/second_attempt/deepseek_pilot_mode_a_five_entries.md (i-dot spider), Failure Report 002 recommendation; rewritten.",
+          "whyThisVersion": "Visual route that points at the one letter this word is tricky about, without claiming a sound rule.",
+          "caveat": "i versus y is a spelling choice, not a sound proof.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: SPY-der. The first vowel sounds like the word 'spy', but this word is spelled with i.",
+        "patternHint": "The third letter is an i, and it has a dot.",
+        "partialLetterHint": "sp_der",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "Which letter has a dot for the spider to hang from?",
+        "options": [
+          "i",
+          "y",
+          "l"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Spider uses the i, and the spider hangs from its dot."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "ider ending with i; rider to spider swap"
+        ],
+        "mnemonicOnly": [
+          "i-dot hanging spider"
+        ],
+        "unreviewedRules": []
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "soccer",
+      "word": "soccer",
+      "isReview": false,
+      "meaning": "a sport where players kick a ball into a goal",
+      "clues": {
+        "primary": "The game where players kick a black-and-white ball and shout 'GOAL!'",
+        "secondary": "Teams run across a grass field, and only the goalie may use hands.",
+        "spokenWordDisambiguates": true,
+        "note": "football is what some places call it; the spoken word settles it"
+      },
+      "audio": {
+        "word": "soccer",
+        "slowWord": "soccer",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_count",
+          "letters": "cc",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "soc",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-soccer-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "Coach's smelly sock lost its k, grew a second c, and became a soccer ball with little toes.",
+          "spellingCue": "sock with its k swapped for a c, plus er, is soccer: it has two C letters together, cc.",
+          "accessibleDescription": "A striped sock whose k falls off; a c rolls in; the sock curls into a ball with toes and kicks itself into a net.",
+          "artPlaceholder": "[ART TODO: A smelly striped sock with stink lines; its last letter k falls off, a c rolls in, and the sock rolls up into a toed soccer ball.]",
+          "tapAction": "Tap the k on the sock's label: it falls off, a c rolls in, and the sock curls into a ball with toes and kicks itself into the net.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #7.",
+          "whyThisVersion": "A sock turning into a ball is funny, and the swap lands exactly on the cc.",
+          "caveat": "Teach two written C letters together; do not assign a sound to one of the two C's, since the middle of the word is pronounced /k/. The word does not come from sock. Never say two C sounds. (The original Flashcards note that 'the second c sounds like s' is false.)",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-soccer-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "visual_letter",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0
+          ],
+          "narration": "The kid kicked the soccer ball so hard it splashed into one sea, bounced, and splashed into another. 'Two seas!' cried the goalie. 'Two C's!'",
+          "spellingCue": "Two C letters side by side (cc): the letter name C sounds like sea, so two seas, two C's.",
+          "accessibleDescription": "A soccer ball skipping across two little seas; the goalie holds up two fingers.",
+          "artPlaceholder": "[ART TODO: A soccer ball skipping like a stone across two small blue seas, a goalie in water wings holding up two fingers.]",
+          "tapAction": "Tap each sea: the ball splashes, and a lowercase c rises from each; they line up in so__er.",
+          "provenance": "Original editorial pun on letter names (inspired by the cc feature map).",
+          "whyThisVersion": "Different route: a letter-name pun that counts the two C's.",
+          "caveat": "The pun uses the letter name C. It does not claim two c sounds.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: SOCK-er. The middle makes a k sound but is written with two c letters, not a k.",
+        "patternHint": "Two C letters sit side by side in the middle.",
+        "partialLetterHint": "so__er",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "Which two letters sit in the middle of soccer?",
+        "options": [
+          "cc",
+          "ck",
+          "kk"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Soccer has two C letters together, not a k."
+      },
+      "generalRuleRefs": [
+        "RC-05"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "two c letters written together in the middle of soccer; the middle of the word is pronounced /k/"
+        ],
+        "mnemonicOnly": [
+          "sock swap",
+          "two seas pun"
+        ],
+        "unreviewedRules": [
+          "RC-05"
+        ]
+      },
+      "editorialNote": "Original Flashcards note about soccer's second c sounding like s is wrong and needs a separate fix (PR #12). Do not assign a sound to one of the two C's."
+    },
+    {
+      "id": "thunder",
+      "word": "thunder",
+      "isReview": false,
+      "meaning": "the loud rumbling sound after lightning",
+      "clues": {
+        "primary": "The deep rumbling BOOM you hear after lightning flashes in the sky.",
+        "secondary": "Dogs hide beneath the bed when they hear it, and you can count the seconds after the flash to guess how far away the storm is.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "thunder",
+        "slowWord": "thunder",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_pair",
+          "letters": "th",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "under",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-thunder-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "When the thunder boomed, my little brother stuck out his tongue, said 'THHH,' and dove under the bed.",
+          "spellingCue": "th + under: the tongue-out THHH at the start is written th, and the word under is hiding in the rest.",
+          "accessibleDescription": "A boy with his tongue out diving under a bed during a storm; the letters th light up over his tongue and under lights up beneath the bed.",
+          "artPlaceholder": "[ART TODO: A little boy with his tongue sticking out diving under a bed while lightning flashes outside; a cloud grumbles under there too.]",
+          "tapAction": "Tap the lightning: the boy sticks out his tongue, th glows above it, he dives, and under slides in beneath the bed.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #8, claude_opus_full_mode_c.md #8; combined.",
+          "whyThisVersion": "The tongue-out sound is a real sound-to-letters link and the dive under the bed is the funny part.",
+          "caveat": "th is a real digraph here (/th/ in thin, not in the). under is a letter chunk, not a meaning: thunder is not 'th under'.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-thunder-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1
+          ],
+          "narration": "A pirate made a blunder trying to plunder the thunder, and the thunder said, 'Excuse me?'",
+          "spellingCue": "blunder, plunder, thunder and under all end in u-n-d-e-r.",
+          "accessibleDescription": "A pirate with a net chasing a small cloud; four words glow with the same ending.",
+          "artPlaceholder": "[ART TODO: A pirate with a butterfly net chasing a very indignant grey storm cloud with arms folded.]",
+          "tapAction": "Tap the cloud: it bonks the pirate's hat; the under ending lights up in all four words.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #8; rewritten.",
+          "whyThisVersion": "Different route: a rhyme family with a polite cloud instead of a tongue sound.",
+          "caveat": "Rhyme trap: wonder is spelled -onder.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: THUN-der. It starts with the tongue-out th sound.",
+        "patternHint": "It starts with th and ends with the word under.",
+        "partialLetterHint": "th__der",
+        "firstLetter": "t"
+      },
+      "miniCheck": {
+        "question": "Which two letters make the tongue-out sound at the start of thunder?",
+        "options": [
+          "th",
+          "ch",
+          "sh"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Thunder starts with th."
+      },
+      "generalRuleRefs": [
+        "RC-06"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "th at start; under inside"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-06"
+        ]
+      },
+      "editorialNote": "Mentions only; v2 bible tap-dancing cloud is a meaning scene, not a spelling aid, and is retired here."
+    },
+    {
+      "id": "tiger",
+      "word": "tiger",
+      "isReview": false,
+      "meaning": "a large wild cat with orange fur and black stripes",
+      "clues": {
+        "primary": "The biggest wild cat in the world, orange with black stripes.",
+        "secondary": "It lives in jungles and roars. A lion has a mane, but this cat has stripes.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "tiger",
+        "slowWord": "tiger",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "single_letter",
+          "letters": "g",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "ti",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_ending",
+          "letters": "er",
+          "zeroBasedStart": 3,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-tiger-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "The tiger tied a big tie around his neck, then growled, 'GRRR!' The tie said TIE, the growl said GRR, and out came the tiger.",
+          "spellingCue": "ti sounds like tie but has no e; then the growly hard g, g, as in grr and goat; then er.",
+          "accessibleDescription": "A tiger tying a necktie and growling; the g in the word is a big growling letter.",
+          "artPlaceholder": "[ART TODO: A tiger fumbling a necktie and growling; a chunky letter g pops out of his mouth with steam and teeth.]",
+          "tapAction": "Tap the tie: it ties itself; tap the tiger's mouth: GRRR and a big g pops out; a j tries to cut in and the tiger glares it away.",
+          "provenance": "Original editorial rewrite using claude_opus_full_mode_b.md #9 (ti = tie, growl = hard g).",
+          "whyThisVersion": "The growl is the g, so the joke teaches the one letter children get wrong: it is g, not j.",
+          "caveat": "HARD g: the g in tiger says /g/ like goat and growl, never /j/. The earlier note 'g sounds like j' in the original Flashcards and in story bible v2 is wrong. ti is a mnemonic only.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-tiger-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "A liger swapped his first letter, his mane fell off and tiptoed away, and ROAR, he was a tiger again.",
+          "spellingCue": "liger with its l swapped for t is tiger: i-g-e-r stays the same.",
+          "accessibleDescription": "A shaggy-maned striped cat; the l flips to t; the mane walks off.",
+          "artPlaceholder": "[ART TODO: A big shaggy-maned striped cat; a floating l on his collar flips into a t; his mane trots away on tiny feet.]",
+          "tapAction": "Tap the l: it flips to t and the mane tiptoes off the screen, leaving a tiger.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #9.",
+          "whyThisVersion": "Different route: transform a real animal name; funny if she knows ligers.",
+          "caveat": "A liger is a real lion-tiger cross (preview card). If she does not know the word, the builder should hide this joke.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: TY-ger. The g is the hard growly g, like in goat. It does not sound like j.",
+        "patternHint": "The third letter is g, the growly g.",
+        "partialLetterHint": "ti_er",
+        "firstLetter": "t"
+      },
+      "miniCheck": {
+        "question": "Which letter makes the growl in tiger?",
+        "options": [
+          "g",
+          "j",
+          "z"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Tiger uses g, the growly g, not j."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "hard g in tiger",
+          "liger to tiger swap"
+        ],
+        "mnemonicOnly": [
+          "ti = tie"
+        ],
+        "unreviewedRules": []
+      },
+      "editorialNote": "Corrects a factual error in earlier material: tiger has hard g."
+    },
+    {
+      "id": "chapter",
+      "word": "chapter",
+      "isReview": false,
+      "meaning": "one section of a book",
+      "clues": {
+        "primary": "A book is split into parts that each have a title. 'Read one more before bed.'",
+        "secondary": "A picture book has a few, a long story book has many, and each one has its own title.",
+        "spokenWordDisambiguates": true,
+        "note": "section and part are reasonable synonyms; the spoken word settles it"
+      },
+      "audio": {
+        "word": "chapter",
+        "slowWord": "chapter",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_pair",
+          "letters": "ch",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "chap",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "ter",
+          "zeroBasedStart": 4,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-chapter-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "A chatty chipmunk chomped a chapter book, chirped 'CHAP!' and burped 'TER!'",
+          "spellingCue": "chatty, chipmunk, chomped, chirped and chapter all start with the letters ch; the two beats are CHAP and TER.",
+          "accessibleDescription": "A chipmunk nibbling a big book; chirp and burp bubbles; the letters ch glow in each c-h word.",
+          "artPlaceholder": "[ART TODO: A chipmunk with cheeks full of paper nibbling an open book; a chirp bubble and a small burp bubble float above it.]",
+          "tapAction": "Tap the chipmunk: it chirps CHAP, then burps TER, and ch lights up in every ch word.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #10.",
+          "whyThisVersion": "Five ch words in one breath and a burp for the last chunk: laugh-aloud rhythm.",
+          "caveat": "ch makes other sounds in school and chef; this is a word-specific observation, not a ch rule. ter is not a suffix.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-chapter-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1,
+            2
+          ],
+          "narration": "Put an h in a pirate's cap and out pops a chap, a guy who reads. Add ter and the chap flattens into a chapter!",
+          "spellingCue": "cap + h = chap; chap + ter = chapter.",
+          "accessibleDescription": "A pirate cap on a table; an h tucks in; a gentleman pops out; he flattens into a book.",
+          "artPlaceholder": "[ART TODO: A pirate cap on a table; a letter h slides inside; a mustached gentleman pops out; a ter tile lands on him and he flattens into a book.]",
+          "tapAction": "Drag the h into cap; chap pops out; drag ter onto him and he flattens into a book.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #10; simplified.",
+          "whyThisVersion": "Different route: two small letter steps instead of a rhyme.",
+          "caveat": "Chap is old-fashioned for guy (preview card). Letter puzzle only, not word history.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: CHAP-ter. It starts like chair and cheese.",
+        "patternHint": "It starts with c and h together.",
+        "partialLetterHint": "ch__ter",
+        "firstLetter": "c"
+      },
+      "miniCheck": {
+        "question": "What two letters start chapter, like chipmunk?",
+        "options": [
+          "ch",
+          "sh",
+          "th"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Chapter starts with ch."
+      },
+      "generalRuleRefs": [
+        "RC-06"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "ch at start; chap + ter chunks"
+        ],
+        "mnemonicOnly": [
+          "cap + h pirate"
+        ],
+        "unreviewedRules": [
+          "RC-06"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "afternoon",
+      "word": "afternoon",
+      "isReview": false,
+      "meaning": "the time between noon and evening",
+      "clues": {
+        "primary": "The part of the day between lunch and the evening.",
+        "secondary": "You are home from school, having a snack, and the sun is getting lower in the sky.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "afternoon",
+        "slowWord": "afternoon",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "after",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "noon",
+          "zeroBasedStart": 5,
+          "status": "word_observation"
+        },
+        {
+          "kind": "letter_pair",
+          "letters": "oo",
+          "zeroBasedStart": 6,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-afternoon-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1,
+            2
+          ],
+          "narration": "In the afternoon, a raccoon in a balloon mooed at the moon. 'It's noon!' 'No,' said the moon. 'It's after noon.'",
+          "spellingCue": "raccoon, balloon, moon and noon all spell their oo sound with two O's. Afternoon is after + noon.",
+          "accessibleDescription": "A raccoon floating in a balloon beside a daytime moon; the two O's in each word glow like round eyes.",
+          "artPlaceholder": "[ART TODO: A raccoon in a basket under a big balloon, mooing at a pale daytime moon with its arms folded; each oo is highlighted.]",
+          "tapAction": "Tap the raccoon: it moos; two O's glow in noon, moon and balloon; tap the moon and it says 'No.'",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #11; punchline rewritten.",
+          "whyThisVersion": "The moon correcting the raccoon is a real joke, and it makes the child say after noon out loud.",
+          "caveat": "oo for this sound is word-specific (tune and June spell it differently). after + noon is a genuine compound (rule RC-01, review-only).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-afternoon-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "Grandpa glued after onto noon to make afternoon, and the sun slid down the sky so fast his hat flew off. Even noon stayed the same when he read it backward!",
+          "spellingCue": "after + noon = afternoon; noon reads the same backward: n, o, o, n.",
+          "accessibleDescription": "A clock with the sun at the top; the word after glues on; the sun slides and Grandpa's hat flies.",
+          "artPlaceholder": "[ART TODO: A giant sun at the top of a sky; two word-blocks after and noon glue together and the sun slides partway down while Grandpa's hat flies off.]",
+          "tapAction": "Drag after onto noon: the sun slides down the sky and Grandpa's hat flies off; tap noon to flip it and see it read the same.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #11.",
+          "whyThisVersion": "Different route: build two real words and discover a palindrome.",
+          "caveat": "Noon being a palindrome is a checkable fact. Compound is review-only RC-01.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: AF-ter-NOON.",
+        "patternHint": "Two small words glued together: after and noon. Noon has two O's.",
+        "partialLetterHint": "after___n",
+        "firstLetter": "a"
+      },
+      "miniCheck": {
+        "question": "Which two words glue together to make the word for after lunch?",
+        "options": [
+          "after + noon",
+          "after + moon",
+          "before + noon"
+        ],
+        "correctIndex": 0,
+        "answerKind": "build",
+        "feedback": "Yes. After plus noon makes afternoon."
+      },
+      "generalRuleRefs": [
+        "RC-01"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "after + noon; noon palindrome; oo"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-01"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "scattering",
+      "word": "scattering",
+      "isReview": false,
+      "meaning": "spreading things in many directions",
+      "clues": {
+        "primary": "Tossing or spreading many things in every direction, happening right now.",
+        "secondary": "Picture a handful of confetti thrown in the air, or a farmer tossing seeds across a field.",
+        "spokenWordDisambiguates": true,
+        "note": "spreading and throwing are reasonable synonyms; the spoken word settles it"
+      },
+      "audio": {
+        "word": "scattering",
+        "slowWord": "scattering",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "scatter",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "letter_count",
+          "letters": "tt",
+          "zeroBasedStart": 3,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_ending",
+          "letters": "ing",
+          "zeroBasedStart": 7,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-scattering-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1
+          ],
+          "narration": "Grandma yelled, 'SCAT, cat!' and the cat went pitter, patter, scattering kibble everywhere.",
+          "spellingCue": "pitter, patter and scatter all have two T's before er: tt. Scatter plus ing keeps both T's: s-c-a-t-t-e-r-i-n-g.",
+          "accessibleDescription": "A cat racing across a kitchen with kibble flying; two T's glow in pitter, patter and scatter.",
+          "artPlaceholder": "[ART TODO: A cat in mid-sprint across a kitchen floor with a burst of kibble behind it and Grandma pointing with a spatula.]",
+          "tapAction": "Tap the cat: kibble sprays, each piece lands with a pitter-patter, and two T's glow in pitter, patter and scatter.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #12.",
+          "whyThisVersion": "Sound-effect words are fun to say, and they carry the double T.",
+          "caveat": "scat inside scattering is a sound echo, not the base word. The tt is already in scatter; adding ing does not double it (contrast stare to staring; RC-02, RC-03 are review-only).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-scattering-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1,
+            2
+          ],
+          "narration": "A cat pulled the ing caboose behind the scatter train, scattering kibble down every track. Nothing fell off, not even the two T's.",
+          "spellingCue": "scatter + ing: both T's stay; nothing is dropped or added.",
+          "accessibleDescription": "A toy train with an engine marked scatter and a caboose marked ing; kibble flies off the tracks.",
+          "artPlaceholder": "[ART TODO: A small train: engine with scatter on the side, caboose with ing, a cat in the cab, kibble spraying off the track.]",
+          "tapAction": "Tap the caboose: it couples to scatter with a clunk, kibble sprays, and the two T's flash once each.",
+          "provenance": "ChatGPT C blueprint (chatgpt_full_mode_c.md #12) with original rewrite.",
+          "whyThisVersion": "Different route: build the word from two parts and watch nothing change.",
+          "caveat": "Contrast with stare + ing, where the e drops. Rule RC-03 is review-only.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: SCAT-ter-ing.",
+        "patternHint": "Scatter keeps both T letters when ing arrives.",
+        "partialLetterHint": "sca__ering",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "How many T letters does scattering have?",
+        "options": [
+          "one",
+          "two",
+          "three"
+        ],
+        "correctIndex": 1,
+        "answerKind": "count",
+        "countLetter": "t",
+        "countValue": 2,
+        "feedback": "Yes. Scattering has two T letters, side by side."
+      },
+      "generalRuleRefs": [
+        "RC-02",
+        "RC-03"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "scatter + ing keeps tt"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-02",
+          "RC-03"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "whispered",
+      "word": "whispered",
+      "isReview": false,
+      "meaning": "spoke very softly (past tense)",
+      "clues": {
+        "primary": "Said something in a very quiet voice so only one person could hear. It already happened.",
+        "secondary": "You do it in a library, and you do it when you share a secret: 'She ______ it into my ear.'",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "whispered",
+        "slowWord": "whispered",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "letter_pair",
+          "letters": "wh",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "whisper",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_ending",
+          "letters": "ed",
+          "zeroBasedStart": 7,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-whispered-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "'What? When? Where? Why?' bellowed Grandpa, so I whispered back, 'Your pants are on backward.'",
+          "spellingCue": "what, when, where, why and whisper all start with the letters wh.",
+          "accessibleDescription": "Grandpa cupping an ear and shouting; each question word starts with glowing w and h; his pants are on backward.",
+          "artPlaceholder": "[ART TODO: Grandpa bellowing with a hand cupped to his ear; four speech bubbles each starting with a glowing wh; his pants are on backward.]",
+          "tapAction": "Tap Grandpa: he shouts another question word; each starts with a glowing wh; the last tap flips his pants around.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #13.",
+          "whyThisVersion": "A loud grandpa and a very quiet whisper is a clean contrast, and four wh words land the letters.",
+          "caveat": "who also starts with wh but sounds different, and some accents say wh as w. Word observation only, not a wh rule (RC-06, review-only).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-whispered-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "RULE_CANDIDATE",
+          "targetRefs": [
+            1,
+            2
+          ],
+          "narration": "A tiny ed hopped onto whisper and made whispered, so the secret was already out. The whole class had heard it before the kid finished.",
+          "spellingCue": "whisper + ed = whispered; the ending is written ed even though you hear a d.",
+          "accessibleDescription": "A kid cupping a hand to a friend's ear; a tiny ed tile hops on the end of whisper; a secret bubble drifts around the room.",
+          "artPlaceholder": "[ART TODO: A kid cupping a hand to a friend's ear while a small ed tile hops onto the word whisper; a secret bubble floats around the whole classroom and kids gasp.]",
+          "tapAction": "Tap the ed tile: it clicks onto whisper, a secret bubble drifts around the classroom, and kids gasp.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #13.",
+          "whyThisVersion": "Different route: past tense as a joke about a secret that has already escaped.",
+          "caveat": "Regular past tense is written -ed even when you hear /d/ (RC-04); irregular verbs like said and ran are exceptions. Review-only.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: WHIS-perd. The ending says d but is written ed.",
+        "patternHint": "It starts with wh and ends with ed.",
+        "partialLetterHint": "whisper__",
+        "firstLetter": "w"
+      },
+      "miniCheck": {
+        "question": "Which two letters end whispered, even though you hear a d?",
+        "options": [
+          "ed",
+          "id",
+          "ud"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Whispered ends with ed."
+      },
+      "generalRuleRefs": [
+        "RC-04",
+        "RC-06"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "wh at start; whisper + ed"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-04",
+          "RC-06"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "understand",
+      "word": "understand",
+      "isReview": false,
+      "meaning": "to know what something means",
+      "clues": {
+        "primary": "To get what something means, like when a hard math problem finally makes sense.",
+        "secondary": "'Do you ______ the directions?' your teacher asks, and you nod.",
+        "spokenWordDisambiguates": true,
+        "note": "get and know are reasonable synonyms; the spoken word settles it"
+      },
+      "audio": {
+        "word": "understand",
+        "slowWord": "understand",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "under",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "stand",
+          "zeroBasedStart": 5,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-understand-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "Coach shouted 'UNDER!' and everyone ducked, then 'STAND!' and everyone popped up. 'Do you understand?' asked Coach, and Ben tipped sideways into the cones.",
+          "spellingCue": "under + stand: duck for under, pop up for stand; the two chunks come in that order.",
+          "accessibleDescription": "Kids in a gym ducking, then popping up; Coach's whistle; the chunks under and stand light up in order.",
+          "artPlaceholder": "[ART TODO: A gym with kids ducking down on UNDER and popping up on STAND, Coach with a whistle, one boy tipping into traffic cones.]",
+          "tapAction": "Tap Coach: he calls UNDER and the kids duck, then STAND and they pop up; the two chunks light up in order.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #14; rewritten.",
+          "whyThisVersion": "A move-and-pop game that makes the order of the two chunks something you do with your body.",
+          "caveat": "Mnemonic for the letters only. The meaning is comprehend; it is NOT literally standing under something.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-understand-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "A basset hound hid under a lemonade stand and had an idea. 'Now I understand!'",
+          "spellingCue": "under + stand = understand, built in that order from two whole words.",
+          "accessibleDescription": "A lemonade stand with a basset hound's tail poking out; a light bulb; the words under and stand click together.",
+          "artPlaceholder": "[ART TODO: A lemonade stand with a droopy basset hound underneath, ears dragging, a glowing light bulb above his head.]",
+          "tapAction": "Drag under in front of stand: the words click, the dog bonks his head, and a light bulb flashes.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #14.",
+          "whyThisVersion": "Different route: build the word from two real words and enjoy a droopy dog.",
+          "caveat": "Spelling build only; understand is not a meaning compound.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: un-der-STAND.",
+        "patternHint": "Look for two small words inside: under and stand.",
+        "partialLetterHint": "under_____",
+        "firstLetter": "u"
+      },
+      "miniCheck": {
+        "question": "Which order builds the word?",
+        "options": [
+          "under + stand",
+          "stand + under"
+        ],
+        "correctIndex": 0,
+        "answerKind": "build",
+        "feedback": "Yes. Under comes first, then stand."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "under + stand as letter chunks"
+        ],
+        "mnemonicOnly": [
+          "under + stand"
+        ],
+        "unreviewedRules": []
+      },
+      "editorialNote": "Must never be taught as a literal meaning compound."
+    },
+    {
+      "id": "newspaper",
+      "word": "newspaper",
+      "isReview": false,
+      "meaning": "printed pages with the day's news",
+      "clues": {
+        "primary": "Big folded pages with today's stories, delivered to the porch each morning.",
+        "secondary": "Reporters write the stories, and the ink gets on your fingers.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "newspaper",
+        "slowWord": "newspaper",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "news",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "paper",
+          "zeroBasedStart": 4,
+          "status": "word_observation"
+        },
+        {
+          "kind": "single_letter",
+          "letters": "s",
+          "zeroBasedStart": 3,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-newspaper-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "build_transform",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            2
+          ],
+          "narration": "Grandpa got a new paper, but it was totally blank! Add one S and it became a newspaper, full of stories about his snoring.",
+          "spellingCue": "new + s + paper: the one extra S turns a new paper into news.",
+          "accessibleDescription": "Grandpa holding a blank page; an s slides in; headlines fill the page.",
+          "artPlaceholder": "[ART TODO: Grandpa holding up a blank white sheet; a big letter s slides into the gap; headlines like GRANDPA SNORES AGAIN fill the page.]",
+          "tapAction": "Tap the s: it slides into the gap, and the blank page fills with funny headlines like GRANDPA SNORES AGAIN.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #15.",
+          "whyThisVersion": "The one extra letter really does make the page 'news', so the joke and the spelling are the same thing.",
+          "caveat": "News + paper is a transparent compound (RC-01, review-only).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-newspaper-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "sound_chunk",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            2
+          ],
+          "narration": "Grandpa's parrot squawked 'NEWSSSS-paper!' with such a long hiss that the cat hid inside the newspaper.",
+          "spellingCue": "The long hiss is the s between new and paper: new-s-paper.",
+          "accessibleDescription": "A parrot squawking on a chair, a cat's tail poking out of a newspaper; the s glows in the hiss.",
+          "artPlaceholder": "[ART TODO: A parrot on Grandpa's chair with its beak wide open and a snake-like hiss line coming out; a cat hiding inside an open newspaper.]",
+          "tapAction": "Tap the parrot: it hisses sssss, the s glows, and the cat's tail twitches.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #15.",
+          "whyThisVersion": "Different route: a stretched sound that keeps the s from going missing.",
+          "caveat": "Word observation. Do not call it a rule.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: NEWS-pay-per. Hear the s after new.",
+        "patternHint": "News plus paper. Don't lose the s in the middle.",
+        "partialLetterHint": "new__aper",
+        "firstLetter": "n"
+      },
+      "miniCheck": {
+        "question": "Which one is full of stories?",
+        "options": [
+          "new paper",
+          "newspaper"
+        ],
+        "correctIndex": 1,
+        "answerKind": "whole_word",
+        "feedback": "Yes. Add an s and the new paper becomes newspaper, full of news."
+      },
+      "generalRuleRefs": [
+        "RC-01"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "news + paper, with s"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-01"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "butterfly",
+      "word": "butterfly",
+      "isReview": false,
+      "meaning": "a colorful winged insect that starts as a caterpillar",
+      "clues": {
+        "primary": "A colorful insect with big wings that starts life as a caterpillar.",
+        "secondary": "It sips from flowers and floats from one to the next.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "butterfly",
+        "slowWord": "butterfly",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "butter",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "letter_count",
+          "letters": "tt",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "fly",
+          "zeroBasedStart": 6,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-butterfly-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            1
+          ],
+          "narration": "A butterfly fluttered past the butter dish, and the butter muttered, 'Show-off.'",
+          "spellingCue": "flutter, mutter and butter all end in u-t-t-e-r, with two T's: tt. Then add fly.",
+          "accessibleDescription": "A butterfly drifting over a dish of butter with a grumpy face; the tt glows in flutter, mutter and butter.",
+          "artPlaceholder": "[ART TODO: A butterfly in sunglasses drifting past a stick of butter on a dish, the butter has a tiny grumpy face and a speech bubble.]",
+          "tapAction": "Tap the butter: it mutters, the tt glows in flutter, mutter and butter, and a fly lands on its tail.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #16.",
+          "whyThisVersion": "The butter getting jealous of the butterfly is a joke a child gets in a second, and it carries the tt.",
+          "caveat": "Mnemonic only: a butterfly is not made of butter.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-butterfly-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "build_transform",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0,
+            2
+          ],
+          "narration": "A greasy kitchen fly slipped on the butter dish and shouted, 'I'm not a butterfly, I'm a butter fly!'",
+          "spellingCue": "butter + fly = butterfly: two whole words, with the two T's coming from butter.",
+          "accessibleDescription": "A fly sliding on a butter dish; the words butter and fly click together.",
+          "artPlaceholder": "[ART TODO: A kitchen fly skidding on a stick of butter with a little buttery smear trail; words butter and fly float and click together.]",
+          "tapAction": "Tap the fly: it skids across the butter and the words butter and fly click together.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #16; punchline rewritten.",
+          "whyThisVersion": "Different route: build from two real words and make the literal joke on purpose.",
+          "caveat": "A butterfly is not literally a butter fly. Spelling build only.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: BUT-ter-fly.",
+        "patternHint": "Butter, with two T letters, plus fly.",
+        "partialLetterHint": "bu__erfly",
+        "firstLetter": "b"
+      },
+      "miniCheck": {
+        "question": "How many T letters does butterfly have?",
+        "options": [
+          "one",
+          "two",
+          "three"
+        ],
+        "correctIndex": 1,
+        "answerKind": "count",
+        "countLetter": "t",
+        "countValue": 2,
+        "feedback": "Yes. Butterfly has two T letters in a row."
+      },
+      "generalRuleRefs": [
+        "RC-05"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "butter + fly; tt"
+        ],
+        "mnemonicOnly": [
+          "butter + fly literal"
+        ],
+        "unreviewedRules": [
+          "RC-05"
+        ]
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "upstairs",
+      "word": "upstairs",
+      "isReview": true,
+      "meaning": "to or on a higher floor of a building",
+      "clues": {
+        "primary": "On the floor above, where the bedrooms are. You climb steps to get there.",
+        "secondary": "If the kitchen is on the bottom floor, where is the bedroom?",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "upstairs",
+        "slowWord": "upstairs",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "up",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "stairs",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "air",
+          "zeroBasedStart": 4,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-upstairs-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "visual_letter",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1,
+            2
+          ],
+          "narration": "A giant burp full of air floated up the stairs, and by the time it reached upstairs, the whole family smelled it.",
+          "spellingCue": "up + stairs, and the burp's air hides in the middle of stairs: st + air + s.",
+          "accessibleDescription": "A green burp cloud floating up a wooden staircase; as it passes the middle the letters a, i, r glow inside stairs.",
+          "artPlaceholder": "[ART TODO: A big green burp-cloud with a face drifting up a wooden staircase; a family on the top landing pinching their noses; the letters a, i and r glow on the middle steps.]",
+          "tapAction": "Tap the burp: it floats up the steps; as it passes the middle of stairs the letters a-i-r glow, then up clicks onto stairs at the top.",
+          "provenance": "Jeremy's up + stairs + air reference standard, plus gemini_pilot_mode_a/c and deepseek_pilot_mode_a (burp-air); rewritten.",
+          "whyThisVersion": "Burp comedy tied to a true letter fact: air is really inside stairs.",
+          "caveat": "air is a real written substring of stairs. upstairs is up + stairs, not up + air.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-upstairs-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1,
+            2
+          ],
+          "narration": "Grandpa huffed upstairs: 'Up... stairs... chairs... pairs of hairs... I need air!'",
+          "spellingCue": "stairs, chairs, pairs and hairs all end in a-i-r-s, with air inside each; up + stairs.",
+          "accessibleDescription": "Grandpa puffing up a staircase with a chair, a pair of socks and a wig on his back; air glows in each word.",
+          "artPlaceholder": "[ART TODO: A puffing Grandpa climbing a staircase carrying a chair, a pair of socks and a hairy wig; each word he says lights up its air.]",
+          "tapAction": "Tap Grandpa: he puffs one word per step: stairs, chairs, pairs, hairs, and air glows in each.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #17.",
+          "whyThisVersion": "Different route: a puffing chant that finds air in a family of words.",
+          "caveat": "Rhyme traps: bears and stares sound alike but are spelled differently. Word observation only.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: up-STAIRS.",
+        "patternHint": "Two words glued together: up and stairs. You can find air inside stairs.",
+        "partialLetterHint": "up_____s",
+        "firstLetter": "u"
+      },
+      "miniCheck": {
+        "question": "Which three letters are hiding inside stairs?",
+        "options": [
+          "air",
+          "ear",
+          "are"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Stairs has air hiding in the middle: st-air-s."
+      },
+      "generalRuleRefs": [
+        "RC-01"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "up + stairs; air inside stairs"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-01"
+        ]
+      },
+      "editorialNote": "List 13 review word. Note: only one alternate beyond the primary survived; the stares/stairs homophone version was dropped because speaking it aloud sounds identical."
+    },
+    {
+      "id": "staring",
+      "word": "staring",
+      "isReview": true,
+      "meaning": "looking at something steadily without looking away",
+      "clues": {
+        "primary": "Looking at something for a long time without blinking or looking away.",
+        "secondary": "It is rude to keep doing it at people, and you do it in a contest to see who blinks first.",
+        "spokenWordDisambiguates": true,
+        "note": "looking and watching are reasonable synonyms; the spoken word settles it"
+      },
+      "audio": {
+        "word": "staring",
+        "slowWord": "staring",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "star",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_ending",
+          "letters": "ing",
+          "zeroBasedStart": 4,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-staring-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "build_transform",
+          "claimType": "RULE_CANDIDATE",
+          "targetRefs": [
+            1
+          ],
+          "narration": "The word stare was ready to meet its friend ing, but a tiny e popped off like a bottle cap and plopped into the goldfish bowl. The cat kept staring at the splash.",
+          "spellingCue": "stare + ing: the e pops off first, leaving star + ing = staring.",
+          "accessibleDescription": "A cat at a fishbowl; a bottle-cap e pops off the word stare as the ing tile arrives.",
+          "artPlaceholder": "[ART TODO: A cat nose to a goldfish bowl; above them the word stare with its last letter e popping off like a bottle cap as an ing tile slides in.]",
+          "tapAction": "Tap the e: it pops off like a bottle cap and plops into the bowl, ing clicks onto star, and the cat's eyes go huge.",
+          "provenance": "deepseek_pilot_mode_a/b, gemini_pilot_mode_a/c, claude_opus_full_mode_b.md #18 and claude_opus_full_mode_c.md #18; rewritten.",
+          "whyThisVersion": "A tiny e shooting off like a bottle cap is a picture a child remembers, and it is the real letter change in this word.",
+          "caveat": "Drop a silent final e before ing is a review-only rule candidate (RC-02); exceptions: being, seeing, canoeing. star in staring is only a written piece; it does not sound like star.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-staring-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "visual_letter",
+          "claimType": "RULE_CANDIDATE",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "The owl kept staring at the movie star starring in the show: one R for looking, two R's for the star.",
+          "spellingCue": "staring has one r; starring (as in a movie star) has two. star + r + ing = starring; stare minus e + ing = staring.",
+          "accessibleDescription": "An owl in a theater seat with huge eyes; a star on stage taking a bow; the r's glow.",
+          "artPlaceholder": "[ART TODO: An owl in a plush theater seat with enormous eyes; on stage a big shiny star in a spotlight taking a bow; a glowing r under the owl and two under the star.]",
+          "tapAction": "Tap the owl: eyes go huge and one r glows; tap the star: it bows and two r's glow.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #18.",
+          "whyThisVersion": "Different route: contrast two real words that differ by one letter.",
+          "caveat": "Both words are real. Double r in starring is part of the same review-only rule family (RC-03).",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-staring-extra-v1",
+          "version": 1,
+          "slot": "extra",
+          "mode": "rhyme_family",
+          "claimType": "RULE_CANDIDATE",
+          "targetRefs": [
+            1
+          ],
+          "narration": "My cat and the goldfish were staring and glaring, not sharing or caring, until the cat fell in.",
+          "spellingCue": "staring, glaring, sharing and caring each come from stare, glare, share and care, and each drops its e before ing.",
+          "accessibleDescription": "A cat and a goldfish nose to nose; the four ing words lose an e one at a time.",
+          "artPlaceholder": "[ART TODO: A cat and a goldfish nose to nose through the glass, four ing words floating above each shedding a tiny e.]",
+          "tapAction": "Tap the glass: each ing word pops its e off in a row, and the cat falls in the bowl.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #18.",
+          "whyThisVersion": "Optional third: a family of four words that makes the same change.",
+          "caveat": "Review-only rule RC-02 with exceptions being, seeing, canoeing.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Two beats: STAIR-ing. The first part rhymes with chair.",
+        "patternHint": "Stare loses its e when ing arrives: star + ing.",
+        "partialLetterHint": "st_ring",
+        "firstLetter": "s"
+      },
+      "miniCheck": {
+        "question": "Which word means looking at something without looking away?",
+        "options": [
+          "staring",
+          "starring"
+        ],
+        "correctIndex": 0,
+        "answerKind": "whole_word",
+        "feedback": "Yes. Staring has one r. Starring, with two r's, is what a movie star does."
+      },
+      "generalRuleRefs": [
+        "RC-02",
+        "RC-03"
+      ],
+      "reviewStatus": {
+        "observations": [
+          "staring has no e; staring vs starring"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": [
+          "RC-02",
+          "RC-03"
+        ]
+      },
+      "editorialNote": "List 13 review word. Silent-e rule claims stay review-only."
+    },
+    {
+      "id": "animal",
+      "word": "animal",
+      "isReview": false,
+      "meaning": "a living creature that is not a plant",
+      "clues": {
+        "primary": "A living creature that is not a plant, like a frog or a whale.",
+        "secondary": "A dog is one, a bird is one, and a tree is not.",
+        "spokenWordDisambiguates": false,
+        "note": ""
+      },
+      "audio": {
+        "word": "animal",
+        "slowWord": "animal",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "nim",
+          "zeroBasedStart": 1,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "an",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "mal",
+          "zeroBasedStart": 3,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-animal-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "sound_chunk",
+          "claimType": "MNEMONIC",
+          "targetRefs": [
+            0,
+            2
+          ],
+          "narration": "Penguin cheerleaders chanted 'AN! ih! MAL!' and belly-slid into the pond yelling 'ANIMAL!'",
+          "spellingCue": "an + i + mal: the beats come in that order, so the n comes before the m.",
+          "accessibleDescription": "Three penguin cheerleaders with pom-poms on ice; each shouts one beat; they slide into a pond.",
+          "artPlaceholder": "[ART TODO: Three penguin cheerleaders with pom-poms lined up on ice, mouths wide on three different beats, belly-sliding into a pond.]",
+          "tapAction": "Tap each penguin in order: first AN, then ih, then MAL, and the n-before-m order lights up; the last tap sends them sliding.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #19.",
+          "whyThisVersion": "Penguins on a belly slide is an instantly funny picture, and the three cheer beats set the order.",
+          "caveat": "The three beats are memory chunks only. The last a sounds like 'uh'.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-animal-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "visual_letter",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0
+          ],
+          "narration": "At the zoo, N cut in line in front of M. 'In the alphabet I go first!' grumbled M. But in animal, N won.",
+          "spellingCue": "In the alphabet m comes before n, but in animal the n comes first: a-n-i-m-a-l.",
+          "accessibleDescription": "A zoo ticket line; N hops ahead of M; M huffs; the order lights up.",
+          "artPlaceholder": "[ART TODO: A zoo ticket line of tall letters; a letter n hops ahead of a grumbling letter m while a zookeeper looks the other way.]",
+          "tapAction": "Tap the line: N hops ahead of M, M huffs, and the order a, n, i, m, a, l lights up.",
+          "provenance": "Original editorial pitch (alphabet-order fact: m is the 13th letter and n the 14th).",
+          "whyThisVersion": "Different route: a funny fact about the order of two letters, not a chant.",
+          "caveat": "Alphabet-order fact verified. Avoids showing the common misspelling.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: AN-ih-mul. The last a sounds like 'uh'.",
+        "patternHint": "The n comes before the m.",
+        "partialLetterHint": "a___al",
+        "firstLetter": "a"
+      },
+      "miniCheck": {
+        "question": "Which letter comes first in animal, the n or the m?",
+        "options": [
+          "n",
+          "m"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. In animal the n comes before the m."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "n before m in animal"
+        ],
+        "mnemonicOnly": [
+          "cheerleader beats"
+        ],
+        "unreviewedRules": []
+      },
+      "editorialNote": ""
+    },
+    {
+      "id": "another",
+      "word": "another",
+      "isReview": false,
+      "meaning": "one more of the same kind",
+      "clues": {
+        "primary": "One more of the same thing, like asking for a second cookie.",
+        "secondary": "You finish a game and say, 'That was fun! Let's play ______ round!'",
+        "spokenWordDisambiguates": true,
+        "note": "extra and one more are reasonable synonyms; the spoken word settles it"
+      },
+      "audio": {
+        "word": "another",
+        "slowWord": "another",
+        "sentenceSource": "jokes[].narration"
+      },
+      "spellingTargets": [
+        {
+          "kind": "word_part",
+          "letters": "an",
+          "zeroBasedStart": 0,
+          "status": "word_observation"
+        },
+        {
+          "kind": "word_part",
+          "letters": "other",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        },
+        {
+          "kind": "single_letter",
+          "letters": "o",
+          "zeroBasedStart": 2,
+          "status": "word_observation"
+        }
+      ],
+      "jokes": [
+        {
+          "id": "list14-another-primary-v1",
+          "version": 1,
+          "slot": "primary",
+          "mode": "rhyme_family",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            1
+          ],
+          "narration": "My brother asked Mother for another cookie, then another, until Mother said, 'Not another, brother!'",
+          "spellingCue": "mother, brother, other and another all end in o-t-h-e-r, with an o that says 'uh'.",
+          "accessibleDescription": "A boy at a cookie jar with a stack of cookies; a tired mother with hands on hips; other glows in four words.",
+          "artPlaceholder": "[ART TODO: A boy with cookies up both sleeves reaching into a cookie jar, a tired mother with hands on her hips; the ending other glows in each word.]",
+          "tapAction": "Tap the cookie jar: the boy grabs another cookie each tap, and other glows in mother, brother, other and another.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_b.md #20.",
+          "whyThisVersion": "A kid caught grabbing cookies and a rhyme the whole house knows: the spelling of the o is settled in one line.",
+          "caveat": "Word observation: the o says 'uh' in all four. an + other is a letter chunk, not a compound rule.",
+          "status": "candidate_parent_review"
+        },
+        {
+          "id": "list14-another-alternate-v1",
+          "version": 1,
+          "slot": "alternate",
+          "mode": "letter_swap",
+          "claimType": "WORD_OBSERVATION",
+          "targetRefs": [
+            0,
+            1
+          ],
+          "narration": "Peel the m off mother, slap an on the front, and you get another, another chore from Mom!",
+          "spellingCue": "mother without its m is other; an + other = another.",
+          "accessibleDescription": "Mom holding a chore list; the m peels off mother; an snaps on; the list grows.",
+          "artPlaceholder": "[ART TODO: Mom holding a very long chore list that sags to the floor; the word mother floats above with its m peeling off while an tile snaps on the front.]",
+          "tapAction": "Tap Mom's chore list: the m peels off, an snaps on, and the list grows one more chore.",
+          "provenance": "docs/design/second_attempt/claude_opus_full_mode_c.md #20.",
+          "whyThisVersion": "Different route: transform a word she knows into this one, with a joke about chores.",
+          "caveat": "Letter puzzle. Do not call an + other a compound-word rule.",
+          "status": "candidate_parent_review"
+        }
+      ],
+      "help": {
+        "pronunciationNote": "Three beats: an-UH-ther.",
+        "patternHint": "It ends like mother and brother.",
+        "partialLetterHint": "an__her",
+        "firstLetter": "a"
+      },
+      "miniCheck": {
+        "question": "Which letter says 'uh' in another, just like in mother?",
+        "options": [
+          "o",
+          "u",
+          "e"
+        ],
+        "correctIndex": 0,
+        "answerKind": "feature",
+        "feedback": "Yes. Another uses o, like mother and brother."
+      },
+      "generalRuleRefs": [],
+      "reviewStatus": {
+        "observations": [
+          "other ending shared with mother, brother"
+        ],
+        "mnemonicOnly": [],
+        "unreviewedRules": []
+      },
+      "editorialNote": ""
+    }
+  ]
+}

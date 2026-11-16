@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Impossible 3D Printer, Second Edition</title>
+<meta name="description" content="A spelling game for the third-grade List 14 words. Runs fully offline from a local web server.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-screen="home">
+<a class="skip-link" href="#card">Skip to the game</a>
+<header class="top">
+  <a class="home-link" href="../" id="home-link">← WordWild home</a>
+  <h1>The Impossible 3D Printer <small>second edition</small></h1>
+  <div class="tools" role="group" aria-label="Sound and motion">
+    <button type="button" id="mute" class="btn tool" aria-pressed="false">🔊 Sound on</button>
+    <button type="button" id="stop" class="btn tool">⏹ Stop sound</button>
+    <button type="button" id="calm" class="btn tool" aria-pressed="false">🍃 Calm motion</button>
+  </div>
+</header>
+<main class="layout">
+  <div id="stage-wrap" class="stage-wrap" hidden>
+    <div id="printer" class="printer" role="img" aria-label="Printer" data-printing="false">
+      <div class="frame">
+        <div class="gantry"></div>
+        <div id="nozzle" class="nozzle"><span class="smoke" aria-hidden="true">💨</span></div>
+        <div class="bed"><div id="layers" class="layers"></div></div>
+      </div>
+    </div>
+    <p id="layer-count" class="layer-count" role="status"></p>
+    <button type="button" id="skip-anim" class="btn subtle" hidden>Skip the printing</button>
+  </div>
+  <div id="card" class="cardwrap" tabindex="-1"><p>Loading the printer…</p></div>
+</main>
+<footer class="foot">
+  <a href="../shared/progress.html">Grown-up corner: saved progress</a> ·
+  The jokes are candidates waiting for a parent's approval. Pictures are placeholders.
+</footer>
+<noscript><p class="note">This game needs JavaScript. Start it from a local web server (see README).</p></noscript>
+<script type="module" src="app.js"></script>
+</body>
+</html>

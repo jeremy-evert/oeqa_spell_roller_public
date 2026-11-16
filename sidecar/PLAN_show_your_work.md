@@ -16,7 +16,7 @@ This repository is the worked example. `Roll and Read` is a small, real, public 
 | 1 | This plan | `sidecar/PLAN_show_your_work.md` | The work order, and the lesson in outline |
 | 2 | Public-release checklist | `CHECKLIST.md` (linked from `README.md`) | Students walk through it before they make anything public |
 | 3 | Finished project files | repo root | License, README, credits, how-it-was-made notes |
-| 4 | Link from the course Start Here page | Google Doc, "Quick links" | Students find the checklist from one place |
+| 4 | Links to the checklist | `swosu-computing` copy, Computing Commons, CS1, CS2, DSCT and Computer Architecture courses, Start Here Google Doc | Students find the checklist from one place |
 | 5 | Short "before and after" write-up | `sidecar/BEFORE_AND_AFTER.md` | Shows what we changed to get from "works" to "ready to show" |
 
 Order of work: 1, 2, 3, 5, then 4 last. The Start Here link is added only when Jeremy says the checklist is ready.
@@ -65,12 +65,27 @@ Items to confirm or fix, taken from reading the repo as it stands:
 - [ ] Open the live page in a private window on a phone and click every link.
 - [ ] Decide what from the private `wordwild` project is allowed here. Nothing moves across without the checklist above, and not the curriculum, research, or mission folders.
 
-## Open questions for Jeremy
+## Decisions (Jeremy, 2026-11-16)
 
-1. Should the checklist live as `CHECKLIST.md` in this repo, or also on the course site (`swosu-computing`)?
-2. Which class gets it first this week, and in which activity?
-3. Do you want students to use this repo as a template, or only read it?
-4. Which license do you want taught as the default for student work, and is BSD 2-Clause the one for this repo?
+1. **Where it lives:** here as `CHECKLIST.md`, duplicated in the `swosu-computing` course site, because that is where students will use it.
+2. **Who gets it:** all classes. Post it on Computing Commons and link to it from the CS1, CS2, DSCT and Computer Architecture courses.
+3. **Students read it.** It is not a template yet; a template is a future goal.
+4. **License:** BSD 2-Clause was Jeremy's choice here. The best default for student work is still open; see below.
+
+## License recommendation (for Jeremy to decide)
+
+- Keep BSD 2-Clause on this repository. Changing a license on a published repo adds noise and gains nothing; BSD 2-Clause and MIT have nearly the same effect.
+- Teach a short menu in the checklist: MIT or BSD 2-Clause for code, Creative Commons CC BY 4.0 for writing and images, no license with a clear note for work that stays closed. The checklist already says this.
+- The lesson that matters more than which license: **a license covers only what you own.** The worksheet in this game may not be ours to relicense; see the work list above.
+
+## Next steps
+
+- [x] Write `CHECKLIST.md` (this branch).
+- [ ] Jeremy reads it and says go or edit.
+- [ ] Copy it to `swosu-computing` (separate repo; review before pushing, since that site is public).
+- [ ] Post it on Computing Commons and add the link to the CS1, CS2, DSCT and Computer Architecture courses (Canvas writes happen under an authorized mission, not from this plan).
+- [ ] Add the link to the course Start Here Google Doc under Quick links.
+- [ ] Work the repo to-do list above and write `BEFORE_AND_AFTER.md`.
 
 ## Not in scope this week
 

@@ -81,8 +81,8 @@ Items to confirm or fix, taken from reading the repo as it stands:
 ## Next steps
 
 - [x] Write `CHECKLIST.md` (this branch).
-- [ ] Jeremy reads it and says go or edit.
-- [ ] Copy it to `swosu-computing` (separate repo; review before pushing, since that site is public).
+- [x] Jeremy skimmed it and said go (2026-11-16).
+- [x] Landing page built in `swosu-computing` at `/show-your-work/` (branch `claude/show-your-work`, pull request open for Jeremy). One page reached by QR code or link: do and avoid lists, the tickable checklist, project cards with icons, the process, and the license guide. The QR code points at `https://jeremy-evert.github.io/swosu-computing/show-your-work/`.
 - [ ] Post it on Computing Commons and add the link to the CS1, CS2, DSCT and Computer Architecture courses (Canvas writes happen under an authorized mission, not from this plan).
 - [ ] Add the link to the course Start Here Google Doc under Quick links.
 - [ ] Work the repo to-do list above and write `BEFORE_AND_AFTER.md`.

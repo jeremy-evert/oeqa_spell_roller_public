@@ -1,9 +1,9 @@
-# Handoff to Flo: fold WordWild work into this public repo
+# Handoff to the course foreman: fold WordWild work into this public repo
 
 **From:** Anna. **At Jeremy's request.** **Status:** staged locally, nothing pushed.
 
 ## Goal
-Only this repo goes public. Build a public-facing site that shows students what is possible: Roll and Read (unchanged, at the root), the WordWild games, a checklist, and an honest "how it was made" record. Flo later polishes the landing page so it ties together; Jeremy wants several weeks of work on the landing page.
+Only this repo goes public. Build a public-facing site that shows students what is possible: Roll and Read (unchanged, at the root), the WordWild games, a checklist, and an honest "how it was made" record. the foreman later polishes the landing page so it ties together; Jeremy wants several weeks of work on the landing page.
 
 ## Ground rules
 * `index.html` (Roll and Read) stays byte-identical; its live URL must keep working.
@@ -23,4 +23,4 @@ Only this repo goes public. Build a public-facing site that shows students what 
 2. Is the Start Here Google Doc edited by hand or generated? (Not edited yet.)
 3. A standing public-scrub procedure or script I should use (see sibling session `anna-public-scrub`)?
 4. Which prompts, evidence and reports are OK to publish, and who decides?
-5. Fine to land WordWild under `wordwild/` and have Flo own landing-page polish afterwards?
+5. Fine to land WordWild under `wordwild/` and have the foreman own landing-page polish afterwards?

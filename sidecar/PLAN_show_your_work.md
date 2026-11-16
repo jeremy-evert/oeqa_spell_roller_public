@@ -95,7 +95,7 @@ Steps used, in order, for the worked example:
 3. `scripts/public_audit.py` (names kept in an untracked local file; counts only) and `scripts/audio_transcript_audit.py` for spoken audio; receipt in `sidecar/runs/`.
 4. License line for every asset in `wordwild/ASSETS.md`; unknown means it does not ship.
 5. Honest notes: `HOW_IT_WAS_MADE.md`, `PRIVACY.md`, `KNOWN_LIMITS.md`, `STORY.md`.
-6. Flo reviews the diff against `CHECKLIST.md`; Jeremy says "publish"; then live-link test and rollback note.
+6. the foreman reviews the diff against `CHECKLIST.md`; Jeremy says "publish"; then live-link test and rollback note.
 
 ## Not in scope this week (original)
 

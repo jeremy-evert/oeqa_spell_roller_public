@@ -1,6 +1,6 @@
 # Landing-page manifest (staged 2026-11-16, not pushed)
 
-For Flo's one landing page (`swosu-computing` `/show-your-work/`). Every link target lives in this repo, served by GitHub Pages with relative paths under `wordwild/` and `sidecar/`. Repo-relative paths below; the live URL is `https://jeremy-evert.github.io/oeqa_spell_roller_public/<path>` once published.
+For the foreman's one landing page (`swosu-computing` `/show-your-work/`). Every link target lives in this repo, served by GitHub Pages with relative paths under `wordwild/` and `sidecar/`. Repo-relative paths below; the live URL is `https://jeremy-evert.github.io/oeqa_spell_roller_public/<path>` once published.
 Status: **ready** (done and audited), **needs scrub** (needs a human read or a decision), **not ready**. Nothing is "not ready". Jeremy's decisions are in `sidecar/DECISIONS_2026-11-16.md`; the only open question is `sidecar/questions/Q05_private_branch_test_note.md` (FYI).
 Audit receipt: `sidecar/runs/2026-11-16_wordwild_public_export_receipt.md`. Roll and Read `index.html`, `LICENSE`, `README.md`: unchanged. `CHECKLIST.md` still has **28** tick items (I added only an unticked "two-minute version" line, so the course page's 28 ticks stay in sync).
 
@@ -36,7 +36,7 @@ One command for 99 JavaScript tests: `cd wordwild && node --test`. Real result o
 **No tests:** the first printer (`game/`) has none. Not tested at all: touch screens, Firefox, Safari, Android, iOS. Two tests were changed for the public copy (see the receipt); both changes are commented in the files. Full command lines are in the receipt.
 
 ## 3. Prompts (scrubbed set, each paired with its report)
-Same three pairs as section 1. Suggested order for the page: **041 (what went wrong)**, **042 (what went well)**, **045 (honest testing)**. Also `wordwild/evidence/example_prompt_finish_audio.md` and `wordwild/evidence/report_audio_completion.md`: a condensed, teaching-sized version of the 045 pair. Status: ready (pending Flo's review of the diff). Raw `missions/`, `PLAN.md`, `research/` and the evidence cards stay private.
+Same three pairs as section 1. Suggested order for the page: **041 (what went wrong)**, **042 (what went well)**, **045 (honest testing)**. Also `wordwild/evidence/example_prompt_finish_audio.md` and `wordwild/evidence/report_audio_completion.md`: a condensed, teaching-sized version of the 045 pair. Status: ready (pending the foreman's review of the diff). Raw `missions/`, `PLAN.md`, `research/` and the evidence cards stay private.
 
 ## 4. Games (all relative links, no network except localhost per `PRIVACY.md`)
 | Game | Path | One line | Icon idea | Status |
@@ -56,5 +56,5 @@ Same three pairs as section 1. Suggested order for the page: **041 (what went wr
 ## 6. Your turn
 `wordwild/HOW_TO_DO_THIS.md`: ten steps from "pick one small thing" to "know how to take it down", marks where AI helps and what a person must check, links to `CHECKLIST.md` and to the sidecar pattern. Status: ready.
 
-## Also in `wordwild/` (evidence set Flo asked for)
+## Also in `wordwild/` (evidence set the foreman asked for)
 `README.md`, `HOW_IT_WAS_MADE.md` (who wrote what: updated per Decision 2), `ASSETS.md` (word list credited to the school; Kokoro voices-file license verified, Decisions 1 and 3), `PRIVACY.md`, `KNOWN_LIMITS.md`, `AUDIO.md`, `evidence/`. Unlicensed items left out: none found; the private curriculum file, research cards (they quote books), missions, `PLAN.md` and raw prompts 040/041 chat transcripts were **not** copied.

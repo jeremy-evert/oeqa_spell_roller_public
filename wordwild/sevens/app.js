@@ -2,6 +2,7 @@ import { FACTS, MEDALS, RANGES, THEMES } from "./facts.js";
 import { newRound, parseAnswer, isCorrect, formatTime, outcomeFor, medalFor, alertLevel, streakCheer, load, save, wipe } from "./engine.js";
 import * as S from "./sounds.js";
 import { createConfetti } from "./confetti.js";
+import { eggFor, nextFact, SECRETS } from "./easter.js";
 
 const app = document.getElementById("app");
 const fx = document.getElementById("fx");
@@ -121,7 +122,7 @@ function menu() {
 function start(mode, medalId) {
   S.unlock(); S.play("pop");
   const medal = MEDALS.find((m) => m.id === medalId) || null, max = state.range;
-  g = { mode, medal, max, total: max + 1, limitMs: medal ? medal.seconds[max] * 1000 : 0, queue: newRound(max), results: [], log: [], tries: 0, usedClue: false, streak: 0, t0: null, ended: false };
+  g = { mode, medal, max, total: max + 1, limitMs: medal ? medal.seconds[max] * 1000 : 0, queue: newRound(max), results: [], log: [], tries: 0, usedClue: false, streak: 0, bag: [], t0: null, ended: false };
   document.body.classList.add("playing");
   const title = mode === "practice" ? "Practice" : mode === "stopwatch" ? "Stopwatch" : `${medal.icon} ${medal.label} challenge`;
   const blurb = mode === "practice" ? `${g.total} questions. A clean first try earns a ⭐. Tap 💡 for a clue and you get a bulb instead.`
@@ -194,6 +195,11 @@ function question() {
     </div>
     <button class="link reset" id="quit">Stop and go back</button>`;
   $("#form").addEventListener("submit", (e) => { e.preventDefault(); submit(); });
+  let qm = 0;
+  $(".sum .qm")?.addEventListener("click", (e) => {
+    const el = e.currentTarget; qm++; S.unlock(); S.play("boing"); el.classList.remove("spin"); void el.offsetWidth; el.classList.add("spin");
+    if (qm === SECRETS.qmTaps) note("👀 Peek-a-boo! Nice try, but you have to work it out!", 2600);
+  });
   app.querySelectorAll(".key[data-key]").forEach((k) => k.addEventListener("click", () => press(k.dataset.key)));
   $("#clue").addEventListener("click", () => giveHelp(true));
   $("#skip").addEventListener("click", skip);
@@ -253,6 +259,7 @@ function submit() {
     confetti.burst(r.left + r.width / 2, r.top, 38, { power: 12 });
     flyPop(String(f.a), "good");
     if (cheer) { S.play("streak", cheer); toast(`🔥 ${cheer} in a row!`); confetti.burst(innerWidth / 2, innerHeight * 0.55, 70, { power: 15, spread: Math.PI * 1.4 }); }
+    surprise(f, r);
     const o = outcomeFor(g); g.results.push(o); g.log.push({ n: f.n, o }); g.queue.shift();
     if (!g.queue.length) return finish(true);
     return question();
@@ -267,6 +274,36 @@ function submit() {
     else if (g.tries >= 4 && g.clueLevel < 2) { msg.textContent = "Not quite. Here is more help!"; giveHelp(false); }
   } else if (g.tries >= 2 && g.clueLevel < 1) msg.textContent = "Not quite. Stuck? Tap 💡 (+5s).";
 }
+
+/* ---------- easter eggs ---------- */
+function surprise(f, rect) {
+  if (g.streak === SECRETS.luckyStreak) {
+    S.play("fanfare"); toast("🍀 LUCKY 7 IN A ROW! 🍀");
+    confetti.burst(innerWidth / 2, innerHeight * 0.5, 90, { power: 16, spread: Math.PI * 1.6, emoji: ["7️⃣", "🍀", "🌈", "⭐"] });
+    return;
+  }
+  const egg = eggFor(f.n);
+  if (egg) {
+    S.play("sparkle"); note(egg.toast);
+    confetti.burst(rect.left + rect.width / 2, rect.top, 34, { power: 13, spread: Math.PI * 1.3, emoji: egg.emoji });
+  } else if (g.mode !== "clock" && Math.random() < SECRETS.factChance) {
+    note(`✨ Fun fact: ${nextFact(g.bag)}`, 4200);
+  }
+}
+function note(text, ms = 2200) {
+  const el = document.createElement("div");
+  el.className = "egg"; el.textContent = text; fx.append(el);
+  setTimeout(() => el.remove(), ms);
+}
+// hidden: tap the 7 in the header seven times
+let logoTaps = [];
+document.querySelector(".logo")?.addEventListener("click", () => {
+  const now = Date.now(); logoTaps = logoTaps.filter((t) => now - t < SECRETS.logoWindowMs); logoTaps.push(now);
+  if (logoTaps.length >= SECRETS.logoTaps) {
+    logoTaps = []; S.unlock(); S.play("fanfare"); toast("🌈 LUCKY 7! 🌈"); confetti.finale();
+    const sweep = document.createElement("div"); sweep.className = "rainbow-sweep"; fx.append(sweep); setTimeout(() => sweep.remove(), 5200);
+  }
+});
 
 function skip() { S.play("boing"); g.streak = 0; g.queue.push(g.queue.shift()); question(); }
 

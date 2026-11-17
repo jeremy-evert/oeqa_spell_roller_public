@@ -111,3 +111,8 @@ test("every 'N sevens is M' claim in a think hint is true", () => {
 test("the 17 hint is the one Jeremy wrote", () => {
   assert.match(FACTS[17].think, /17 is 3 less than 20/); assert.match(FACTS[17].think, /20 sevens is 140/); assert.match(FACTS[17].think, /3 sevens is 21/);
 });
+
+test("Jeremy's rhymes for 0, 1 and 2", () => {
+  assert.match(FACTS[0].clue, /weird 0 \(WEIRDO\)/); assert.match(FACTS[1].clue, /HEAVEN/); assert.match(FACTS[1].clue, /SEVEN/);
+  assert.match(FACTS[2].clue, /nifty KEEN/); assert.match(FACTS[2].clue, /FOURTEEN/);
+});

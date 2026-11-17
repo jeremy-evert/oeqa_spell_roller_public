@@ -34,14 +34,14 @@ export function createConfetti(canvas) {
     count: () => parts.length,
     setLook(l) { look = l; },
     // a burst from a point; angle is in radians (up is -PI/2)
-    burst(x, y, n = 40, { angle = -Math.PI / 2, spread = Math.PI * 0.9, power = 11, emojiShare = 0.25 } = {}) {
+    burst(x, y, n = 40, { angle = -Math.PI / 2, spread = Math.PI * 0.9, power = 11, emojiShare = 0.25, emoji = null } = {}) {
       if (reduce()) return;
       for (let i = 0; i < n; i++) {
         const a = angle + (Math.random() - 0.5) * spread, v = power * (0.45 + Math.random() * 0.75);
-        const useEmoji = Math.random() < emojiShare;
+        const set = emoji || look.emoji, useEmoji = Math.random() < (emoji ? 0.85 : emojiShare);
         add({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4,
               size: 7 + Math.random() * 8, color: look.colors[(Math.random() * look.colors.length) | 0],
-              emoji: useEmoji ? look.emoji[(Math.random() * look.emoji.length) | 0] : null, life: 110 + Math.random() * 90 });
+              emoji: useEmoji ? set[(Math.random() * set.length) | 0] : null, life: 110 + Math.random() * 90 });
       }
       go();
     },

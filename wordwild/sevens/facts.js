@@ -3,11 +3,11 @@
 // In every clue the answer's sound-alike is written in CAPITALS so it stands out.
 export const FACTS = [
   { n: 0, think: "Zero groups of seven. What is left when there is nothing in the groups?", q: "7 pirates each found 0 treasure chests. How many chests in all?",
-    clue: "Seven pirates, ZERO chests. Anything times zero is ZERO!" },
+    clue: "0 is always a weird 0 (WEIRDO). Anything times 0 is always 0." },
   { n: 1, think: "Only one group of seven. Does it grow, or stay the same?", q: "7 frogs each caught 1 fly. How many flies in all?",
-    clue: "One fly each, so nothing changes: 7 times 1 is still SEVEN." },
+    clue: "7 times one is simply HEAVEN. 7 times one is SEVEN!" },
   { n: 2, think: "Two groups of seven is a double. What is double 7?", q: "7 llamas each wear 2 hats. How many hats in all?",
-    clue: "Two weeks of 7 days is FOURTEEN days. 7 times 2 is 14." },
+    clue: "7 times two is nifty KEEN. 7 times 2 is fourteen (FOURTEEN, nifty KEEN)!" },
   { n: 3, think: "Count by 7s: 7, 14, and then one more jump.", q: "7 dragons each juggle 3 flaming pickles. How many pickles in all?",
     clue: "Play twenty-ONE, like blackjack! 7 times 3 is 21. Three weeks is 21 days." },
   { n: 4, think: "4 is double 2, and 2 sevens is 14. Now double that.", q: "7 ducks each carry 4 umbrellas. How many umbrellas in all?",

@@ -12,14 +12,14 @@
       "hue": "sunshine"
     },
     {
-      "id": "super-sevens",
-      "title": "Super Sevens",
-      "edition": "MATH \u00b7 THE 7 TIMES TABLE",
-      "href": "sevens/",
-      "entry": "sevens/index.html",
-      "invitation": "Silly questions, rhyming clues, a stopwatch, and Bronze, Silver and Gold clock challenges.",
-      "art": "sevens",
-      "hue": "mint"
+      "id": "math-mayhem",
+      "title": "Math Mayhem",
+      "edition": "MATH \u00b7 FACT DRILLS",
+      "href": "math/",
+      "entry": "math/index.html",
+      "invitation": "Flames, silly clues, a stopwatch, and medal challenges. Start with the 7s.",
+      "art": "math",
+      "hue": "coral"
     },
     {
       "id": "printer-workshop",

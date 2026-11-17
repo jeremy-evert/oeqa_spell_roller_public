@@ -4,7 +4,7 @@ const refreshButton = document.querySelector("#refresh-games");
 
 const artMarks = {
   potato: "🥔",
-  sevens: "7",
+  math: "🔥",
   printer: "▧",
   "printer-v2": "✳",
   illustrated: "✎",
@@ -76,7 +76,7 @@ async function renderGames() {
     const response = await fetch("arcade/games.json", { cache: "no-store", credentials: "same-origin" });
     if (!response.ok || new URL(response.url).origin !== window.location.origin) throw new Error("Arcade list unavailable");
     const config = await response.json();
-    if (config.version !== 1 || !Array.isArray(config.games) || config.games.length !== 5) throw new Error("Arcade list is incomplete");
+    if (config.version !== 1 || !Array.isArray(config.games) || config.games.length < 1) throw new Error("Arcade list is incomplete");
     const availability = await Promise.all(config.games.map(checkGame));
     const entries = config.games.map((game, index) => ({ game, available: availability[index] }));
     entries.sort((a, b) => Number(b.available) - Number(a.available));

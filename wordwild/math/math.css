@@ -1,0 +1,35 @@
+/* Math Mayhem hub: fire theme. Layered on ../flashcards/style.css. Light text on dark for contrast. */
+body { background: radial-gradient(120% 80% at 50% 110%, #ff6a00 0%, #c1121f 28%, #3a0a1e 62%, #130718 100%) fixed; color: #fff4e6; }
+header.site { background: #1a0a1f; border-bottom: 4px solid #ff7a00; }
+header.site .sub { background: #ff7a00; color: #1a0a1f; }
+footer.site, footer.site a, .note { color: #ffd9b0; }
+a { color: #ffd166; }
+main { position: relative; }
+.mayhem { text-align: center; margin: 10px 0 4px; }
+.mayhem h1 { font-size: clamp(2.4rem, 12vw, 4.2rem); margin: 0; line-height: 1;
+  font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #fff;
+  text-shadow: 0 0 6px #ffd166, 0 0 18px #ff7a00, 0 0 34px #e63900, 0 4px 0 #7a1200; animation: glow 1.6s ease-in-out infinite alternate; }
+.mayhem p { font-weight: 700; font-size: 1.15rem; margin: .5em 0; }
+.flames { display: flex; justify-content: center; gap: 2px; font-size: clamp(1.8rem, 8vw, 2.8rem); line-height: 1; margin-top: 6px; }
+.flames span { display: inline-block; transform-origin: 50% 100%; animation: flicker 0.9s ease-in-out infinite alternate; }
+.flames span:nth-child(2n) { animation-duration: 0.7s; animation-delay: -.3s; }
+.flames span:nth-child(3n) { animation-duration: 1.1s; animation-delay: -.6s; }
+.flames span:nth-child(5n) { font-size: 1.35em; }
+.drills { display: grid; gap: 16px; margin: 18px 0; }
+a.drill { position: relative; display: block; text-decoration: none; color: #fff; background: linear-gradient(160deg, #2a0c2e, #4b0f1a);
+  border: 4px solid #ffb703; border-radius: 22px; padding: 16px 18px 16px 86px; min-height: 96px;
+  box-shadow: 0 0 0 3px #1a0a1f, 0 0 22px #ff7a00, 6px 8px 0 #1a0a1f; transition: transform .15s; }
+a.drill:hover, a.drill:focus-visible { transform: translateY(-3px) rotate(-.6deg); }
+a.drill:active { transform: translate(2px, 2px); }
+a.drill .num { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 58px; height: 58px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 2rem; font-weight: 900; color: #1a0a1f; background: radial-gradient(circle at 35% 30%, #fff3b0, #ffb703 55%, #ff6a00); box-shadow: 0 0 14px #ffb703; }
+a.drill strong { display: block; font-size: 1.4rem; text-shadow: 0 0 10px #ff7a00; }
+a.drill small { display: block; font-weight: 700; color: #ffe2bf; }
+a.drill .go { display: inline-block; margin-top: 6px; background: #ffb703; color: #1a0a1f; font-weight: 900; border-radius: 99px; padding: 2px 12px; }
+a.soon { border-style: dashed; border-color: #8b5a5a; box-shadow: none; opacity: .85; pointer-events: none; }
+a.soon .num { background: #4a3a4a; color: #cbb; box-shadow: none; }
+.hotbar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.hotbar span { background: #1a0a1f; border: 2px solid #ffb703; border-radius: 99px; padding: 4px 12px; font-weight: 800; color: #ffd166; }
+@keyframes flicker { from { transform: scale(1) rotate(-4deg); filter: brightness(1); } to { transform: scale(1.18, 1.3) rotate(4deg); filter: brightness(1.25); } }
+@keyframes glow { from { text-shadow: 0 0 5px #ffd166, 0 0 14px #ff7a00, 0 0 24px #e63900, 0 4px 0 #7a1200; } to { text-shadow: 0 0 8px #fff3b0, 0 0 26px #ff7a00, 0 0 46px #e63900, 0 4px 0 #7a1200; } }
+@media (prefers-reduced-motion: reduce) { .flames span, .mayhem h1 { animation: none; } }

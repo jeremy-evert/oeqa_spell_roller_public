@@ -9,7 +9,7 @@ const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
 
 const expected = [
   ["Professor Potato's Flashcards", "flashcards/"],
-  ["Super Sevens", "sevens/"],
+  ["Math Mayhem", "math/"],
   ["Impossible 3D Printer", "game/"],
   ["Impossible 3D Printer", "printer-v2/"],
   ["Flashcards: Illustrated Edition", "flashcards-v2/"],
@@ -26,6 +26,7 @@ for (const game of config.games) {
   assert.equal(new URL(game.href, "http://wordwild.test").origin, "http://wordwild.test", `${game.id} link must stay local`);
   assert.equal(new URL(game.entry, "http://wordwild.test").origin, "http://wordwild.test", `${game.id} probe must stay local`);
 }
+assert.doesNotMatch(app, /games\.length\s*!==\s*\d/, "arcade app must not hard-code the number of games");
 assert.match(html, /<main\b/);
 assert.match(html, /href="#games"/);
 assert.match(html, /aria-live="polite"/);
@@ -42,4 +43,4 @@ assert.match(css, /min-height: 44px/);
 assert.match(css, /max-width: 430px/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(readme, /http:\/\/127\.0\.0\.1:8766\//);
-console.log("PASS: five configured local games, local-only paths, workshop states, responsive/accessibility hooks, and launch guidance.");
+console.log("PASS: configured local games, local-only paths, workshop states, responsive/accessibility hooks, and launch guidance.");

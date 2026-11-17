@@ -5,3 +5,4 @@
 * **Shared address, shared storage.** On GitHub Pages every project under one user address shares one browser origin, so other pages on the same address can technically read these keys. Prefixed keys avoid collisions; do not type private information into these games.
 * **Stored spellings.** Shared progress stores outcomes and opaque player ids with preset animal labels, not typed spellings or real names.
 * **Audio is pre-recorded.** The page plays local files. It does not use the browser's speech service or any microphone.
+* **Super Sevens saves its own small record.** Under the key `wordwild.sevens.v1` it stores the look you picked (Fire, Space or Candy), the range, whether sound is muted, best times, medals and a play count. No names, no answers and no personal information. Clearing site data, or the "Erase my scores" button on its menu, removes it.

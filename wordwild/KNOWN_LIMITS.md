@@ -15,3 +15,9 @@
 **Art:** placeholder and simple inline graphics. No finished illustrations.
 
 **Word list:** 20 words (one weekly third-grade list, with two review words). See [ASSETS.md](ASSETS.md) for provenance.
+
+## Super Sevens and Math Mayhem
+**Not reviewed by a teacher:** the think hints, rhymes and fun facts are memory aids written for fun. The arithmetic in them is checked by tests; their teaching value is not. **Not studied for learning outcomes**, and timed play and medals have not been checked against the research on timed practice and math anxiety. The Think and More help steps and the untimed Practice mode exist partly for that reason.
+**Medal times for 0 to 20** (150, 120 and 90 seconds) are a first guess scaled from the 0 to 12 times and may need tuning.
+**Tested:** unit tests, scripted runs in headless Chromium at phone width for all three looks, and hands-on play by the owner on a real Android phone. **Not tested:** iOS, Firefox, Safari, screen readers beyond basic structure, and the sound effects by ear beyond the owner's play.
+**Sound:** effects are synthesized and have been listened to by the owner only; some may be too loud or sharp for some children. There is a Sound effects switch on the menu.

@@ -116,3 +116,20 @@ test("Jeremy's rhymes for 0, 1 and 2", () => {
   assert.match(FACTS[0].clue, /weird 0 \(WEIRDO\)/); assert.match(FACTS[1].clue, /HEAVEN/); assert.match(FACTS[1].clue, /SEVEN/);
   assert.match(FACTS[2].clue, /nifty KEEN/); assert.match(FACTS[2].clue, /FOURTEEN/);
 });
+
+// Say a number 0 to 140 in words, so a test can check that each clue really contains its answer.
+const ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function words(n) {
+  if (n < 20) return ONES[n];
+  if (n < 100) return TENS[Math.floor(n / 10)] + (n % 10 ? " " + ONES[n % 10] : "");
+  return "one hundred" + (n > 100 ? " " + words(n - 100) : "");
+}
+const norm = (x) => x.toLowerCase().replace(/-/g, " ").replace(/\band\b/g, "").replace(/\s+/g, " ");
+
+test("every clue says its answer, in words or digits", () => {
+  for (const f of FACTS) {
+    const ok = norm(f.clue).includes(words(f.a)) || new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(f.clue);
+    assert.ok(ok, `clue for 7 x ${f.n} should say ${f.a} (${words(f.a)}): ${f.clue}`);
+  }
+});

@@ -27,3 +27,13 @@ Checked upstream, online:
 ## Open items
 * A precise lawyer-level review of the voices file was not done; if you need certainty, ask the Kokoro authors or drop the audio.
 * No bundled font, image or photo exists, so nothing else needs a credit.
+
+## Math Mayhem and Super Sevens (added 2026-11-16)
+
+| Asset | What it is | Where from | License / terms | Status |
+|---|---|---|---|---|
+| Code in `math/` and `sevens/` | Hub page and the 7s times-table game (engine, sounds, confetti, three looks) | Hand-directed, AI-written for this project | BSD 2-Clause | Ships |
+| Questions, think hints, rhymes, fun facts | Written for this project. The rhymes for 0 to 4 are the owner's own words; the rest were written with AI help | Project | BSD 2-Clause | Ships; not teacher-reviewed (see KNOWN_LIMITS.md) |
+| Sound effects | About 14 effects synthesized live with the Web Audio API (`sevens/sounds.js`); no audio files | Project code | BSD 2-Clause | Ships |
+| Confetti, decorations | Drawn by code on a canvas; emoji characters come from the visitor's system | Project code | BSD 2-Clause | Ships |
+| Fonts, images, libraries | None | n/a | n/a | n/a |

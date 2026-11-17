@@ -32,3 +32,9 @@ Work moved in small, checkable steps: a written assignment, a build on its own b
 * UI labels such as "Help ladder" gave away target words; renamed.
 * Joke text that showed misspellings or taught "two letters = two sounds" was removed.
 * Narration the voice read badly ("THHH", "liger") got voice-only respellings, recorded in `tools/narration_voice_overrides.json`.
+
+## Math Mayhem and Super Sevens (2026-11-16)
+* **What a person did:** asked for the game for a third grader; wrote the first rhymes (for 0 to 4) in the fill-in-the-blank style; chose the extended 0 to 20 range, the three looks, the medal idea and the 90 / 75 / 60 second challenge; played it on a phone and reported real problems (the phone keypad covering the Check button, the Skip button too near Check, clues that did not teach a method); decided what stays out (no child's name on a public page).
+* **What the AI did:** wrote the code, the other rhymes, the questions, the think hints and fun facts; wrote the tests; ran the game in a headless browser at phone width.
+* **What a person did NOT check:** the rhymes and hints have not had a teacher's review; the sounds were judged by one listener.
+* **Things we changed after finding problems:** the arcade menu broke when a sixth game was added because the page expected exactly five (fixed, with a test); the phone keypad hid the Check button (replaced by an on-screen number pad); Skip sat where a thumb lands after Check (moved to the top); a clue showed the answer straight away (now a Think step first, then the full help).

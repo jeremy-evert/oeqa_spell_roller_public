@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { FACTS, MEDALS, RANGES, THEMES } from "../facts.js";
-import { shuffle, rhymeLines, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
+import { shuffle, missingQuestion, classicQuestion, MISSING_KINDS, recordResult, trickyCount, pickTricky, BOX_GAP, rhymeLines, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
 
 test("facts cover 7 x 0 through 7 x 20 with correct answers", () => {
   assert.equal(FACTS.length, 21);
@@ -89,7 +89,7 @@ test("migrate ignores junk and storage failures do not break the game", () => {
 
 test("save then load round-trips, including theme and range", () => {
   const box = {}; const store = { getItem: (k) => box[k] ?? null, setItem: (k, v) => { box[k] = v; }, removeItem: (k) => { delete box[k]; } };
-  const st = { v: 2, theme: "space", range: 12, muted: true, rhymes: false, best: { 20: 99000 }, medals: { "12:gold": true }, plays: 3 };
+  const st = { v: 2, theme: "space", range: 12, muted: true, rhymes: false, round: 4, learn: { 3: { box: 2, due: 5 } }, best: { 20: 99000 }, medals: { "12:gold": true }, plays: 3 };
   save(st, store); assert.deepEqual(load(store), st);
 });
 
@@ -152,4 +152,44 @@ test("Jeremy's lead lines are kept word for word", () => {
 
 test("rhymes can be switched off and the setting survives a save", () => {
   assert.equal(blankState().rhymes, true); assert.equal(migrate({ v: 2, rhymes: false }).rhymes, false); assert.equal(migrate({ v: 2 }).rhymes, true);
+});
+
+test("missing-number questions: every kind, every fact, the arithmetic is right", () => {
+  for (const f of FACTS) for (const r of [0.0, 0.4, 0.9]) {
+    const q = missingQuestion(f, () => r);
+    assert.ok(MISSING_KINDS.includes(q.kind)); assert.ok(q.sum.includes("?"));
+    if (q.kind === "factor") assert.equal(7 * q.answer, f.a); if (q.kind === "divide") assert.equal(q.answer * 7, f.a); if (q.kind === "dividend") assert.equal(q.answer / 7, f.n);
+    assert.ok(q.story.length > 20 && q.think.length > 20);
+  }
+});
+
+test("the three kinds read as expected", () => {
+  assert.equal(missingQuestion(FACTS[5], () => 0).sum, "7 × ? = 35"); assert.equal(missingQuestion(FACTS[5], () => 0.4).sum, "35 ÷ 7 = ?"); assert.equal(missingQuestion(FACTS[5], () => 0.9).sum, "? ÷ 7 = 5");
+  assert.equal(missingQuestion(FACTS[5], () => 0.9).answer, 35); assert.equal(classicQuestion(FACTS[5]).answer, 35);
+});
+
+test("a missing-number think hint never contains the answer as a bare number", () => {
+  for (const f of FACTS) for (const r of [0, 0.4]) { const q = missingQuestion(f, () => r); if (f.n >= 3 && q.answer !== 7) assert.ok(!new RegExp(`(^|\\D)${q.answer}(\\D|$)`).test(q.think), `${q.sum}: ${q.think}`); }
+});
+
+test("spaced review: a miss resets, success climbs the boxes, mastered facts wait", () => {
+  const learn = {}; recordResult(learn, 3, false, 0); assert.deepEqual(learn[3], { box: 1, due: 0 });
+  recordResult(learn, 3, true, 1); assert.deepEqual(learn[3], { box: 2, due: 2 }); recordResult(learn, 3, true, 2); assert.equal(learn[3].box, 3); assert.equal(learn[3].due, 5);
+  recordResult(learn, 3, true, 5); recordResult(learn, 3, true, 12); assert.equal(learn[3].box, 4); recordResult(learn, 3, false, 20); assert.equal(learn[3].box, 1);
+  assert.deepEqual(BOX_GAP, [0, 0, 1, 3, 7]);
+});
+
+test("Tricky Facts puts the missed facts first and tops up with unseen ones", () => {
+  const learn = {}; recordResult(learn, 6, false, 0); recordResult(learn, 9, false, 0); recordResult(learn, 4, true, 0); recordResult(learn, 4, true, 0); recordResult(learn, 4, true, 0);
+  assert.equal(trickyCount(learn, 20), 2);
+  const picked = pickTricky(learn, 1, 20, 10, () => 0.5).map((f) => f.n);
+  assert.ok(picked.includes(6) && picked.includes(9)); assert.ok(!picked.includes(4), "a fact in a high box is not due yet"); assert.ok(picked.length >= 6 && picked.length <= 10);
+  assert.equal(new Set(picked).size, picked.length);
+  assert.ok(pickTricky(learn, 20, 20, 10, () => 0.5).map((f) => f.n).includes(4), "once due, it comes back");
+  assert.ok(pickTricky({}, 0, 12, 10).every((f) => f.n <= 12));
+});
+
+test("learning records are cleaned up when loaded", () => {
+  const s = migrate({ v: 2, round: 3, learn: { 3: { box: 2, due: 4 }, 99: { box: 2, due: 1 }, 5: { box: 9, due: 1 }, 6: "x" } });
+  assert.deepEqual(s.learn, { 3: { box: 2, due: 4 } }); assert.equal(s.round, 3);
 });

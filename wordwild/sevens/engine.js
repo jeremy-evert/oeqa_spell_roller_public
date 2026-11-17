@@ -16,6 +16,38 @@ export function shuffle(list, rng = Math.random) {
 // The rhyme as shown up front: the first line, then a line with the answer left blank.
 export const rhymeLines = (f) => ({ lead: f.lead, blank: f.blank || `7 times ${f.n} is ___!` });
 
+// "Guess the missing number": the same fact asked three different ways (fact family).
+export const MISSING_KINDS = ["factor", "divide", "dividend"];
+export function missingQuestion(f, rng = Math.random) {
+  const kind = MISSING_KINDS[Math.min(2, Math.floor(rng() * 3))], a = f.a, n = f.n;
+  const jump = a > 70 ? `10 sevens is 70. Keep jumping by 7s from there until you land on ${a}.` : `Count by 7s from 0 until you land on ${a}. How many jumps did you take?`;
+  if (kind === "factor") return { kind, sum: `7 × ? = ${a}`, aria: `7 times what number equals ${a}`, answer: n, story: `7 equal groups hold ${a} in all. How many are in each group?`, think: jump };
+  if (kind === "divide") return { kind, sum: `${a} ÷ 7 = ?`, aria: `${a} divided by 7`, answer: n, story: `${a} things are shared equally among 7 friends. How many does each friend get?`, think: `Which number times 7 makes ${a}? ${jump}` };
+  return { kind, sum: `? ÷ 7 = ${n}`, aria: `what number divided by 7 equals ${n}`, answer: a, story: `Some things were shared equally among 7 friends, and each friend got ${n}. How many things were there?`, think: `7 friends each got ${n}, so there were 7 groups of ${n}. What is 7 × ${n}?` };
+}
+// The ordinary question, in the same shape.
+export const classicQuestion = (f) => ({ kind: "classic", sum: `7 × ${f.n} = ?`, aria: `7 times ${f.n}`, answer: f.a, story: f.q, think: f.think });
+
+// Spaced review (Leitner boxes). Box 1 = missed recently, box 4 = known. A fact in box b waits BOX_GAP[b] rounds before it is due again.
+export const BOX_GAP = [0, 0, 1, 3, 7];
+export function recordResult(learn, n, good, round) {
+  const box = good ? Math.min(4, (learn[n] ? learn[n].box : 1) + 1) : 1;
+  learn[n] = { box, due: round + BOX_GAP[box] };
+  return learn;
+}
+// How many facts were missed last time (box 1) and still need a visit.
+export const trickyCount = (learn, max) => Object.entries(learn).filter(([n, r]) => Number(n) <= max && r.box === 1).length;
+// Pick up to k facts to revisit: recently missed first, then ones that are due, topped up with facts she has not seen.
+export function pickTricky(learn, round, max, k = 10, rng = Math.random) {
+  const all = factsFor(max);
+  const missed = all.filter((f) => learn[f.n] && learn[f.n].box === 1);
+  const picked = missed.slice(0, k);
+  const due = all.filter((f) => learn[f.n] && learn[f.n].box > 1 && learn[f.n].due <= round && !picked.includes(f)).sort((a, b) => learn[a.n].box - learn[b.n].box || learn[a.n].due - learn[b.n].due);
+  for (const f of due) if (picked.length < k) picked.push(f);
+  for (const f of shuffle(all.filter((x) => !learn[x.n] && !picked.includes(x)), rng)) if (picked.length < Math.min(k, 6)) picked.push(f);
+  return shuffle(picked, rng);
+}
+
 export const factsFor = (max) => FACTS.filter((f) => f.n <= max);
 export const newRound = (max = DEFAULT_RANGE, rng = Math.random) => shuffle(factsFor(max), rng);
 export const medalSeconds = (medal, max) => medal.seconds[max];
@@ -53,7 +85,7 @@ export function outcomeFor({ tries, usedClue }) { return tries === 0 && !usedClu
 // Cheer at 3 in a row, then every 5.
 export const streakCheer = (n) => (n === 3 || (n >= 5 && n % 5 === 0) ? n : 0);
 
-export function blankState() { return { v: 2, theme: "fire", range: DEFAULT_RANGE, muted: false, rhymes: true, best: {}, medals: {}, plays: 0 }; }
+export function blankState() { return { v: 2, theme: "fire", range: DEFAULT_RANGE, muted: false, rhymes: true, round: 0, learn: {}, best: {}, medals: {}, plays: 0 }; }
 
 // Older saves (v1) only knew the 0 to 12 table: bestMs and medals keyed by id.
 export function migrate(raw) {
@@ -63,6 +95,10 @@ export function migrate(raw) {
   if (RANGES.some((r) => r.max === raw.range)) s.range = raw.range;
   if (raw.muted === true) s.muted = true;
   if (raw.rhymes === false) s.rhymes = false;
+  if (Number.isInteger(raw.round) && raw.round >= 0) s.round = raw.round;
+  if (raw.learn && typeof raw.learn === "object") for (const [n, r] of Object.entries(raw.learn)) {
+    if (Number.isInteger(Number(n)) && n >= 0 && n <= 20 && r && Number.isInteger(r.box) && r.box >= 1 && r.box <= 4 && Number.isInteger(r.due) && r.due >= 0) s.learn[n] = { box: r.box, due: r.due };
+  }
   if (Number.isInteger(raw.plays) && raw.plays >= 0) s.plays = raw.plays;
   if (raw.v === 2) {
     for (const r of RANGES) {

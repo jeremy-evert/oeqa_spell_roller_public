@@ -1,5 +1,5 @@
 import { FACTS, MEDALS, RANGES, THEMES } from "./facts.js";
-import { newRound, rhymeLines, parseAnswer, isCorrect, formatTime, outcomeFor, medalFor, alertLevel, streakCheer, load, save, wipe } from "./engine.js";
+import { newRound, rhymeLines, missingQuestion, classicQuestion, recordResult, trickyCount, pickTricky, parseAnswer, formatTime, outcomeFor, alertLevel, streakCheer, load, save, wipe } from "./engine.js";
 import * as S from "./sounds.js";
 import { createConfetti } from "./confetti.js";
 import { eggFor, nextFact, SECRETS } from "./easter.js";
@@ -10,6 +10,8 @@ const tint = document.getElementById("tint");
 const ambient = document.getElementById("ambient");
 const confetti = createConfetti(document.getElementById("confetti"));
 const CLUE_PENALTY_MS = 5000;
+const UNTIMED = ["practice", "missing", "tricky", "build"];
+const NAMES = { practice: "Practice", missing: "Guess the Missing Number", tricky: "Tricky Facts", build: "Build It", stopwatch: "Stopwatch" };
 
 const LOOKS = {
   fire:  { colors: ["#ff4d00", "#ffb703", "#ffd166", "#ff006e", "#fff3b0"], emoji: ["🔥", "⭐", "✨", "7️⃣"], ambient: ["🔥", "✨", "🔥", "🌟"] },
@@ -104,6 +106,12 @@ function menu() {
       <button class="big" data-mode="practice">Practice<small>silly questions, clues, and a score</small></button>
       <button class="big alt" data-mode="stopwatch">Stopwatch<small>how fast can you do all ${max + 1}?${best ? ` Best: ${formatTime(best)}` : ""}</small></button>
     </div>
+    <h2>More ways to learn <span class="tag">new</span></h2>
+    <div class="grid">
+      <button class="big" data-mode="missing">🔎 Guess the Missing Number<small>7 × ? = 35, 35 ÷ 7 = ?</small></button>
+      <button class="big alt" data-mode="tricky">🎯 Tricky Facts<small>${!Object.keys(state.learn).length ? "play a round first" : trickyCount(state.learn, max) ? `${trickyCount(state.learn, max)} missed fact${trickyCount(state.learn, max) === 1 ? "" : "s"} to revisit` : "none missed: a review mix"}</small></button>
+      <button class="big go" data-mode="build">🧱 Build It<small>stack the dots, then count</small></button>
+    </div>
     <h2>Beat the clock <span class="tag">medals</span></h2>
     <p class="note">All ${max + 1} facts before the time runs out. The screen changes color as time gets short. A clue costs 5 seconds.</p>
     <div class="medals">${medalRow}</div>
@@ -124,10 +132,14 @@ function menu() {
 function start(mode, medalId) {
   S.unlock(); S.play("pop");
   const medal = MEDALS.find((m) => m.id === medalId) || null, max = state.range;
-  g = { mode, medal, max, total: max + 1, limitMs: medal ? medal.seconds[max] * 1000 : 0, queue: newRound(max), results: [], log: [], tries: 0, usedClue: false, streak: 0, bag: [], t0: null, ended: false };
+  const queue = mode === "tricky" ? pickTricky(state.learn, state.round, max, 10) : mode === "missing" ? newRound(max).slice(0, 10) : mode === "build" ? newRound(max).slice(0, 8) : newRound(max);
+  g = { mode, timed: !UNTIMED.includes(mode), medal, max, total: queue.length, limitMs: medal ? medal.seconds[max] * 1000 : 0, queue, results: [], log: [], tries: 0, usedClue: false, streak: 0, up: 0, rows: 0, bag: [], t0: null, ended: false };
   document.body.classList.add("playing");
-  const title = mode === "practice" ? "Practice" : mode === "stopwatch" ? "Stopwatch" : `${medal.icon} ${medal.label} challenge`;
+  const title = NAMES[mode] || `${medal.icon} ${medal.label} challenge`;
   const blurb = mode === "practice" ? `${g.total} questions. A clean first try earns a ⭐. Tap 💡 for a clue and you get a bulb instead.`
+    : mode === "missing" ? `${g.total} questions where a number is hiding: 7 × ? = 35, 35 ÷ 7 = ?, and ? ÷ 7 = 5. They are all the same fact family. A clean first try earns a ⭐.`
+    : mode === "tricky" ? `${g.total} facts to visit again: the ones you missed come first, and the ones you know well wait longer. That is how memory sticks.`
+    : mode === "build" ? `${g.total} facts. Tap ➕ to stack rows of 7 dots, then count how many dots there are in all.`
     : mode === "stopwatch" ? `The watch starts when you press Start. Answer all ${g.total} facts. A clue adds 5 seconds.`
     : `You have <strong>${medal.seconds[max]} seconds</strong> for all ${g.total} facts. Wrong answers let you try again. Skip sends a question to the end. A clue costs 5 seconds. Watch the screen color!`;
   app.innerHTML = `<h1 class="title">${title}</h1><p class="lede">${blurb}</p>
@@ -140,7 +152,7 @@ function start(mode, medalId) {
 function begin() {
   S.unlock(); S.play("pop");
   g.t0 = Date.now(); lastSec = null; lastLevel = 0;
-  if (g.mode !== "practice") ticker = setInterval(tick, 100);
+  if (g.timed) ticker = setInterval(tick, 100);
   question();
 }
 
@@ -165,9 +177,11 @@ function tick() {
 
 /* ---------- a question ---------- */
 function question() {
-  const f = g.queue[0]; g.tries = 0; g.usedClue = false; g.clueLevel = 0;
+  const f = g.queue[0]; g.tries = 0; g.usedClue = false; g.clueLevel = 0; g.rows = 0; g.counting = false;
+  const q = g.q = g.mode === "missing" ? missingQuestion(f) : classicQuestion(f);
+  if (g.mode === "build") q.story = f.n === 0 ? "7 × 0 means 0 rows of 7. Nothing to stack! How many dots in all?" : `Build 7 × ${f.n}: stack ${f.n} row${f.n === 1 ? "" : "s"} of 7, then count the dots.`;
   const done = g.results.length;
-  const timed = g.mode !== "practice";
+  const timed = g.timed;
   const clockText = g.mode === "clock" ? formatTime(remaining()) : g.mode === "stopwatch" ? formatTime(elapsed()) : "";
   const pct = g.mode === "clock" ? Math.max(0, remaining() / g.limitMs) * 100 : (done / g.total) * 100;
   S.play("whoosh");
@@ -180,11 +194,13 @@ function question() {
         <button class="mini alt" type="button" id="clue">💡 Think${timed ? " (+5s)" : ""}</button>
         <button class="mini" type="button" id="skip">Skip ⏭</button>
       </div>
-      <p class="story">${esc(f.q)}</p>
-      ${state.rhymes ? (() => { const r = rhymeLines(f); return `<p class="rhyme" id="rhyme"><span>${esc(r.lead)}</span><span>${esc(r.blank).replace("___", '<b class="blank">___</b>')}</span></p>`; })() : ""}
+      <p class="story">${esc(q.story)}</p>
+      ${state.rhymes && g.mode !== "missing" && g.mode !== "build" ? (() => { const r = rhymeLines(f); return `<p class="rhyme" id="rhyme"><span>${esc(r.lead)}</span><span>${esc(r.blank).replace("___", '<b class="blank">___</b>')}</span></p>`; })() : ""}
       <div id="think" class="think" aria-live="polite"></div>
-      <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
-      <form class="entry" id="form" autocomplete="off">
+      <p class="sum" aria-label="${esc(q.aria)}">${q.sum.split(" ").map((t) => (/^[×÷=]$/.test(t) ? `<span class="op">${t}</span>` : `<span class="n${t === "?" ? " qm" : ""}">${t}</span>`)).join("")}</p>
+      ${g.mode === "build" && f.n > 0 ? `<div id="build" class="build" aria-label="Your stack of dots"></div>
+      <div class="btns buildbtns" id="buildbtns"><button class="big go" type="button" id="addrow">➕ Add a row of 7</button><button class="mini" type="button" id="countwith">🔢 Count with me</button></div>` : ""}
+      <form class="entry" id="form" autocomplete="off" ${g.mode === "build" && f.n > 0 ? "hidden" : ""}>
         <label class="label" for="ans">Your answer</label>
         <input id="ans" class="num" type="text" inputmode="none" readonly maxlength="3" autocomplete="off" aria-describedby="msg" placeholder="?">
         <p class="wrong" id="msg" role="status" aria-live="polite"></p>
@@ -206,7 +222,37 @@ function question() {
   app.querySelectorAll(".key[data-key]").forEach((k) => k.addEventListener("click", () => press(k.dataset.key)));
   $("#clue").addEventListener("click", () => giveHelp(true));
   $("#skip").addEventListener("click", skip);
-  $("#quit").addEventListener("click", () => { if (g.mode === "practice" || confirm("Stop this run?")) menu(); });
+  $("#quit").addEventListener("click", () => { if (!g.timed || confirm("Stop this run?")) menu(); });
+  if (g.mode === "build" && f.n > 0) {
+    $("#addrow").addEventListener("click", addRow);
+    $("#countwith").addEventListener("click", () => { g.counting = true; g.usedClue = true; S.play("clue"); drawBuild(); });
+    drawBuild();
+  }
+}
+
+// Build It: stack rows of 7 dots, in blocks of ten rows side by side.
+function drawBuild() {
+  const f = g.queue[0], el = $("#build"); if (!el) return;
+  const blocks = [];
+  for (let start = 0; start < Math.max(g.rows, 1); start += 7) {
+    const rows = [];
+    for (let r = start; r < Math.min(g.rows, start + 7); r++) rows.push(`<div class="brow"><span class="rl">${g.counting ? 7 * (r + 1) : r + 1}</span><div class="drow r${r % 2}">${"<i></i>".repeat(7)}</div></div>`);
+    blocks.push(`<div class="bblock">${rows.join("")}</div>`);
+  }
+  el.classList.toggle("b3", f.n > 14);
+  el.innerHTML = g.rows ? blocks.join("") : `<p class="note">Tap ➕ to start stacking.</p>`;
+  const done = g.rows >= f.n;
+  const btn = $("#addrow"); if (btn) btn.disabled = done;
+}
+function addRow() {
+  const f = g.queue[0]; if (g.rows >= f.n) return;
+  g.rows++; S.unlock(); S.play("correct", g.rows); drawBuild();
+  if (g.rows >= f.n) {
+    $("#buildbtns").hidden = true; $("#form").hidden = false; S.play("whoosh");
+    const dots = f.n * 7; confetti.burst(innerWidth / 2, innerHeight * 0.45, 16, { power: 8, emoji: ["🧱", "✨"] });
+    note(g.counting ? "Built it! Now read the last number." : `Built it! Now count: how many dots in all?`, 2400);
+    void dots;
+  }
 }
 
 // The on-screen number pad (and a real keyboard, for desktops) edit the answer box.
@@ -218,7 +264,7 @@ function press(key) {
 }
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeSheet();
-  if (!g || g.ended || !$("#ans") || document.querySelector(".sheet-back") || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (!g || g.ended || !$("#ans") || $("#form").hidden || document.querySelector(".sheet-back") || e.ctrlKey || e.metaKey || e.altKey) return;
   if (/^\d$/.test(e.key)) { e.preventDefault(); press(e.key); }
   else if (e.key === "Backspace") { e.preventDefault(); press("back"); }
   else if (e.key === "Enter" && document.activeElement && document.activeElement.closest && !document.activeElement.closest("button")) { e.preventDefault(); submit(); }
@@ -226,11 +272,11 @@ document.addEventListener("keydown", (e) => {
 
 // Two levels of help. Level 1 "think" is a strategy with no answer in it; level 2 is the full clue: rhyme, dots, pattern.
 function giveHelp(manual) {
-  const f = g.queue[0], timed = g.mode !== "practice";
+  const f = g.queue[0], timed = g.timed;
   if (g.clueLevel >= 2) return openSheet(f);          // already at the top: just show it again, no charge
   g.clueLevel++; g.usedClue = true; S.play("clue");
   if (manual && timed) { g.t0 -= CLUE_PENALTY_MS; flyPop("+5s", "bad"); }
-  $("#think").innerHTML = `<strong>Think:</strong> ${esc(f.think)}`;
+  $("#think").innerHTML = `<strong>Think:</strong> ${esc(g.q.think)}`;
   const btn = $("#clue");
   btn.textContent = g.clueLevel === 1 ? `💡 More help${timed ? " (+5s)" : ""}` : "💡 Show again";
   if (g.clueLevel === 2) openSheet(f);
@@ -242,7 +288,7 @@ function openSheet(f) {
   const el = document.createElement("div");
   el.className = "sheet-back";
   el.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="Help for 7 times ${f.n}">
-      <p class="think"><strong>Think:</strong> ${esc(f.think)}</p>
+      <p class="think"><strong>Think:</strong> ${esc(g.q.think)}</p>
       <div class="hint">💡 ${esc(f.clue)}</div>${dotsHtml(f.n)}${patternHtml(f.n)}
       <button class="big go" type="button" id="gotit">Got it!</button></div>`;
   el.addEventListener("click", (e) => { if (e.target === el) closeSheet(); });
@@ -255,16 +301,20 @@ function submit() {
   const f = g.queue[0], input = $("#ans"), msg = $("#msg");
   const val = parseAnswer(input.value);
   if (val === null) { msg.textContent = "Tap the numbers, then press ✓."; return; }
-  if (isCorrect(f, input.value)) {
+  if (val === g.q.answer) {
     g.streak++; const cheer = streakCheer(g.streak);
     const r = $("#ans").getBoundingClientRect();
     S.play("correct", g.streak); S.play("sparkle");
     confetti.burst(r.left + r.width / 2, r.top, 38, { power: 12 });
-    flyPop(String(f.a), "good");
+    flyPop(String(g.q.answer), "good");
+    if (g.mode === "build") { g.counting = true; drawBuild(); }
     const bl = document.querySelector("#rhyme .blank"); if (bl) { bl.textContent = String(f.a); bl.classList.add("filled"); }
     if (cheer) { S.play("streak", cheer); toast(`🔥 ${cheer} in a row!`); confetti.burst(innerWidth / 2, innerHeight * 0.55, 70, { power: 15, spread: Math.PI * 1.4 }); }
     surprise(f, r);
-    const o = outcomeFor(g); g.results.push(o); g.log.push({ n: f.n, o }); g.queue.shift();
+    const o = outcomeFor(g); g.results.push(o); g.log.push({ n: f.n, o });
+    const before = state.learn[f.n] ? state.learn[f.n].box : 0; recordResult(state.learn, f.n, o === "star", state.round);
+    if (state.learn[f.n].box > Math.max(before, 1)) g.up++;
+    g.queue.shift();
     if (!g.queue.length) return finish(true);
     return question();
   }
@@ -273,7 +323,7 @@ function submit() {
   const card = $("#card"); card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
   document.body.classList.add("oops"); setTimeout(() => document.body.classList.remove("oops"), 450);
   msg.textContent = "Not quite. Try again!";
-  if (g.mode === "practice") {
+  if (!g.timed) {
     if (g.tries >= 2 && g.clueLevel < 1) { msg.textContent = "Not quite. Here is something to think about!"; giveHelp(false); }
     else if (g.tries >= 4 && g.clueLevel < 2) { msg.textContent = "Not quite. Here is more help!"; giveHelp(false); }
   } else if (g.tries >= 2 && g.clueLevel < 1) msg.textContent = "Not quite. Stuck? Tap 💡 (+5s).";
@@ -315,12 +365,14 @@ function skip() { S.play("boing"); g.streak = 0; g.queue.push(g.queue.shift()); 
 function finish(allDone) {
   if (g.ended) return; closeSheet(); g.ended = true; stopTicker(); setAlert(0);
   const ms = Math.min(elapsed(), g.mode === "clock" ? g.limitMs : Infinity), stars = g.results.filter((r) => r === "star").length;
-  state.plays++;
+  state.plays++; state.round++;
   let body = "", after = () => {};
-  if (g.mode === "practice") {
+  if (!g.timed) {
     after = () => { S.play("fanfare"); confetti.finale(); };
-    body = `<div class="celebrate" aria-hidden="true">🎉</div><h1 class="title">Round complete!</h1>
-      <p class="outcome"><span class="big-num" id="cu">0</span> of ${g.total} ⭐ on the first try, no clue.</p>`;
+    const heading = { practice: "Round complete!", missing: "Found every missing number!", tricky: "Tricky facts visited!", build: "Master builder!" }[g.mode];
+    body = `<div class="celebrate" aria-hidden="true">🎉</div><h1 class="title">${heading}</h1>
+      <p class="outcome"><span class="big-num" id="cu">0</span> of ${g.total} ⭐ on the first try, no clue.</p>
+      ${g.mode === "tricky" ? `<p class="note">${g.up} fact${g.up === 1 ? "" : "s"} moved up a level. The ones you missed will come back sooner.</p>` : ""}`;
   } else if (g.mode === "stopwatch") {
     const record = !state.best[g.max] || ms < state.best[g.max];
     if (record) state.best[g.max] = ms;
@@ -345,10 +397,10 @@ function finish(allDone) {
   app.innerHTML = `${body}${tricky ? `<p class="note">Practice these next:</p><div class="stars">${tricky}</div>` : ""}
     <div class="btns"><button class="big go" id="again">Play again</button><button class="big ghost" id="menu">Menu</button></div>`;
   const mode = g.mode, medal = g.medal, cu = $("#cu");
-  if (cu && g.mode === "practice") countUp(cu, stars, 900);
+  if (cu && !g.timed) countUp(cu, stars, 900);
   else if (cu && g.mode === "stopwatch") countUp(cu, ms, 1100, formatTime);
   else if (cu) countUp(cu, ms, 900, formatTime);
-  if (g.mode === "practice" || g.mode === "stopwatch" || (allDone && ms <= g.limitMs)) { S.play("drum"); setTimeout(after, reduceMotion() ? 0 : 850); } else after();
+  if (!g.timed || g.mode === "stopwatch" || (allDone && ms <= g.limitMs)) { S.play("drum"); setTimeout(after, reduceMotion() ? 0 : 850); } else after();
   $("#again").addEventListener("click", () => start(mode, medal && medal.id));
   $("#menu").addEventListener("click", menu);
   focusMain();

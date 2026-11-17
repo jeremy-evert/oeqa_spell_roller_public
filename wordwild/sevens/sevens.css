@@ -167,3 +167,18 @@ body[data-theme] .rhyme, body[data-theme] .rhyme span { color: #3b2f00; }
 .rhyme .blank.filled { color: #0f7a3d; border-bottom-color: #0f7a3d; animation: bounce .5s; letter-spacing: 0; }
 @media (max-height: 940px) { .rhyme { font-size: .95rem; padding: 4px 8px; margin-bottom: 4px; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
 @media (max-height: 700px) { .rhyme { font-size: .88rem; padding: 2px 6px; } }
+
+/* Build It */
+.build { display: flex; gap: 14px; justify-content: center; align-items: flex-start; margin: 6px 0; min-height: 40px; }
+.bblock { display: flex; flex-direction: column; gap: 2px; }
+.brow { display: flex; align-items: center; gap: 6px; }
+.brow .rl { width: 1.9em; text-align: right; font-weight: 900; font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.build .drow i { width: 10px; height: 10px; } .build .drow { gap: 3px; }
+@media (max-height: 940px) { .build .drow i { width: 9px; height: 9px; } .build { margin: 2px 0; } .brow .rl { font-size: .7rem; } }
+.buildbtns { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 4px 0; }
+.buildbtns .big { flex: 1 1 auto; min-height: 52px; }
+#form[hidden], #buildbtns[hidden] { display: none; }
+
+.build.b3 .drow i { width: 7px; height: 7px; } .build.b3 .drow { gap: 2px; } .build.b3 { gap: 8px; }
+.entry { gap: 4px; } .wrong { min-height: 1.2em; margin: 0; }
+@media (max-height: 790px) { .key { min-height: 43px; } }

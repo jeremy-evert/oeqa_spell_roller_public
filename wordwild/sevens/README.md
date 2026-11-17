@@ -8,6 +8,9 @@ Practice the 7 times table, 7 x 0 through 7 x 20 (or the classic 0 to 12). Stati
 |---|---|
 | **Practice** | Silly questions in random order. A clean first try is a star; a clue or a second try is a light bulb. A clue appears by itself after two wrong tries. |
 | **Stopwatch** | A clock that counts up from the moment Start is pressed; best time is kept per range. |
+| **Guess the Missing Number** | The same fact asked three ways, as a fact family: `7 × ? = 35`, `35 ÷ 7 = ?`, and `? ÷ 7 = 5`. Ten questions, a score, and the same two-step help. The rhyme is hidden here because it would give the answer away. |
+| **Tricky Facts** | Spaced review. The game remembers, on this device, which facts were missed and which were known on the first try (five small levels, like Leitner boxes). Missed facts come first, known facts wait longer and then return. A round is up to ten facts. |
+| **Build It** | Tap ➕ to stack rows of 7 dots (in blocks of seven rows, so 7 × 20 still fits), then count the dots and type the total. "Count with me" shows the running total, 7, 14, 21, and counts as help. |
 | **Beat the clock** | Every fact before time runs out. 0 to 12: Bronze 90 s, Silver 75 s, Gold 60 s. 0 to 20: Bronze 150 s, Silver 120 s, Gold 90 s. The background turns yellow, then orange, then flashing red as time runs short. Medals are remembered per range. |
 
 **Number pad:** the game has its own big on-screen keypad (0 to 9, backspace, and a green check), so the phone's keyboard never opens and cannot cover a button. A computer keyboard works too: digits, Backspace and Enter.

@@ -6,3 +6,4 @@
 * **Stored spellings.** Shared progress stores outcomes and opaque player ids with preset animal labels, not typed spellings or real names.
 * **Audio is pre-recorded.** The page plays local files. It does not use the browser's speech service or any microphone.
 * **Super Sevens saves its own small record.** Under the key `wordwild.sevens.v1` it stores the look you picked (Fire, Space or Candy), the range, whether sound is muted, best times, medals and a play count. No names, no answers and no personal information. Clearing site data, or the "Erase my scores" button on its menu, removes it.
+* **Tricky Facts keeps a tiny memory.** In the same `wordwild.sevens.v1` record it stores, for each fact from 0 to 20, a level from 1 to 4 and the round when it is due again, plus a round counter. No names and no typed answers.

@@ -173,6 +173,10 @@ function question() {
       ${timed ? `<span class="clock" id="clock" role="timer" aria-label="${g.mode === "clock" ? "Time left" : "Time so far"}">${clockText}</span>` : `<span class="score">⭐ ${g.results.filter((r) => r === "star").length}${g.streak >= 2 ? ` · 🔥 ${g.streak}` : ""}</span>`}</div>
     <div class="bar" aria-hidden="true"><i id="barfill" style="width:${pct}%"></i></div>
     <div class="card" id="card">
+      <div class="helpers">
+        <button class="mini alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
+        <button class="mini" type="button" id="skip">Skip ⏭</button>
+      </div>
       <p class="story">${esc(f.q)}</p>
       <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
       <form class="entry" id="form" autocomplete="off">
@@ -186,10 +190,6 @@ function question() {
           <button type="submit" class="key check" aria-label="Check my answer">✓</button>
         </div>
       </form>
-      <div class="btns two">
-        <button class="big alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
-        <button class="big ghost" type="button" id="skip">Skip</button>
-      </div>
       <div id="hintbox" aria-live="polite"></div>
     </div>
     <button class="link reset" id="quit">Stop and go back</button>`;

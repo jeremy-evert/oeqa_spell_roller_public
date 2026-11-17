@@ -44,8 +44,11 @@ input.num { text-align: center; font-size: 2.2rem; letter-spacing: 4px; min-heig
 .key { min-height: 58px; font-size: 1.9rem; font-weight: 900; border: 3px solid #1f1b3a; border-radius: 16px; background: #fff; color: #1f1b3a; box-shadow: 0 4px 0 #1f1b3a; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; }
 .key:active { transform: translateY(3px); box-shadow: 0 1px 0 #1f1b3a; background: var(--accent2); color: #fff; }
 .key.back { background: #ffe9a8; } .key.check { background: var(--good); color: #fff; }
-.btns.two .big { flex: 1 1 140px; }
-@media (max-height: 760px) { .key { min-height: 46px; font-size: 1.5rem; } .btns.two { margin-top: 4px; } .btns.two .big { min-height: 46px; padding: 4px 10px; } input.num { min-height: 54px; font-size: 1.9rem; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
+.helpers { display: flex; justify-content: space-between; gap: 8px; margin: -2px 0 6px; }
+.mini { min-height: 44px; padding: 4px 14px; font-weight: 800; font-size: .95rem; border: 3px solid #1f1b3a; border-radius: 99px; background: #fff; color: #1f1b3a; box-shadow: 2px 3px 0 #1f1b3a; touch-action: manipulation; }
+.mini.alt { background: var(--accent2); color: #fff; }
+.mini:active { transform: translate(2px, 2px); box-shadow: 0 1px 0 #1f1b3a; }
+@media (max-height: 760px) { .key { min-height: 46px; font-size: 1.5rem; } input.num { min-height: 54px; font-size: 1.9rem; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
 .big.ghost { background: #fff; color: #1f1b3a; }
 .picks { display: flex; flex-wrap: wrap; gap: 8px; }
 .pick { flex: 1 1 90px; min-height: 52px; border: 3px solid #1f1b3a; border-radius: 14px; background: #fff; color: #1f1b3a; font-weight: 800; padding: 6px 10px; box-shadow: 3px 3px 0 #1f1b3a; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -129,4 +132,11 @@ body[data-theme="candy"] .big { border-radius: 99px; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   #ambient { display: none; }
   #tint.a3 { opacity: 1; }
+}
+@media (max-height: 700px) {
+  .entry .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrong { min-height: 1.1em; margin: 2px 0; font-size: .95rem; }
+  .sum { margin: 0; font-size: clamp(1.8rem, 9vw, 3rem); }
+  .topbar { margin-bottom: 4px; } .bar { margin-bottom: 6px; } main { padding-top: 8px; }
+  .key { min-height: 42px; font-size: 1.4rem; }
 }

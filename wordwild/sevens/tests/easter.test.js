@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { EGGS, FUN_FACTS, makeBag, nextFact, eggFor, SECRETS } from "../easter.js";
+import { EGGS, EGGS_ANY, TABLE_FACTS, MULTIPLY_FACTS, funFactsFor, FUN_FACTS, makeBag, nextFact, eggFor, SECRETS } from "../easter.js";
 import { FACTS } from "../facts.js";
 
 test("eggs only exist for real facts and have a cheer and some emoji", () => {
@@ -26,4 +26,17 @@ test("the bag shows every fact once before repeating", () => {
 
 test("secrets are what the game says they are", () => {
   assert.equal(SECRETS.logoTaps, 7); assert.equal(SECRETS.luckyStreak, 7); assert.ok(SECRETS.factChance > 0 && SECRETS.factChance < 0.5);
+});
+
+test("any table gets cheers that fit it, and the square", () => {
+  assert.equal(eggFor(7, 7), EGGS[7]); assert.equal(eggFor(11, 7), EGGS[11]);
+  assert.equal(eggFor(10, 4), EGGS_ANY[10]); assert.equal(eggFor(5, 4), null);
+  assert.match(eggFor(9, 9).toast, /^81!/); assert.match(eggFor(12, 12).toast, /^144!/); assert.equal(eggFor(1, 1), null);
+  assert.ok(!/seven/i.test(eggFor(0, 3).toast + eggFor(12, 3).toast), "no 7s talk in other tables");
+});
+
+test("every table has fun facts, and the claims about 7s stay with the 7s", () => {
+  for (let t = 1; t <= 20; t++) { const list = funFactsFor(t); assert.ok(list.length >= 6, `table ${t}`); assert.equal(new Set(list).size, list.length); if (t !== 7) assert.ok(TABLE_FACTS[t], `a fact for ${t}`); }
+  assert.deepEqual(funFactsFor(7), FUN_FACTS); assert.ok(MULTIPLY_FACTS.length >= 5);
+  const bag = []; assert.ok(funFactsFor(3).includes(nextFact(bag, Math.random, funFactsFor(3))));
 });

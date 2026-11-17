@@ -1,7 +1,10 @@
-// The 7s times table, 7 x 0 through 7 x 20. Each fact has a silly question (`q`), the first line of a rhyme (`lead`, shown up front
-// with the answer left blank), a `think` hint (a strategy, never the answer) and a `clue` (the full help, answer included).
+// Any times table from 1 to 20, each fact 0 to 20. A fact has a silly question (`q`), the first line of a rhyme or chant (`lead`, shown up
+// front with the answer left blank), a `think` hint (a strategy, never the answer) and a `clue` (the full help, answer included).
 // In every clue the answer's sound-alike is written in CAPITALS so it stands out.
-export const FACTS = [
+//
+// The 7s are written by hand (HAND7): Jeremy's rhymes for 0 to 4, Flo's for 5 to 20. Every other table is generated from templates
+// by `factsOf(t)`, so the hints are always true arithmetic but the rhymes are chants, not poems.
+const HAND7 = [
   { n: 0, lead: "0 is always a weird 0 (weirdo).", blank: "Anything times 0 is always ___!", think: "Zero groups of seven. What is left when there is nothing in the groups?", q: "7 pirates each found 0 treasure chests. How many chests in all?",
     clue: "0 is always a weird 0 (WEIRDO). Anything times 0 is always 0." },
   { n: 1, lead: "7 times one is simply heaven.", think: "Only one group of seven. Does it grow, or stay the same?", q: "7 frogs each caught 1 fly. How many flies in all?",
@@ -44,7 +47,81 @@ export const FACTS = [
     clue: "7 times 19, wait and see: one hundred thirty-THREE!" },
   { n: 20, lead: "7 times 20, that's a score.", think: "20 is double 10. 10 sevens is 70. Now double that.", q: "7 kids each have 20 fingers and toes. How many in all?",
     clue: "7 times 20, that's a score: one hundred forty (FORTY), no less, no more!" },
-].map((f) => ({ ...f, a: 7 * f.n }));
+];
+
+export const TABLES = Array.from({ length: 20 }, (_, i) => i + 1);
+
+const ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+// 0 to 999 in words: "forty-two", "one hundred five".
+export function numberWords(n) {
+  if (n < 20) return ONES[n];
+  if (n < 100) return TENS[Math.floor(n / 10)] + (n % 10 ? "-" + ONES[n % 10] : "");
+  const h = `${ONES[Math.floor(n / 100)]} hundred`;
+  return n % 100 ? `${h} ${numberWords(n % 100)}` : h;
+}
+const shout = (w) => w.replace(/([a-z]+)$/, (m) => m.toUpperCase());
+// "Super Sevens", "Super Sixes", "Super Twenties".
+export const tableName = (t) => { const w = ONES[t] || TENS[t / 10], cap = w[0].toUpperCase() + w.slice(1); return cap.endsWith("x") ? cap + "es" : cap.endsWith("y") ? cap.slice(0, -1) + "ies" : cap + "s"; };
+
+// [one, many, verb for many, verb for one, thing, things]
+const SCENES = [
+  ["pirate", "pirates", "find", "finds", "treasure chest", "treasure chests"], ["frog", "frogs", "catch", "catches", "fly", "flies"],
+  ["llama", "llamas", "wear", "wears", "hat", "hats"], ["dragon", "dragons", "juggle", "juggles", "flaming pickle", "flaming pickles"],
+  ["duck", "ducks", "carry", "carries", "umbrella", "umbrellas"], ["astronaut", "astronauts", "pack", "packs", "taco", "tacos"],
+  ["beetle", "beetles", "polish", "polishes", "tiny shoe", "tiny shoes"], ["wizard", "wizards", "cast", "casts", "spell", "spells"],
+  ["octopus", "octopuses", "collect", "collects", "shell", "shells"], ["cat", "cats", "hide", "hides", "sock", "socks"],
+  ["monkey", "monkeys", "eat", "eats", "banana", "bananas"], ["panda", "pandas", "hug", "hugs", "balloon", "balloons"],
+  ["baker", "bakers", "bake", "bakes", "cupcake", "cupcakes"], ["unicorn", "unicorns", "wear", "wears", "rainbow ribbon", "rainbow ribbons"],
+  ["ninja", "ninjas", "throw", "throws", "pillow", "pillows"], ["knight", "knights", "carry", "carries", "shield", "shields"],
+  ["shark", "sharks", "lose", "loses", "tooth", "teeth"], ["mermaid", "mermaids", "collect", "collects", "pearl", "pearls"],
+  ["penguin", "penguins", "roll", "rolls", "snowball", "snowballs"], ["alien", "aliens", "borrow", "borrows", "moon rock", "moon rocks"],
+  ["dinosaur", "dinosaurs", "steal", "steals", "cookie", "cookies"],
+];
+const CHANTS = ["Here we go: {t} times {m}!", "Ready, set: {t} times {m}!", "Look out, here comes {t} times {m}!", "{t} times {m}, give it a go!", "Can you do {t} times {m}? Yes you can!", "Roll the drums for {t} times {m}!"];
+const SHOUTS = ["Say it loud:", "Roll the drums:", "Ta-da!", "Here it is:"];
+
+// A strategy for t x m that uses easy anchors (10s, 20s, doubles, halves) and never states the answer.
+function thinkFor(t, m) {
+  const s = `${t}s`;
+  if (m === 0) return `Zero groups of ${t}. What is left when there is nothing in the groups?`;
+  if (m === 1) return `Only one group of ${t}. Does it grow, or stay the same?`;
+  if (t === 1) return "Each group holds just 1. Count the groups.";
+  if (t === 2) return `Two in every group. Double ${m}: what is ${m} + ${m}?`;
+  if (t === 10) return `Count by 10s, or put a zero on the end of ${m}.`;
+  if (m === 2) return `Two groups of ${t} is a double. What is double ${t}?`;
+  if (m === 3) return `Count by ${s}: ${t}, ${2 * t}, and then one more jump.`;
+  if (m === 4) return `4 is double 2, and 2 ${s} is ${2 * t}. Now double that.`;
+  if (m === 5) return `5 is half of 10, and 10 ${s} is ${10 * t}. Take half.`;
+  if (m === 6) return `6 is one more than 5. 5 ${s} is ${5 * t}. Add one more ${t}.`;
+  if (m === 7) return `7 is 5 plus 2. 5 ${s} is ${5 * t}, and 2 ${s} is ${2 * t}. Put them together.`;
+  if (m === 8) return `8 is double 4. 4 ${s} is ${4 * t}. Now double that.`;
+  if (m === 9) return `9 is 1 less than 10. 10 ${s} is ${10 * t}. Take away one ${t}.`;
+  if (m === 10) return `Ten groups: just put a zero on the end of ${t}.`;
+  if (m === 11) return `11 is 10 plus 1. 10 ${s} is ${10 * t}. Add one more ${t}.`;
+  if (m <= 16) return `${m} is 10 plus ${m - 10}. 10 ${s} is ${10 * t}, and ${m - 10} ${s} is ${(m - 10) * t}. Put them together.`;
+  if (m === 19) return `19 is 1 less than 20. 20 ${s} is ${20 * t}. Take away one ${t}.`;
+  if (m === 20) return `20 is double 10. 10 ${s} is ${10 * t}. Now double that.`;
+  return `${m} is ${20 - m} less than 20. 20 ${s} is ${20 * t}, and ${20 - m} ${s} is ${(20 - m) * t}. Take ${(20 - m) * t} away from ${20 * t}.`;
+}
+
+function makeFact(t, m) {
+  const a = t * m, W = shout(numberWords(a));
+  const [one, many, vMany, vOne, thing, things] = SCENES[(m + 4 * t) % SCENES.length];
+  const base = { t, n: m, a, think: thinkFor(t, m),
+    q: `${t} ${t === 1 ? one : many} each ${t === 1 ? vOne : vMany} ${m} ${m === 1 ? thing : things}. How many ${things} in all?` };
+  if (m === 0) return { ...base, lead: HAND7[0].lead, blank: HAND7[0].blank, clue: `0 is always a weird 0 (WEIRDO). Anything times 0 is always ${W}!` };
+  return { ...base, lead: CHANTS[(m + t) % CHANTS.length].replace("{t}", t).replace("{m}", m), clue: `${SHOUTS[(t + m) % SHOUTS.length]} ${t} times ${m} is ${W}!` };
+}
+
+const cache = new Map();
+// All 21 facts (0 to 20) for a times table.
+export function factsOf(t) {
+  if (!Number.isInteger(t) || t < 1 || t > 20) throw new RangeError(`no times table ${t}`);
+  if (!cache.has(t)) cache.set(t, Array.from({ length: 21 }, (_, m) => (t === 7 ? { ...HAND7[m], t, a: 7 * m } : makeFact(t, m))));
+  return cache.get(t);
+}
+export const FACTS = factsOf(7);
 
 // Which facts are in play: 0 to 12 (the classic table) or 0 to 20.
 export const RANGES = [

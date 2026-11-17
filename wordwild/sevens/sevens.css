@@ -182,3 +182,15 @@ body[data-theme] .rhyme, body[data-theme] .rhyme span { color: #3b2f00; }
 .build.b3 .drow i { width: 7px; height: 7px; } .build.b3 .drow { gap: 2px; } .build.b3 { gap: 8px; }
 .entry { gap: 4px; } .wrong { min-height: 1.2em; margin: 0; }
 @media (max-height: 790px) { .key { min-height: 43px; } }
+
+/* ---------- any table, count by ---------- */
+.picks.tables { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.pick.tnum { flex: none; min-height: 48px; font-size: 1.25rem; padding: 4px; }
+.sum.strip { flex-wrap: wrap; white-space: normal; font-size: clamp(1.5rem, 8.5vw, 2.6rem); gap: .3em .45em; }
+.groups { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 10px 0 4px; }
+.groups span { min-width: 2.2em; padding: 3px 8px; border: 2px solid #1f1b3a; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 900; text-align: center; animation: dropin .4s both; }
+.groups span:nth-child(even) { background: var(--accent2); }
+.build.wide .drow i { width: 8px; height: 8px; } .build.wide .drow { gap: 2px; } .build.wide { gap: 10px; }
+@media (max-height: 940px) { .build.wide .drow i { width: 7px; height: 7px; } }
+.pattern.chant { max-width: 100%; }
+.big:disabled { opacity: .5; cursor: not-allowed; }

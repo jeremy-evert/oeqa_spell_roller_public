@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { FACTS, MEDALS, RANGES, THEMES } from "../facts.js";
-import { shuffle, missingQuestion, classicQuestion, MISSING_KINDS, recordResult, trickyCount, pickTricky, BOX_GAP, rhymeLines, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
+import { FACTS, factsOf, TABLES, tableName, numberWords, MEDALS, RANGES, THEMES } from "../facts.js";
+import { shuffle, missingQuestion, classicQuestion, countByQuestion, COUNTBY_KINDS, MISSING_KINDS, lk, bestKey, medalKey, recordResult, trickyCount, pickTricky, BOX_GAP, rhymeLines, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
 
 test("facts cover 7 x 0 through 7 x 20 with correct answers", () => {
   assert.equal(FACTS.length, 21);
@@ -76,20 +76,20 @@ test("outcomeFor: only a clean first try earns a star", () => {
 
 test("old saves keep their 0 to 12 best time and medals", () => {
   const s = migrate({ bestMs: 55000, medals: { gold: true, bronze: true }, plays: 3 });
-  assert.deepEqual(s.best, { 12: 55000 }); assert.deepEqual(s.medals, { "12:gold": true, "12:bronze": true }); assert.equal(s.range, 20);
+  assert.deepEqual(s.best, { "7:12": 55000 }); assert.deepEqual(s.medals, { "7:12:gold": true, "7:12:bronze": true }); assert.equal(s.range, 20); assert.equal(s.table, 7);
 });
 
 test("migrate ignores junk and storage failures do not break the game", () => {
   assert.deepEqual(migrate("junk"), blankState());
   const s = migrate({ v: 2, theme: "lava", range: 7, best: { 12: -4, 20: 9000 }, medals: { "20:gold": "yes", "20:silver": true }, plays: 2.5 });
-  assert.equal(s.theme, "fire"); assert.equal(s.range, 20); assert.deepEqual(s.best, { 20: 9000 }); assert.deepEqual(s.medals, { "20:silver": true }); assert.equal(s.plays, 0);
+  assert.equal(s.theme, "fire"); assert.equal(s.range, 20); assert.deepEqual(s.best, { "7:20": 9000 }); assert.deepEqual(s.medals, { "7:20:silver": true }); assert.equal(s.plays, 0);
   const broken = { getItem() { throw new Error("blocked"); }, setItem() { throw new Error("blocked"); }, removeItem() { throw new Error("blocked"); } };
   assert.equal(save(blankState(), broken), false); assert.deepEqual(load(broken), blankState()); wipe(broken);
 });
 
 test("save then load round-trips, including theme and range", () => {
   const box = {}; const store = { getItem: (k) => box[k] ?? null, setItem: (k, v) => { box[k] = v; }, removeItem: (k) => { delete box[k]; } };
-  const st = { v: 2, theme: "space", range: 12, muted: true, rhymes: false, round: 4, learn: { 3: { box: 2, due: 5 } }, best: { 20: 99000 }, medals: { "12:gold": true }, plays: 3 };
+  const st = { v: 3, theme: "space", table: 9, range: 12, muted: true, rhymes: false, round: 4, learn: { "9:3": { box: 2, due: 5 } }, best: { "9:20": 99000 }, medals: { "9:12:gold": true }, plays: 3 };
   save(st, store); assert.deepEqual(load(store), st);
 });
 
@@ -173,23 +173,101 @@ test("a missing-number think hint never contains the answer as a bare number", (
 });
 
 test("spaced review: a miss resets, success climbs the boxes, mastered facts wait", () => {
-  const learn = {}; recordResult(learn, 3, false, 0); assert.deepEqual(learn[3], { box: 1, due: 0 });
-  recordResult(learn, 3, true, 1); assert.deepEqual(learn[3], { box: 2, due: 2 }); recordResult(learn, 3, true, 2); assert.equal(learn[3].box, 3); assert.equal(learn[3].due, 5);
-  recordResult(learn, 3, true, 5); recordResult(learn, 3, true, 12); assert.equal(learn[3].box, 4); recordResult(learn, 3, false, 20); assert.equal(learn[3].box, 1);
+  const learn = {}, f3 = FACTS[3], k = lk(7, 3); recordResult(learn, f3, false, 0); assert.deepEqual(learn[k], { box: 1, due: 0 });
+  recordResult(learn, f3, true, 1); assert.deepEqual(learn[k], { box: 2, due: 2 }); recordResult(learn, f3, true, 2); assert.equal(learn[k].box, 3); assert.equal(learn[k].due, 5);
+  recordResult(learn, f3, true, 5); recordResult(learn, f3, true, 12); assert.equal(learn[k].box, 4); recordResult(learn, f3, false, 20); assert.equal(learn[k].box, 1);
   assert.deepEqual(BOX_GAP, [0, 0, 1, 3, 7]);
 });
 
 test("Tricky Facts puts the missed facts first and tops up with unseen ones", () => {
-  const learn = {}; recordResult(learn, 6, false, 0); recordResult(learn, 9, false, 0); recordResult(learn, 4, true, 0); recordResult(learn, 4, true, 0); recordResult(learn, 4, true, 0);
-  assert.equal(trickyCount(learn, 20), 2);
-  const picked = pickTricky(learn, 1, 20, 10, () => 0.5).map((f) => f.n);
+  const learn = {}; recordResult(learn, FACTS[6], false, 0); recordResult(learn, FACTS[9], false, 0); for (let i = 0; i < 3; i++) recordResult(learn, FACTS[4], true, 0);
+  assert.equal(trickyCount(learn, 7, 20), 2); assert.equal(trickyCount(learn, 8, 20), 0, "another table does not see the 7s' misses");
+  const picked = pickTricky(learn, 1, 7, 20, 10, () => 0.5).map((f) => f.n);
   assert.ok(picked.includes(6) && picked.includes(9)); assert.ok(!picked.includes(4), "a fact in a high box is not due yet"); assert.ok(picked.length >= 6 && picked.length <= 10);
   assert.equal(new Set(picked).size, picked.length);
-  assert.ok(pickTricky(learn, 20, 20, 10, () => 0.5).map((f) => f.n).includes(4), "once due, it comes back");
-  assert.ok(pickTricky({}, 0, 12, 10).every((f) => f.n <= 12));
+  assert.ok(pickTricky(learn, 20, 7, 20, 10, () => 0.5).map((f) => f.n).includes(4), "once due, it comes back");
+  assert.ok(pickTricky({}, 0, 7, 12, 10).every((f) => f.n <= 12));
+  assert.ok(pickTricky(learn, 1, 8, 20, 10, () => 0.5).every((f) => f.t === 8), "Tricky Facts stays inside the chosen table");
 });
 
 test("learning records are cleaned up when loaded", () => {
   const s = migrate({ v: 2, round: 3, learn: { 3: { box: 2, due: 4 }, 99: { box: 2, due: 1 }, 5: { box: 9, due: 1 }, 6: "x" } });
-  assert.deepEqual(s.learn, { 3: { box: 2, due: 4 } }); assert.equal(s.round, 3);
+  assert.deepEqual(s.learn, { "7:3": { box: 2, due: 4 } }); assert.equal(s.round, 3);
+  const s3 = migrate({ v: 3, table: 12, learn: { "12:3": { box: 3, due: 2 }, "21:3": { box: 2, due: 1 }, "7:99": { box: 2, due: 1 }, "x": { box: 2, due: 1 } } });
+  assert.deepEqual(s3.learn, { "12:3": { box: 3, due: 2 } }); assert.equal(s3.table, 12); assert.equal(migrate({ v: 3, table: 99 }).table, 7);
+});
+
+// ---------- any table ----------
+
+const ALL = TABLES.flatMap((t) => factsOf(t));
+
+test("tables 1 to 20, each with the 21 facts 0 to 20 and the right product", () => {
+  assert.deepEqual(TABLES, Array.from({ length: 20 }, (_, i) => i + 1));
+  for (const t of TABLES) { const fs = factsOf(t); assert.equal(fs.length, 21); fs.forEach((f, i) => { assert.equal(f.t, t); assert.equal(f.n, i); assert.equal(f.a, t * i); }); }
+  assert.throws(() => factsOf(0)); assert.throws(() => factsOf(21)); assert.throws(() => factsOf(2.5));
+  assert.equal(factsFor(12, 9).length, 13); assert.ok(newRound(20, undefined, 13).every((f) => f.t === 13));
+});
+
+test("number words and table names", () => {
+  assert.deepEqual([0, 7, 13, 20, 42, 100, 105, 340, 400].map(numberWords), ["zero", "seven", "thirteen", "twenty", "forty-two", "one hundred", "one hundred five", "three hundred forty", "four hundred"]);
+  assert.deepEqual([1, 6, 7, 12, 20].map(tableName), ["Ones", "Sixes", "Sevens", "Twelves", "Twenties"]);
+});
+
+test("every generated fact: a question that names its numbers, a shouted clue that says the answer", () => {
+  for (const f of ALL) {
+    assert.ok(new RegExp(`\\b${f.n}\\b`).test(f.q), `question for ${f.t} x ${f.n}`); assert.ok(new RegExp(`^${f.t}\\b`).test(f.q) || f.t === 7);
+    assert.ok(/[A-Z]{3,}/.test(f.clue), `shout in clue for ${f.t} x ${f.n}`);
+    assert.ok(norm(f.clue).includes(words400(f.a)) || new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(f.clue), `clue for ${f.t} x ${f.n}: ${f.clue}`);
+  }
+});
+function words400(n) { return norm(numberWords(n)); }
+
+test("every think hint teaches without stating the answer, and its arithmetic is true", () => {
+  let claims = 0;
+  for (const f of ALL) {
+    assert.ok(f.think.length > 15, `think for ${f.t} x ${f.n}`);
+    if (f.n >= 3 && f.t > 1) assert.ok(!new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(f.think), `think for ${f.t} x ${f.n} contains ${f.a}: ${f.think}`);
+    for (const m of f.think.matchAll(new RegExp(`(\\d+) ${f.t}s is (\\d+)`, "g"))) { claims++; assert.equal(f.t * Number(m[1]), Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+  }
+  assert.ok(claims > 200);
+});
+
+test("every lead is a line to read aloud, with a blank, and the answer stays out of it", () => {
+  for (const f of ALL) {
+    const r = rhymeLines(f);
+    assert.ok(r.lead.length > 10 && r.blank.includes("___"), `lead for ${f.t} x ${f.n}`);
+    if (f.n >= 2 && f.t > 1) assert.ok(!new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(r.lead + " " + r.blank), `lead for ${f.t} x ${f.n} has the digits ${f.a}`);
+  }
+  assert.equal(factsOf(7)[3].lead, "7 times 3 is always fun.", "the 7s keep Jeremy's words");
+});
+
+test("missing-number questions are right in every table", () => {
+  for (const f of ALL) for (const r of [0, 0.4, 0.9]) {
+    const q = missingQuestion(f, () => r);
+    if (q.kind === "factor") assert.equal(f.t * q.answer, f.a); if (q.kind === "divide") assert.equal(q.answer * f.t, f.a); if (q.kind === "dividend") assert.equal(q.answer / f.t, f.n);
+    assert.ok(q.sum.includes("?"));
+    if (f.n >= 3 && f.t > 1 && q.answer !== f.t) assert.ok(!new RegExp(`(^|\\D)${q.answer}(\\D|$)`).test(q.think), `${q.sum}: ${q.think}`);
+  }
+  assert.equal(missingQuestion(factsOf(9)[4], () => 0).sum, "9 × ? = 36");
+});
+
+test("count by: every question is true skip counting, the hole is the answer, and it never leaks", () => {
+  for (const t of TABLES) for (const max of [12, 20]) for (let k = 1; k <= max; k++) for (const r of [0, 0.5, 0.99]) {
+    const f = factsOf(t)[k], q = countByQuestion(f, max, () => r), parts = q.sum.split(" ");
+    assert.ok(COUNTBY_KINDS.includes(q.kind)); assert.equal(q.answer, t * k); assert.equal(parts.filter((p) => p === "?").length, 1); assert.equal(parts[q.hole], "?");
+    const nums = parts.filter((p) => p !== "?").map(Number);
+    assert.ok(nums.every((n) => n % t === 0 && n >= t && n <= t * max), `${t}/${k}: ${q.sum}`);
+    assert.ok(!nums.includes(q.answer), "the answer is not on show");
+    const step = q.kind === "back" ? -t : t, full = parts.map((p, i) => (p === "?" ? q.answer : Number(p)));
+    full.slice(1).forEach((v, i) => assert.equal(v - full[i], step, `${t}/${k}/${q.kind}: ${q.sum}`));
+    assert.equal(q.chant[q.chant.length - 1], q.answer); assert.ok(q.hole >= 1, "there is always a number before the hole");
+    if (q.answer !== t) assert.ok(!new RegExp(`(^|\\D)${q.answer}(\\D|$)`).test(q.think), `${t}/${k}: ${q.think}`);   // the step itself is always stated
+  }
+  assert.equal(countByQuestion(factsOf(8)[6], 12, () => 0).sum, "16 24 32 40 ?");
+});
+
+test("every save key is per table", () => {
+  assert.equal(lk(8, 3), "8:3"); assert.equal(bestKey(8, 12), "8:12"); assert.equal(medalKey(8, 12, "gold"), "8:12:gold");
+  const s = migrate({ v: 3, best: { "8:12": 5000, "7:12": 6000 }, medals: { "8:12:gold": true, "9:20:bronze": true, "8:12:platinum": true } });
+  assert.deepEqual(s.best, { "8:12": 5000, "7:12": 6000 }); assert.deepEqual(s.medals, { "8:12:gold": true, "9:20:bronze": true });
 });

@@ -227,7 +227,12 @@ test("every think hint teaches without stating the answer, and its arithmetic is
   for (const f of ALL) {
     assert.ok(f.think.length > 15, `think for ${f.t} x ${f.n}`);
     if (f.n >= 3 && f.t > 1) assert.ok(!new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(f.think), `think for ${f.t} x ${f.n} contains ${f.a}: ${f.think}`);
-    for (const m of f.think.matchAll(new RegExp(`(\\d+) ${f.t}s is (\\d+)`, "g"))) { claims++; assert.equal(f.t * Number(m[1]), Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+    const word = tableName(f.t).toLowerCase();
+    for (const m of f.think.matchAll(new RegExp(`(\\d+) ${word} is (\\d+)`, "g"))) { claims++; assert.equal(f.t * Number(m[1]), Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+    for (const m of f.think.matchAll(/(\d+) tens is (\d+)/g)) { claims++; assert.equal(10 * Number(m[1]), Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+    for (const m of f.think.matchAll(/[Dd]ouble (\d+) is (\d+)/g)) { claims++; assert.equal(2 * Number(m[1]), Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+    for (const m of f.think.matchAll(/[Hh]alf of (\d+) is (\d+)/g)) { claims++; assert.equal(Number(m[1]) / 2, Number(m[2]), `${f.t} x ${f.n}: ${m[0]}`); }
+    if (f.t !== 7) assert.ok(!/\d+s\b/.test(f.think.replace(/\b\d0s\b/g, "")), `think for ${f.t} x ${f.n} uses "3s" style: ${f.think}`);
   }
   assert.ok(claims > 200);
 });

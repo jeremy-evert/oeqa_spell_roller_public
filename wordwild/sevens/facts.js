@@ -83,12 +83,17 @@ const SHOUTS = ["Say it loud:", "Roll the drums:", "Ta-da!", "Here it is:"];
 
 // A strategy for t x m that uses easy anchors (10s, 20s, doubles, halves) and never states the answer.
 function thinkFor(t, m) {
-  const s = `${t}s`;
+  const s = tableName(t).toLowerCase();   // "threes", not "3s": it reads aloud
   if (m === 0) return `Zero groups of ${t}. What is left when there is nothing in the groups?`;
   if (m === 1) return `Only one group of ${t}. Does it grow, or stay the same?`;
   if (t === 1) return "Each group holds just 1. Count the groups.";
   if (t === 2) return `Two in every group. Double ${m}: what is ${m} + ${m}?`;
   if (t === 10) return `Count by 10s, or put a zero on the end of ${m}.`;
+  if (t === 9 && m >= 2) return `9 is one less than 10. Think ${m} tens, which is ${10 * m}. Then take away ${m}.`;
+  if (t === 5 && m >= 4) return m % 2 === 0 ? `Half of ${m} is ${m / 2}. Put a zero on the end.` : `Do ${m - 1} fives first: half of ${m - 1} is ${(m - 1) / 2}, then a zero on the end. Then add one more 5.`;
+  if (t === 4 && m >= 3) return `Double ${m} is ${2 * m}. Now double that again.`;
+  if (t === 3 && m >= 4) return `3 is 2 plus 1. Double ${m} is ${2 * m}. Now add ${m} more.`;
+  if (t === 11 && m >= 2) return `11 is 10 plus 1. ${m} tens is ${10 * m}. Now add ${m} more.`;
   if (m === 2) return `Two groups of ${t} is a double. What is double ${t}?`;
   if (m === 3) return `Count by ${s}: ${t}, ${2 * t}, and then one more jump.`;
   if (m === 4) return `4 is double 2, and 2 ${s} is ${2 * t}. Now double that.`;

@@ -13,6 +13,9 @@ export function shuffle(list, rng = Math.random) {
   return a;
 }
 
+// The rhyme as shown up front: the first line, then a line with the answer left blank.
+export const rhymeLines = (f) => ({ lead: f.lead, blank: f.blank || `7 times ${f.n} is ___!` });
+
 export const factsFor = (max) => FACTS.filter((f) => f.n <= max);
 export const newRound = (max = DEFAULT_RANGE, rng = Math.random) => shuffle(factsFor(max), rng);
 export const medalSeconds = (medal, max) => medal.seconds[max];
@@ -50,7 +53,7 @@ export function outcomeFor({ tries, usedClue }) { return tries === 0 && !usedClu
 // Cheer at 3 in a row, then every 5.
 export const streakCheer = (n) => (n === 3 || (n >= 5 && n % 5 === 0) ? n : 0);
 
-export function blankState() { return { v: 2, theme: "fire", range: DEFAULT_RANGE, muted: false, best: {}, medals: {}, plays: 0 }; }
+export function blankState() { return { v: 2, theme: "fire", range: DEFAULT_RANGE, muted: false, rhymes: true, best: {}, medals: {}, plays: 0 }; }
 
 // Older saves (v1) only knew the 0 to 12 table: bestMs and medals keyed by id.
 export function migrate(raw) {
@@ -59,6 +62,7 @@ export function migrate(raw) {
   if (THEMES.some((t) => t.id === raw.theme)) s.theme = raw.theme;
   if (RANGES.some((r) => r.max === raw.range)) s.range = raw.range;
   if (raw.muted === true) s.muted = true;
+  if (raw.rhymes === false) s.rhymes = false;
   if (Number.isInteger(raw.plays) && raw.plays >= 0) s.plays = raw.plays;
   if (raw.v === 2) {
     for (const r of RANGES) {

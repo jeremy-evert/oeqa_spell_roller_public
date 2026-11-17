@@ -48,7 +48,7 @@ input.num { text-align: center; font-size: 2.2rem; letter-spacing: 4px; min-heig
 .mini { min-height: 44px; padding: 4px 14px; font-weight: 800; font-size: .95rem; border: 3px solid #1f1b3a; border-radius: 99px; background: #fff; color: #1f1b3a; box-shadow: 2px 3px 0 #1f1b3a; touch-action: manipulation; }
 .mini.alt { background: var(--accent2); color: #fff; }
 .mini:active { transform: translate(2px, 2px); box-shadow: 0 1px 0 #1f1b3a; }
-@media (max-height: 760px) { .key { min-height: 46px; font-size: 1.5rem; } input.num { min-height: 54px; font-size: 1.9rem; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
+@media (max-height: 940px) { .key { min-height: 46px; font-size: 1.5rem; } input.num { min-height: 54px; font-size: 1.9rem; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
 .big.ghost { background: #fff; color: #1f1b3a; }
 .picks { display: flex; flex-wrap: wrap; gap: 8px; }
 .pick { flex: 1 1 90px; min-height: 52px; border: 3px solid #1f1b3a; border-radius: 14px; background: #fff; color: #1f1b3a; font-weight: 800; padding: 6px 10px; box-shadow: 3px 3px 0 #1f1b3a; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -159,3 +159,11 @@ body[data-theme] .sheet .pattern .hit { color: #fff; }
 @keyframes qmspin { to { transform: rotate(720deg) scale(1.3); } }
 .rainbow-sweep { position: fixed; inset: 0; pointer-events: none; z-index: 38; background: linear-gradient(120deg, #ff0000, #ff9a00, #ffe600, #2bd64a, #1e90ff, #6a3df0, #c13cff, #ff0000); background-size: 300% 300%; opacity: 0; animation: rainbow 5s ease-in-out forwards; }
 @keyframes rainbow { 0% { opacity: 0; background-position: 0 0; } 15% { opacity: .38; } 85% { opacity: .38; } 100% { opacity: 0; background-position: 100% 100%; } }
+
+/* the rhyme, printed up front with the answer blank */
+.rhyme { display: flex; flex-direction: column; gap: 2px; margin: 2px 0 6px; text-align: center; font-weight: 800; font-size: 1.05rem; color: #3b2f00; background: #fff8d6; border: 3px dashed #c99a00; border-radius: 14px; padding: 6px 10px; }
+body[data-theme] .rhyme, body[data-theme] .rhyme span { color: #3b2f00; }
+.rhyme .blank { display: inline-block; min-width: 2.6em; padding: 0 6px; border-bottom: 3px solid #c99a00; color: #8a6500; letter-spacing: 2px; }
+.rhyme .blank.filled { color: #0f7a3d; border-bottom-color: #0f7a3d; animation: bounce .5s; letter-spacing: 0; }
+@media (max-height: 940px) { .rhyme { font-size: .95rem; padding: 4px 8px; margin-bottom: 4px; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
+@media (max-height: 700px) { .rhyme { font-size: .88rem; padding: 2px 6px; } }

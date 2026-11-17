@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { FACTS, MEDALS, RANGES, THEMES } from "../facts.js";
-import { shuffle, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
+import { shuffle, rhymeLines, factsFor, newRound, parseAnswer, isCorrect, formatTime, medalFor, alertLevel, streakCheer, outcomeFor, migrate, load, save, wipe, blankState } from "../engine.js";
 
 test("facts cover 7 x 0 through 7 x 20 with correct answers", () => {
   assert.equal(FACTS.length, 21);
@@ -89,7 +89,7 @@ test("migrate ignores junk and storage failures do not break the game", () => {
 
 test("save then load round-trips, including theme and range", () => {
   const box = {}; const store = { getItem: (k) => box[k] ?? null, setItem: (k, v) => { box[k] = v; }, removeItem: (k) => { delete box[k]; } };
-  const st = { v: 2, theme: "space", range: 12, muted: true, best: { 20: 99000 }, medals: { "12:gold": true }, plays: 3 };
+  const st = { v: 2, theme: "space", range: 12, muted: true, rhymes: false, best: { 20: 99000 }, medals: { "12:gold": true }, plays: 3 };
   save(st, store); assert.deepEqual(load(store), st);
 });
 
@@ -132,4 +132,24 @@ test("every clue says its answer, in words or digits", () => {
     const ok = norm(f.clue).includes(words(f.a)) || new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(f.clue);
     assert.ok(ok, `clue for 7 x ${f.n} should say ${f.a} (${words(f.a)}): ${f.clue}`);
   }
+});
+
+test("every fact has a rhyme lead, and the lead never gives the answer away", () => {
+  for (const f of FACTS) {
+    const r = rhymeLines(f);
+    assert.ok(r.lead && r.lead.length > 10, `lead for ${f.n}`); assert.ok(r.blank.includes("___"), `blank for ${f.n}`);
+    if (f.n >= 2) {
+      assert.ok(!norm(r.lead).includes(words(f.a)), `lead for ${f.n} says the answer in words`);
+      assert.ok(!new RegExp(`(^|\\D)${f.a}(\\D|$)`).test(r.lead + " " + r.blank), `lead for ${f.n} has the digits ${f.a}`);
+    }
+  }
+});
+
+test("Jeremy's lead lines are kept word for word", () => {
+  assert.equal(FACTS[3].lead, "7 times 3 is always fun."); assert.equal(FACTS[1].lead, "7 times one is simply heaven."); assert.equal(FACTS[2].lead, "7 times two is nifty keen.");
+  assert.match(FACTS[0].lead, /weird 0 \(weirdo\)/); assert.equal(FACTS[4].lead, "7 and 4 went on a date.");
+});
+
+test("rhymes can be switched off and the setting survives a save", () => {
+  assert.equal(blankState().rhymes, true); assert.equal(migrate({ v: 2, rhymes: false }).rhymes, false); assert.equal(migrate({ v: 2 }).rhymes, true);
 });

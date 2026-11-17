@@ -1,5 +1,5 @@
 import { FACTS, MEDALS, RANGES, THEMES } from "./facts.js";
-import { newRound, parseAnswer, isCorrect, formatTime, outcomeFor, medalFor, alertLevel, streakCheer, load, save, wipe } from "./engine.js";
+import { newRound, rhymeLines, parseAnswer, isCorrect, formatTime, outcomeFor, medalFor, alertLevel, streakCheer, load, save, wipe } from "./engine.js";
 import * as S from "./sounds.js";
 import { createConfetti } from "./confetti.js";
 import { eggFor, nextFact, SECRETS } from "./easter.js";
@@ -109,12 +109,14 @@ function menu() {
     <div class="medals">${medalRow}</div>
     <div class="grid">${MEDALS.map((m) => `<button class="big go" data-mode="clock" data-medal="${m.id}">${m.icon} ${m.label}<small>${m.seconds[max]} seconds</small></button>`).join("")}</div>
     <h2>Settings</h2>
-    <div class="settings"><label><input type="checkbox" id="snd" ${state.muted ? "" : "checked"}> Sound effects</label></div>
+    <div class="settings"><label><input type="checkbox" id="snd" ${state.muted ? "" : "checked"}> Sound effects</label>
+      <label><input type="checkbox" id="rhy" ${state.rhymes ? "checked" : ""}> Show the rhyme with each question</label></div>
     <button class="link reset" id="wipe">Erase my scores on this device</button>`;
   app.querySelectorAll("[data-theme]").forEach((b) => b.addEventListener("click", () => { S.unlock(); state.theme = b.dataset.theme; applyTheme(); store(); S.play("sparkle"); confetti.burst(innerWidth / 2, innerHeight * 0.4, 30); menu(); }));
   app.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => { S.unlock(); S.play("pop"); state.range = Number(b.dataset.range); store(); menu(); }));
   app.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => start(b.dataset.mode, b.dataset.medal)));
   $("#snd").addEventListener("change", (e) => { state.muted = !e.target.checked; S.setMuted(state.muted); store(); if (!state.muted) { S.unlock(); S.play("correct"); } });
+  $("#rhy").addEventListener("change", (e) => { state.rhymes = e.target.checked; store(); });
   $("#wipe").addEventListener("click", () => { if (confirm("Erase all scores and medals on this device?")) { wipe(); state = load(); S.setMuted(state.muted); applyTheme(); menu(); } });
 }
 
@@ -179,6 +181,7 @@ function question() {
         <button class="mini" type="button" id="skip">Skip ⏭</button>
       </div>
       <p class="story">${esc(f.q)}</p>
+      ${state.rhymes ? (() => { const r = rhymeLines(f); return `<p class="rhyme" id="rhyme"><span>${esc(r.lead)}</span><span>${esc(r.blank).replace("___", '<b class="blank">___</b>')}</span></p>`; })() : ""}
       <div id="think" class="think" aria-live="polite"></div>
       <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
       <form class="entry" id="form" autocomplete="off">
@@ -258,6 +261,7 @@ function submit() {
     S.play("correct", g.streak); S.play("sparkle");
     confetti.burst(r.left + r.width / 2, r.top, 38, { power: 12 });
     flyPop(String(f.a), "good");
+    const bl = document.querySelector("#rhyme .blank"); if (bl) { bl.textContent = String(f.a); bl.classList.add("filled"); }
     if (cheer) { S.play("streak", cheer); toast(`🔥 ${cheer} in a row!`); confetti.burst(innerWidth / 2, innerHeight * 0.55, 70, { power: 15, spread: Math.PI * 1.4 }); }
     surprise(f, r);
     const o = outcomeFor(g); g.results.push(o); g.log.push({ n: f.n, o }); g.queue.shift();

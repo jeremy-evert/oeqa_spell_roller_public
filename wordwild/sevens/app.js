@@ -177,10 +177,12 @@ function question() {
       <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
       <form class="entry" id="form" autocomplete="off">
         <label class="label" for="ans">Your answer</label>
-        <input id="ans" class="num" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="answer-row">
+          <input id="ans" class="num" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="big go check" type="submit">Check ✓</button>
+        </div>
         <p class="wrong" id="msg" role="status" aria-live="polite"></p>
         <div class="btns">
-          <button class="big go" type="submit">Check</button>
           <button class="big alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
           <button class="big ghost" type="button" id="skip">Skip</button>
         </div>
@@ -193,7 +195,9 @@ function question() {
   $("#clue").addEventListener("click", () => showClue(true));
   $("#skip").addEventListener("click", skip);
   $("#quit").addEventListener("click", () => { if (g.mode === "practice" || confirm("Stop this run?")) menu(); });
-  $("#ans").focus({ preventScroll: true });
+  const ans = $("#ans");
+  ans.addEventListener("focus", () => setTimeout(() => ans.scrollIntoView({ block: "center", behavior: "auto" }), 250));
+  ans.focus({ preventScroll: true });
 }
 
 function showClue(manual) {

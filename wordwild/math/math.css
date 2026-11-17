@@ -33,3 +33,6 @@ a.soon .num { background: #4a3a4a; color: #cbb; box-shadow: none; }
 @keyframes flicker { from { transform: scale(1) rotate(-4deg); filter: brightness(1); } to { transform: scale(1.18, 1.3) rotate(4deg); filter: brightness(1.25); } }
 @keyframes glow { from { text-shadow: 0 0 5px #ffd166, 0 0 14px #ff7a00, 0 0 24px #e63900, 0 4px 0 #7a1200; } to { text-shadow: 0 0 8px #fff3b0, 0 0 26px #ff7a00, 0 0 46px #e63900, 0 4px 0 #7a1200; } }
 @media (prefers-reduced-motion: reduce) { .flames span, .mayhem h1 { animation: none; } }
+
+.inside { text-align: center; font-weight: 700; color: #ffe2bf; }
+.inside strong { color: #ffd166; }

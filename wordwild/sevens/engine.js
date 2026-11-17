@@ -1,7 +1,8 @@
 // Pure game logic for Super Sevens: no DOM, so the tests can run it in Node.
-import { FACTS, MEDALS } from "./facts.js";
+import { FACTS, MEDALS, RANGES, THEMES } from "./facts.js";
 
 export const KEY = "wordwild.sevens.v1";
+export const DEFAULT_RANGE = 20;
 
 export function shuffle(list, rng = Math.random) {
   const a = list.slice();
@@ -12,7 +13,9 @@ export function shuffle(list, rng = Math.random) {
   return a;
 }
 
-export function newRound(rng = Math.random) { return shuffle(FACTS, rng); }
+export const factsFor = (max) => FACTS.filter((f) => f.n <= max);
+export const newRound = (max = DEFAULT_RANGE, rng = Math.random) => shuffle(factsFor(max), rng);
+export const medalSeconds = (medal, max) => medal.seconds[max];
 
 // Accepts "28", " 28 ", "028". Rejects empty, negative, decimal and words.
 export function parseAnswer(text) {
@@ -28,22 +31,45 @@ export function formatTime(ms) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}.${tenths % 10}`;
 }
 
-// The best medal earned for a finishing time in seconds, or null.
-export function medalFor(seconds) {
-  const earned = MEDALS.filter((m) => seconds <= m.seconds);
+// The best medal earned for a finishing time (seconds) in a range, or null.
+export function medalFor(max, seconds) {
+  const earned = MEDALS.filter((m) => seconds <= m.seconds[max]);
   return earned.length ? earned[earned.length - 1] : null;
+}
+
+// How worried the screen should look: 0 calm, 1 half gone, 2 a quarter left, 3 final ten seconds.
+export function alertLevel(leftMs, totalMs) {
+  if (leftMs <= 10000) return 3;
+  const f = leftMs / totalMs;
+  return f <= 0.25 ? 2 : f <= 0.5 ? 1 : 0;
 }
 
 // Stars: clean first try = "star"; right but needed a clue or a second try = "bulb".
 export function outcomeFor({ tries, usedClue }) { return tries === 0 && !usedClue ? "star" : "bulb"; }
 
-export function blankState() { return { bestMs: null, medals: {}, plays: 0 }; }
+// Cheer at 3 in a row, then every 5.
+export const streakCheer = (n) => (n === 3 || (n >= 5 && n % 5 === 0) ? n : 0);
+
+export function blankState() { return { v: 2, theme: "fire", range: DEFAULT_RANGE, muted: false, best: {}, medals: {}, plays: 0 }; }
+
+// Older saves (v1) only knew the 0 to 12 table: bestMs and medals keyed by id.
 export function migrate(raw) {
   const s = blankState();
   if (!raw || typeof raw !== "object") return s;
-  if (Number.isFinite(raw.bestMs) && raw.bestMs > 0) s.bestMs = raw.bestMs;
-  for (const m of MEDALS) if (raw.medals && raw.medals[m.id] === true) s.medals[m.id] = true;
+  if (THEMES.some((t) => t.id === raw.theme)) s.theme = raw.theme;
+  if (RANGES.some((r) => r.max === raw.range)) s.range = raw.range;
+  if (raw.muted === true) s.muted = true;
   if (Number.isInteger(raw.plays) && raw.plays >= 0) s.plays = raw.plays;
+  if (raw.v === 2) {
+    for (const r of RANGES) {
+      const b = raw.best && raw.best[r.max];
+      if (Number.isFinite(b) && b > 0) s.best[r.max] = b;
+      for (const m of MEDALS) if (raw.medals && raw.medals[`${r.max}:${m.id}`] === true) s.medals[`${r.max}:${m.id}`] = true;
+    }
+  } else {
+    if (Number.isFinite(raw.bestMs) && raw.bestMs > 0) s.best[12] = raw.bestMs;
+    for (const m of MEDALS) if (raw.medals && raw.medals[m.id] === true) s.medals[`12:${m.id}`] = true;
+  }
   return s;
 }
 

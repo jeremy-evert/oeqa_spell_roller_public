@@ -27,11 +27,41 @@ export const FACTS = [
     clue: "Times eleven with one digit says it twice: 7 becomes 77. Double lucky SEVENS!" },
   { n: 12, q: "7 boxes hold 12 donuts each (a dozen). How many donuts in all?",
     clue: "A dozen sevens walked through the DOOR and found eighty-FOUR. 7 times 12 is 84." },
+  { n: 13, q: "7 bakers each bake a baker's dozen, 13 cupcakes. How many cupcakes in all?",
+    clue: "Unlucky thirteen! Split it: 7 times 10 is 70, 7 times 3 is 21, and 70 + 21 is NINETY-ONE." },
+  { n: 14, q: "7 unicorns each wear 14 rainbow ribbons. How many ribbons in all?",
+    clue: "Double forty-NINE: 49 + 49 = ninety-EIGHT. (14 is two sevens, so it is 7 times 7, twice.)" },
+  { n: 15, q: "7 ninjas each throw 15 pillows. How many pillows in all?",
+    clue: "Split it: 70 + 35 lands on one hundred FIVE. Both end in a high FIVE!" },
+  { n: 16, q: "7 knights each carry 16 shields. How many shields in all?",
+    clue: "Sweet sixteen! 70 + 42 is one hundred TWELVE, a whole dozen past a hundred." },
+  { n: 17, q: "7 robots each wear 17 hats. How many hats in all?",
+    clue: "Just ONE short of 120! 7 times 17 is one hundred NINETEEN." },
+  { n: 18, q: "7 golf courses have 18 holes each. How many holes in all?",
+    clue: "Double sixty-THREE: 63 + 63 = one hundred twenty-SIX. (18 is two nines.)" },
+  { n: 19, q: "7 sharks each lose 19 teeth. How many teeth in all?",
+    clue: "Almost TWENTY! 7 times 20 is 140, so take one SEVEN off: 133." },
+  { n: 20, q: "7 kids each have 20 fingers and toes. How many in all?",
+    clue: "Times twenty is double times ten: 70 + 70 = one hundred FORTY." },
 ].map((f) => ({ ...f, a: 7 * f.n }));
 
-// Medal challenges: all 13 facts, answered correctly before the clock runs out.
+// Which facts are in play: 0 to 12 (the classic table) or 0 to 20.
+export const RANGES = [
+  { max: 12, label: "0 to 12", sub: "13 facts" },
+  { max: 20, label: "0 to 20", sub: "21 facts" },
+];
+
+// Medal challenges: every fact in the range answered correctly before the clock runs out.
+// More facts get more time, at about the same seconds per fact.
 export const MEDALS = [
-  { id: "bronze", label: "Bronze", seconds: 90, icon: "🥉" },
-  { id: "silver", label: "Silver", seconds: 75, icon: "🥈" },
-  { id: "gold",   label: "Gold",   seconds: 60, icon: "🥇" },
+  { id: "bronze", label: "Bronze", icon: "🥉", seconds: { 12: 90, 20: 150 } },
+  { id: "silver", label: "Silver", icon: "🥈", seconds: { 12: 75, 20: 120 } },
+  { id: "gold",   label: "Gold",   icon: "🥇", seconds: { 12: 60, 20: 90 } },
+];
+
+// Three looks for the same game.
+export const THEMES = [
+  { id: "fire",  label: "Fire",  icon: "🔥" },
+  { id: "space", label: "Space", icon: "🚀" },
+  { id: "candy", label: "Candy", icon: "🍭" },
 ];

@@ -1,15 +1,19 @@
 # Super Sevens
 
-Practice the 7 times table, 7 x 0 to 7 x 12. Static HTML/CSS/JS: no build, no dependencies, no network, no accounts. Scores stay on the device.
-It reuses the look and the synthesized sound effects from `../flashcards/`.
+Practice the 7 times table, 7 x 0 through 7 x 20 (or the classic 0 to 12). Static HTML/CSS/JS: no build, no dependencies, no network, no accounts. Scores stay on the device.
+
+**Three looks** for the same game: Fire, Space and Candy. Each has its own background, floating decorations, confetti, and sound flavour. Pick one on the menu, or open `?theme=space` (also `fire`, `candy`) and `?range=12` or `?range=20`.
 
 | Mode | What happens |
 |---|---|
-| **Practice** | 13 silly questions in random order. A clean first try is a star; a clue or a second try is a light bulb. A clue appears by itself after two wrong tries. |
-| **Stopwatch** | A clock that counts up from the moment Start is pressed; best time is kept. Clues allowed. |
-| **Beat the clock** | All 13 facts before time runs out: Bronze 90 s, Silver 75 s, Gold 60 s. No clues while the clock runs. Medals are remembered. |
+| **Practice** | Silly questions in random order. A clean first try is a star; a clue or a second try is a light bulb. A clue appears by itself after two wrong tries. |
+| **Stopwatch** | A clock that counts up from the moment Start is pressed; best time is kept per range. |
+| **Beat the clock** | Every fact before time runs out. 0 to 12: Bronze 90 s, Silver 75 s, Gold 60 s. 0 to 20: Bronze 150 s, Silver 120 s, Gold 90 s. The background turns yellow, then orange, then flashing red as time runs short. Medals are remembered per range. |
 
-The clue for each fact is in `facts.js` (answer sound-alike in CAPITALS). Logic is in `engine.js`; run `node --test tests/` here.
+**Clues** show a rhyme or trick, a dot array (7 in a row, n rows) and a skip-counting strip. In the timed modes a clue you ask for adds 5 seconds.
+**Extras:** streak cheers at 3 in a row and every 5, confetti on right answers and a big finale, number animations, and about a dozen synthesized sound effects (no audio files).
 
-Honest limits: the clues are mnemonics written for fun and have not been reviewed by a teacher; tested in desktop Chrome (headless) at phone width, not yet on a phone.
+Files: `facts.js` (questions, clues, ranges, medals), `engine.js` (logic and saving), `sounds.js`, `confetti.js`, `app.js`, `sevens.css`. Run `node --test tests/` here.
+
+Honest limits: the clues are mnemonics written for fun and have not been reviewed by a teacher; the 0 to 20 medal times are a first guess scaled from the 0 to 12 times and may need tuning; tested in desktop Chrome (headless) at phone width and by Jeremy on a phone.
 Licence: BSD 2-Clause, as the rest of this repo.

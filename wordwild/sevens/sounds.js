@@ -100,7 +100,8 @@ const LIB = {
     intro: () => { whump(0, 0.16); crackle(0.05, 0.3, { gain: 0.08, rate: 50 }); [330, 440, 554].forEach((f, i) => brass(f, 0.12 + i * 0.09, 0.22, 0.1)); },
   },
   space: {
-    tap: (d = 0) => { rockhit(0, 0.26); tone(700 + (d % 10) * 70, 0, 0.05, { gain: 0.1 }); },
+    // a warm "sonar blip" with a soft echo and a quiet thud underneath; a different low note for each digit
+    tap: (d = 0) => { const f = [220, 247, 294, 330, 392][d % 5] * (d % 10 >= 5 ? 1.5 : 1); tone(f, 0, 0.16, { gain: 0.3, slide: f * 1.12, attack: 0.006, lp: 1400 }); tone(f, 0.1, 0.14, { gain: 0.1, slide: f * 1.12, attack: 0.006, lp: 1400 }); thud(0, 110, 0.08); },
     whoosh: () => flyby(0, 0.35, 0.2),
     pop: () => { rockhit(0, 0.24); thud(0.01, 120, 0.12); },
     correct: (s = 0) => { const b = 523 * climb(s); rockhit(0, 0.1); [1, 1.25, 1.5, 2].forEach((r, i) => { tone(b * r, 0.04 + i * 0.07, 0.12, { type: "square", gain: 0.07 }); tone(b * r, 0.04 + i * 0.07 + 0.14, 0.1, { type: "square", gain: 0.025 }); }); tone(b * 3, 0.34, 0.3, { gain: 0.07, partials: [[1, 1], [2.01, 0.3]] }); },

@@ -12,9 +12,19 @@
       "hue": "sunshine"
     },
     {
+      "id": "super-sevens",
+      "title": "Super Sevens",
+      "edition": "MATH \u00b7 THE 7 TIMES TABLE",
+      "href": "sevens/",
+      "entry": "sevens/index.html",
+      "invitation": "Silly questions, rhyming clues, a stopwatch, and Bronze, Silver and Gold clock challenges.",
+      "art": "sevens",
+      "hue": "mint"
+    },
+    {
       "id": "printer-workshop",
       "title": "Impossible 3D Printer",
-      "edition": "ORIGINAL PRINTER · PLAYABLE",
+      "edition": "ORIGINAL PRINTER \u00b7 PLAYABLE",
       "href": "game/",
       "entry": "game/index.html",
       "invitation": "The first impossible printer experiment. See what it builds!",
@@ -24,7 +34,7 @@
     {
       "id": "printer-v2",
       "title": "Impossible 3D Printer",
-      "edition": "SECOND EDITION · PLAYABLE PREVIEW",
+      "edition": "SECOND EDITION \u00b7 PLAYABLE PREVIEW",
       "href": "printer-v2/",
       "entry": "printer-v2/index.html",
       "invitation": "Hear the sentence, get help, spell words, and build a robot, rocket, or castle.",
@@ -34,7 +44,7 @@
     {
       "id": "flashcards-illustrated",
       "title": "Flashcards: Illustrated Edition",
-      "edition": "ILLUSTRATED EDITION · IN DEVELOPMENT",
+      "edition": "ILLUSTRATED EDITION \u00b7 IN DEVELOPMENT",
       "href": "flashcards-v2/",
       "entry": "flashcards-v2/index.html",
       "invitation": "The doodles are gathering their pencils.",

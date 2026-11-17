@@ -1,0 +1,15 @@
+/* Extras for Super Sevens; the base look comes from ../flashcards/style.css */
+.sum { font-size: clamp(2rem, 11vw, 3.6rem); white-space: nowrap; font-weight: 900; text-align: center; color: var(--accent); margin: .1em 0; letter-spacing: 2px; }
+.story { font-size: 1.15rem; text-align: center; font-weight: 600; margin: .3em 0 .8em; }
+.clock { font-variant-numeric: tabular-nums; font-weight: 900; font-size: 1.5rem; background: #fff; border: 3px solid var(--ink); border-radius: 12px; padding: 2px 12px; }
+.clock.low { background: #ffd9d0; border-color: #b3261e; }
+.medals { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 4px 0 10px; }
+.medal { background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 6px 12px; font-weight: 800; text-align: center; }
+.medal.earned { background: #fff3cd; border-color: #c99a00; }
+.medal .big-icon { font-size: 1.8rem; display: block; }
+.stars { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 8px 0; }
+.stars span { background: #fff; border: 2px solid var(--ink); border-radius: 10px; padding: 2px 8px; font-weight: 800; }
+.wrong { text-align: center; font-weight: 800; color: #8a2a00; min-height: 1.6em; }
+.score { font-weight: 800; color: var(--muted); }
+.celebrate { font-size: 3rem; text-align: center; }
+input.num { letter-spacing: 0; }

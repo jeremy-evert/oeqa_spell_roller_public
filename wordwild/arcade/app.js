@@ -4,6 +4,7 @@ const refreshButton = document.querySelector("#refresh-games");
 
 const artMarks = {
   potato: "🥔",
+  sevens: "7",
   printer: "▧",
   "printer-v2": "✳",
   illustrated: "✎",

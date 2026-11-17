@@ -34,6 +34,6 @@ Checked upstream, online:
 |---|---|---|---|---|
 | Code in `math/` and `sevens/` | Hub page and the 7s times-table game (engine, sounds, confetti, three looks) | Hand-directed, AI-written for this project | BSD 2-Clause | Ships |
 | Questions, think hints, rhymes, fun facts | Written for this project. The rhymes for 0 to 4 are the owner's own words; the rest were written with AI help | Project | BSD 2-Clause | Ships; not teacher-reviewed (see KNOWN_LIMITS.md) |
-| Sound effects | About 14 effects synthesized live with the Web Audio API (`sevens/sounds.js`); no audio files | Project code | BSD 2-Clause | Ships |
+| Sound effects | 16 effects in each of three looks (48 in all), synthesized live with the Web Audio API (`sevens/sounds.js`); no audio files, no sampled sounds. The barbershop chords are oscillators, not recorded voices | Project code | BSD 2-Clause | Ships |
 | Confetti, decorations | Drawn by code on a canvas; emoji characters come from the visitor's system | Project code | BSD 2-Clause | Ships |
 | Fonts, images, libraries | None | n/a | n/a | n/a |

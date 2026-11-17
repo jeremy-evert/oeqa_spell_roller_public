@@ -119,8 +119,9 @@ function menu() {
     <h2>Settings</h2>
     <div class="settings"><label><input type="checkbox" id="snd" ${state.muted ? "" : "checked"}> Sound effects</label>
       <label><input type="checkbox" id="rhy" ${state.rhymes ? "checked" : ""}> Show the rhyme with each question</label></div>
+    <p class="note"><a href="soundcheck.html">🔊 Sound check: hear every sound in every look</a></p>
     <button class="link reset" id="wipe">Erase my scores on this device</button>`;
-  app.querySelectorAll("[data-theme]").forEach((b) => b.addEventListener("click", () => { S.unlock(); state.theme = b.dataset.theme; applyTheme(); store(); S.play("sparkle"); confetti.burst(innerWidth / 2, innerHeight * 0.4, 30); menu(); }));
+  app.querySelectorAll("[data-theme]").forEach((b) => b.addEventListener("click", () => { S.unlock(); state.theme = b.dataset.theme; applyTheme(); store(); S.play("intro"); confetti.burst(innerWidth / 2, innerHeight * 0.4, 30); menu(); }));
   app.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => { S.unlock(); S.play("pop"); state.range = Number(b.dataset.range); store(); menu(); }));
   app.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => start(b.dataset.mode, b.dataset.medal)));
   $("#snd").addEventListener("change", (e) => { state.muted = !e.target.checked; S.setMuted(state.muted); store(); if (!state.muted) { S.unlock(); S.play("correct"); } });

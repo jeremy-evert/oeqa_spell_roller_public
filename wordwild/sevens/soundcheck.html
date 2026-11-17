@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super Sevens: sound check</title>
+  <meta name="description" content="Hear every Super Sevens sound effect in all three looks. Everything is synthesized on this device.">
+  <link rel="stylesheet" href="../flashcards/style.css">
+  <link rel="stylesheet" href="sevens.css">
+  <style>
+    .look { margin: 14px 0; } .look h2 { margin: 0 0 6px; }
+    .fxgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+    .fxgrid button { min-height: 48px; border: 3px solid #1f1b3a; border-radius: 12px; background: #fff; color: #1f1b3a; font-weight: 800; box-shadow: 0 3px 0 #1f1b3a; touch-action: manipulation; }
+    .fxgrid button:active { transform: translateY(2px); box-shadow: none; background: var(--accent2); color: #fff; }
+    .fxgrid .sig { background: var(--accent); color: #fff; }
+  </style>
+</head>
+<body data-theme="fire">
+  <header class="site"><span class="logo" aria-hidden="true">🔊</span><strong>Sound check</strong><span class="sub">Super Sevens</span></header>
+  <main id="app">
+    <h1 class="title">Sound check</h1>
+    <p class="lede">Tap any button to hear it. Fire has fireballs, Space has asteroids, and Candy is a bubble-gum barbershop. If something is too loud, too sharp or just annoying, tell Jeremy which one.</p>
+    <div id="looks"></div>
+    <p><a href="./">← Back to Super Sevens</a></p>
+  </main>
+  <script type="module">
+    import { LOOKS, EFFECT_NAMES, setLook, unlock, play, setMuted } from "./sounds.js";
+    const ICON = { fire: "🔥 Fire: fireballs", space: "🚀 Space: asteroids", candy: "🍭 Candy: bubble-gum barbershop" };
+    const ARG = { correct: 3, warn: 2, tap: 5 };
+    const wrap = document.getElementById("looks");
+    for (const look of LOOKS) {
+      const sec = document.createElement("section"); sec.className = "look";
+      sec.innerHTML = `<h2>${ICON[look]}</h2><div class="fxgrid"></div>`;
+      const grid = sec.querySelector(".fxgrid");
+      for (const name of ["intro", ...EFFECT_NAMES.filter((n) => n !== "intro")]) {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = name; if (name === "intro") b.className = "sig";
+        b.addEventListener("click", () => { setMuted(false); unlock(); setLook(look); play(name, ARG[name]); });
+        grid.append(b);
+      }
+      wrap.append(sec);
+    }
+  </script>
+</body>
+</html>

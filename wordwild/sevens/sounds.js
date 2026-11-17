@@ -1,77 +1,151 @@
 // Original sound effects for Super Sevens, synthesized live with the Web Audio API. No audio files.
-// Each look (fire, space, candy) plays the same effects with its own wave shape and pitch.
+// Each look is its own little sound world, not just a re-pitched copy:
+//   fire  = fireballs (launch whooshes, "fwoomp" ignitions, explosion booms), crackling embers, brass, war drums
+//   space = asteroids (rock clacks, meteor fly-bys, impact thuds, a rumbling asteroid field), radar blips, a theremin wobble
+//   candy = a bubble-gum barbershop: four-part quartet chords, bubble-gum inflate and pop, marimba keys, music-box bells
 // The AudioContext is created only after a button press; everything respects `muted`.
-let ctx = null;
-let muted = false;
-let look = "fire";
+let ctx = null, out = null, muted = false, look = "fire";
 export const stats = { played: 0, byName: {} };
 
-const VOICES = {
-  fire:  { wave: "square",   mul: 1,   gain: 0.55 },
-  space: { wave: "sine",     mul: 1.2, gain: 1 },
-  candy: { wave: "triangle", mul: 1.5, gain: 1 },
-};
-
-export function setLook(t) { look = VOICES[t] ? t : "fire"; }
+export const LOOKS = ["fire", "space", "candy"];
+export function setLook(t) { look = LOOKS.includes(t) ? t : "fire"; }
 export function setMuted(v) { muted = !!v; }
 export function isMuted() { return muted; }
+
+// Everything goes through one quiet master gain and a compressor, so loud moments never clip.
+function makeOut(c) {
+  const m = c.createGain(); m.gain.value = 1.3;
+  const k = c.createDynamicsCompressor(); k.threshold.value = -14; k.ratio.value = 6;
+  m.connect(k); k.connect(c.destination);
+  return m;
+}
 export function unlock() {
   try {
-    if (!ctx) { const AC = globalThis.AudioContext || globalThis.webkitAudioContext; if (AC) ctx = new AC(); }
+    if (!ctx) { const AC = globalThis.AudioContext || globalThis.webkitAudioContext; if (AC) { ctx = new AC(); out = makeOut(ctx); } }
     if (ctx && ctx.state === "suspended") ctx.resume();
-  } catch { ctx = null; }
+  } catch { ctx = null; out = null; }
   return !!ctx;
 }
+// For tests: render into an OfflineAudioContext instead of the speakers.
+export function _useContext(c) { ctx = c; out = makeOut(c); }
 
-function tone(freq, start, dur, { type = null, gain = 0.16, slide = null } = {}) {
-  const v = VOICES[look], o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + start;
-  o.type = type || v.wave; o.frequency.setValueAtTime(freq * v.mul, t);
-  if (slide) o.frequency.exponentialRampToValueAtTime(slide * v.mul, t + dur);
-  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain * v.gain, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + dur + 0.05);
+/* ---------- building blocks ---------- */
+function tone(freq, start, dur, { type = "sine", gain = 0.15, slide = null, vib = null, partials = null, attack = 0.01, lp = null } = {}) {
+  const t = ctx.currentTime + start, g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(gain, t + attack); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  g.connect(out);
+  for (const [mult, pg] of partials || [[1, 1]]) {
+    const o = ctx.createOscillator(), p = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq * mult, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(slide * mult, t + dur);
+    if (vib) { const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = vib[0]; lg.gain.value = vib[1] * mult; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + dur + 0.05); }
+    p.gain.value = pg; o.connect(p);
+    if (lp) { const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = lp; f.Q.value = 0.8; p.connect(f); f.connect(g); } else p.connect(g);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
 }
-function noise(start, dur, { gain = 0.1, freq = 2000 } = {}) {
+function noise(start, dur, { gain = 0.1, freq = 2000, q = 1, type = "bandpass", sweepTo = null } = {}) {
   const n = Math.floor(ctx.sampleRate * dur), buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
   for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
-  const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-  s.buffer = buf; f.type = "bandpass"; f.frequency.value = freq; g.gain.value = gain;
-  s.connect(f).connect(g).connect(ctx.destination); s.start(ctx.currentTime + start);
+  const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(), t = ctx.currentTime + start;
+  s.buffer = buf; f.type = type; f.Q.value = q; f.frequency.setValueAtTime(freq, t);
+  if (sweepTo) f.frequency.exponentialRampToValueAtTime(sweepTo, t + dur);
+  g.gain.value = gain; s.connect(f); f.connect(g); g.connect(out); s.start(t);
 }
+// a spray of tiny clicks, like embers popping
+function crackle(start, dur, { gain = 0.1, rate = 40 } = {}) {
+  for (let i = 0; i < Math.max(2, Math.round(dur * rate)); i++) noise(start + Math.random() * dur, 0.014, { gain: gain * (0.4 + Math.random() * 0.6), freq: 1500 + Math.random() * 3500, q: 0.8 });
+}
+const bell = (f, start, dur = 0.9, gain = 0.1) => tone(f, start, dur, { gain, attack: 0.003, partials: [[1, 1], [2.01, 0.5], [3.0, 0.25], [4.2, 0.12]] });
+const marimba = (f, start, gain = 0.12) => tone(f, start, 0.35, { gain, attack: 0.002, partials: [[1, 1], [4, 0.35]] });
+const bubble = (start, f = 450) => { tone(f, start, 0.07, { gain: 0.12, slide: f * 2.6, attack: 0.005 }); noise(start, 0.03, { gain: 0.03, freq: 3000 }); };
+const laser = (start, f0 = 1900, f1 = 250, dur = 0.14, gain = 0.09) => tone(f0, start, dur, { type: "square", slide: f1, gain, attack: 0.004 });
+const brass = (f, start, dur = 0.2, gain = 0.12) => tone(f, start, dur, { type: "sawtooth", gain, attack: 0.03, vib: [6, f * 0.012], partials: [[1, 1], [2, 0.4]] });
+const gong = (f, start, dur = 1.6, gain = 0.15) => tone(f, start, dur, { gain, attack: 0.005, partials: [[1, 1], [1.5, 0.4], [2.76, 0.3], [5.4, 0.2]] });
+// fireballs and explosions
+const thud = (start, f = 90, gain = 0.25) => { tone(f, start, 0.28, { gain, slide: f * 0.4, attack: 0.004 }); noise(start, 0.16, { gain: gain * 0.5, freq: 250, type: "lowpass" }); };
+const whump = (start, gain = 0.22) => { tone(95, start, 0.32, { gain, slide: 38, attack: 0.01 }); noise(start, 0.3, { gain: gain * 0.7, freq: 300, sweepTo: 1600, type: "lowpass", q: 0.6 }); };
+const boom = (start, gain = 0.3) => { tone(75, start, 0.9, { gain, slide: 28, attack: 0.006 }); noise(start, 0.8, { gain: gain * 0.5, freq: 900, sweepTo: 120, type: "lowpass" }); crackle(start + 0.1, 0.6, { gain: 0.07, rate: 30 }); };
+// asteroids
+const rockhit = (start, gain = 0.16) => { noise(start, 0.06, { gain, freq: 1300, q: 2 }); tone(190, start, 0.1, { gain: gain * 0.9, slide: 70, attack: 0.003 }); };
+const flyby = (start, dur = 0.5, gain = 0.13) => { noise(start, dur, { gain, freq: 3200, sweepTo: 450, q: 1.5 }); tone(1300, start, dur, { gain: gain * 0.5, slide: 320 }); };
+const rumble = (start, dur = 0.9, gain = 0.16) => { noise(start, dur, { gain, freq: 140, type: "lowpass", q: 0.7 }); for (let i = 0; i < Math.round(dur * 6); i++) thud(start + Math.random() * dur, 60 + Math.random() * 60, 0.09); };
+// bubble-gum barbershop: four voices (bass, baritone, lead, tenor) in close harmony, with a little vibrato
+const MAJ6 = [0, 7, 16, 21], DOM7 = [0, 7, 16, 22], SUB = [5, 12, 21, 24];
+const choir = (root, shape, start, dur = 0.5, gain = 0.06) => shape.forEach((semi, i) => tone(root * Math.pow(1.0595, semi), start, dur, { type: "sawtooth", gain: gain * (i === 3 ? 1.15 : 1), attack: 0.05, vib: [5.5, root * Math.pow(1.0595, semi) * 0.008], lp: 1100 }));
+const gumInflate = (start, dur = 0.5, f0 = 300, f1 = 900) => tone(f0, start, dur, { gain: 0.1, slide: f1, vib: [9, 14], attack: 0.03 });
+const gumPop = (start) => { noise(start, 0.07, { gain: 0.2, freq: 4500, type: "highpass" }); tone(1800, start, 0.06, { gain: 0.14, slide: 300, attack: 0.002 }); };
+const PENT = (d) => [523.25, 587.33, 659.25, 783.99, 880][d % 5] * (d >= 5 ? 2 : 1);
+const climb = (s) => Math.pow(1.0595, Math.min(s, 12));
 
-const EFFECTS = {
-  // a key tap: each digit has its own little pitch
-  tap: (d = 0) => tone(380 + (d % 10) * 55, 0, 0.05, { gain: 0.08 }),
-  // a new question whooshes in
-  whoosh: () => { noise(0, 0.16, { gain: 0.07, freq: 1400 }); tone(220, 0, 0.14, { slide: 520, gain: 0.05 }); },
-  pop: () => tone(300, 0, 0.09, { type: "sine", slide: 900, gain: 0.2 }),
-  // right answer: a rising arpeggio that climbs higher with every answer in a row
-  correct: (streak = 0) => {
-    const base = 523 * Math.pow(1.0595, Math.min(streak, 12));
-    [1, 1.25, 1.5, 2].forEach((r, i) => tone(base * r, i * 0.07, 0.2, { gain: 0.16 }));
+/* ---------- three sound worlds ---------- */
+const LIB = {
+  fire: {
+    tap: (d = 0) => { noise(0, 0.04, { gain: 0.34, freq: 2200, q: 0.7 }); tone(180 + (d % 10) * 22, 0, 0.07, { type: "square", gain: 0.14 }); },
+    whoosh: () => { noise(0, 0.3, { gain: 0.24, freq: 250, sweepTo: 2600, type: "lowpass", q: 0.6 }); tone(120, 0, 0.3, { gain: 0.14, slide: 400 }); },
+    pop: () => { noise(0, 0.1, { gain: 0.18, freq: 700, type: "lowpass" }); tone(140, 0, 0.1, { gain: 0.18, slide: 60 }); crackle(0.03, 0.15, { gain: 0.1, rate: 40 }); },
+    correct: (s = 0) => { const b = 294 * climb(s); whump(0); [1, 1.25, 1.5].forEach((r, i) => brass(b * r, 0.08 + i * 0.08, 0.2, 0.12)); crackle(0.05, 0.35, { gain: 0.08, rate: 30 }); },
+    whoops: () => { noise(0, 0.45, { gain: 0.1, freq: 4000, type: "highpass" }); tone(220, 0, 0.45, { type: "sawtooth", slide: 70, gain: 0.1 }); },
+    clue: () => { tone(660, 0, 0.18, { type: "triangle", gain: 0.1 }); tone(990, 0.1, 0.22, { type: "triangle", gain: 0.09 }); crackle(0.05, 0.25, { gain: 0.06, rate: 30 }); },
+    boing: () => { noise(0, 0.25, { gain: 0.1, freq: 5000, type: "highpass" }); tone(160, 0, 0.2, { slide: 90, gain: 0.15 }); },
+    tick: () => { noise(0, 0.03, { gain: 0.5, freq: 3000, q: 1.2 }); tone(900, 0, 0.03, { type: "square", gain: 0.1 }); },
+    warn: (l = 1) => { for (let i = 0; i <= l; i++) tone(i % 2 ? 820 : 620, i * 0.12, 0.11, { type: "sawtooth", gain: 0.09 }); },
+    streak: () => { [0, 0.16, 0.32].forEach((t, i) => whump(t, 0.16 + i * 0.03)); [0, 1, 2, 3, 4].forEach((i) => brass(330 * Math.pow(1.25, i), 0.1 + i * 0.07, 0.2, 0.1)); crackle(0.1, 0.5, { gain: 0.07, rate: 35 }); },
+    buzzer: () => boom(0, 0.34),
+    drum: () => { for (let i = 0; i < 10; i++) tone(110 - (i % 2) * 18, i * 0.08, 0.12, { slide: 55, gain: 0.14 + i * 0.012 }); },
+    fanfare: () => { whump(0, 0.2); [392, 523, 659, 784, 659, 784, 1046].forEach((f, i) => brass(f, 0.1 + i * 0.11, 0.2, 0.12)); crackle(0.1, 0.9, { gain: 0.07, rate: 35 }); noise(0.8, 0.5, { gain: 0.07, freq: 5000, type: "highpass" }); },
+    medal: () => { boom(0, 0.2); gong(165, 0.1, 1.8, 0.16); [523, 659, 784, 1046].forEach((f, i) => brass(f, 0.25 + i * 0.09, 0.3, 0.1)); crackle(0.3, 1, { gain: 0.07, rate: 40 }); },
+    sparkle: () => crackle(0, 0.25, { gain: 0.09, rate: 60 }),
+    intro: () => { whump(0, 0.16); crackle(0.05, 0.3, { gain: 0.08, rate: 50 }); [330, 440, 554].forEach((f, i) => brass(f, 0.12 + i * 0.09, 0.22, 0.1)); },
   },
-  // wrong answer: slide whistle down and a boing
-  whoops: () => { tone(520, 0, 0.32, { type: "sawtooth", slide: 140, gain: 0.12 }); tone(90, 0.3, 0.16, { type: "square", gain: 0.1 }); },
-  clue: () => { tone(880, 0, 0.07, { type: "sine", gain: 0.14 }); tone(1320, 0.08, 0.1, { type: "sine", gain: 0.12 }); },
-  boing: () => tone(200, 0, 0.3, { type: "sine", slide: 600, gain: 0.18 }),
-  // the clock ticks in the last ten seconds
-  tick: () => tone(1000, 0, 0.04, { type: "square", gain: 0.07 }),
-  // the screen changes colour: a short alarm that gets more urgent
-  warn: (level = 1) => { for (let i = 0; i < level + 1; i++) tone(level === 3 ? 1400 : 900, i * 0.11, 0.08, { type: "square", gain: 0.1 }); },
-  // a streak cheer
-  streak: (n = 3) => { const b = 440 + Math.min(n, 20) * 12; [b, b * 1.25, b * 1.5, b * 2, b * 2.5].forEach((f, i) => tone(f, i * 0.06, 0.16, { gain: 0.15 })); noise(0.2, 0.25, { gain: 0.06, freq: 6000 }); },
-  // time is up
-  buzzer: () => { tone(160, 0, 0.5, { type: "sawtooth", slide: 60, gain: 0.2 }); tone(120, 0.1, 0.5, { type: "square", gain: 0.1, slide: 50 }); },
-  drum: () => { for (let i = 0; i < 12; i++) { noise(i * 0.07, 0.06, { gain: 0.1 + i * 0.006, freq: 220 }); } tone(80, 0.84, 0.25, { type: "sine", gain: 0.25 }); },
-  fanfare: () => { [392, 523, 659, 784, 659, 784, 1046].forEach((f, i) => tone(f, i * 0.11, 0.22, { gain: 0.13 })); noise(0.7, 0.4, { gain: 0.08, freq: 6000 }); },
-  // a medal shimmer: a fast run of high notes
-  medal: () => { for (let i = 0; i < 14; i++) tone(1046 * Math.pow(1.122, i % 8) , i * 0.045, 0.2, { type: "sine", gain: 0.1 }); tone(523, 0.7, 0.6, { gain: 0.14 }); tone(784, 0.7, 0.6, { gain: 0.12 }); tone(1046, 0.7, 0.7, { gain: 0.12 }); },
-  sparkle: () => { for (let i = 0; i < 5; i++) tone(1500 + Math.random() * 1800, i * 0.04, 0.1, { type: "sine", gain: 0.07 }); },
+  space: {
+    tap: (d = 0) => { rockhit(0, 0.26); tone(700 + (d % 10) * 70, 0, 0.05, { gain: 0.1 }); },
+    whoosh: () => flyby(0, 0.35, 0.2),
+    pop: () => { rockhit(0, 0.24); thud(0.01, 120, 0.12); },
+    correct: (s = 0) => { const b = 523 * climb(s); rockhit(0, 0.1); [1, 1.25, 1.5, 2].forEach((r, i) => { tone(b * r, 0.04 + i * 0.07, 0.12, { type: "square", gain: 0.07 }); tone(b * r, 0.04 + i * 0.07 + 0.14, 0.1, { type: "square", gain: 0.025 }); }); tone(b * 3, 0.34, 0.3, { gain: 0.07, partials: [[1, 1], [2.01, 0.3]] }); },
+    whoops: () => { tone(700, 0, 0.55, { type: "sawtooth", slide: 70, gain: 0.09, vib: [9, 25] }); tone(350, 0, 0.55, { slide: 40, gain: 0.12 }); thud(0.3, 80, 0.12); },
+    clue: () => { tone(1500, 0, 0.5, { gain: 0.18 }); tone(1500, 0.22, 0.4, { gain: 0.07 }); },
+    boing: () => tone(330, 0, 0.35, { slide: 660, gain: 0.2, vib: [14, 40] }),
+    tick: () => tone(1250, 0, 0.04, { gain: 0.2 }),
+    warn: (l = 1) => { for (let i = 0; i <= l; i++) tone(i % 2 ? 660 : 440, i * 0.14, 0.13, { type: "square", gain: 0.08 }); },
+    streak: () => { flyby(0, 0.4, 0.1); [0, 1, 2, 3, 4, 5].forEach((i) => tone(440 * Math.pow(1.189, i), 0.1 + i * 0.06, 0.14, { type: "square", gain: 0.07 })); rockhit(0.5, 0.1); },
+    buzzer: () => { thud(0, 70, 0.34); rumble(0.05, 0.7, 0.16); tone(110, 0, 0.7, { type: "sawtooth", slide: 50, gain: 0.1 }); },
+    drum: () => { rumble(0, 0.85, 0.2); for (let i = 0; i < 6; i++) thud(0.1 + i * 0.13, 100 - i * 6, 0.1 + i * 0.03); },
+    fanfare: () => { flyby(0, 0.5, 0.1); [262, 330, 392, 523, 659, 784, 1046].forEach((f, i) => { tone(f, 0.15 + i * 0.07, 0.2, { type: "square", gain: 0.07 }); tone(f * 1.005, 0.15 + i * 0.07, 0.2, { type: "sawtooth", gain: 0.04 }); }); thud(0.7, 90, 0.16); },
+    medal: () => { tone(300, 0, 0.6, { slide: 1800, gain: 0.12, vib: [7, 30] }); [1568, 1976, 2349, 3136].forEach((f, i) => tone(f, 0.5 + i * 0.08, 0.5, { gain: 0.06 })); for (let i = 0; i < 5; i++) rockhit(0.7 + i * 0.07, 0.06); },
+    sparkle: () => { for (let i = 0; i < 5; i++) tone(1400 + Math.random() * 2200, i * 0.05, 0.14, { gain: 0.06 }); },
+    intro: () => { flyby(0, 0.3, 0.1); [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.15 + i * 0.07, 0.14, { type: "square", gain: 0.06 })); rockhit(0.5, 0.1); },
+  },
+  candy: {
+    tap: (d = 0) => marimba(PENT(d % 10), 0, 0.22),
+    whoosh: () => { gumInflate(0, 0.22, 300, 1100); noise(0, 0.15, { gain: 0.03, freq: 6000, type: "highpass" }); },
+    pop: () => gumPop(0),
+    correct: (s = 0) => { const r = 261.63 * climb(s); choir(r, MAJ6, 0, 0.45, 0.07); [1, 1.25, 1.5, 2].forEach((m, i) => bell(r * 2 * m, 0.1 + i * 0.07, 0.5, 0.08)); },
+    whoops: () => { choir(196, MAJ6, 0, 0.3, 0.06); tone(520, 0, 0.28, { type: "triangle", slide: 180, gain: 0.14 }); tone(180, 0.26, 0.2, { type: "triangle", slide: 420, gain: 0.12 }); },
+    clue: () => { choir(261.63, MAJ6, 0, 0.5, 0.05); [1319, 1568, 2093].forEach((f, i) => bell(f, 0.1 + i * 0.08, 0.5, 0.06)); },
+    boing: () => tone(220, 0, 0.35, { slide: 800, gain: 0.26, vib: [18, 30] }),
+    tick: () => tone(650, 0, 0.06, { gain: 0.3, partials: [[1, 1], [3, 0.3]] }),
+    warn: (l = 1) => { for (let i = 0; i <= l; i++) choir(i % 2 ? 233 : 262, i % 2 ? SUB : DOM7, i * 0.2, 0.18, 0.07); },
+    streak: () => { [261.63, 293.66, 329.63, 392, 440].forEach((r, i) => choir(r, i % 2 ? DOM7 : MAJ6, i * 0.09, 0.22, 0.06)); gumPop(0.5); },
+    buzzer: () => { [0, 0.35].forEach((t, i) => shapeSlide(196 / (1 + i * 0.12), t)); },
+    drum: () => { for (let i = 0; i < 12; i++) marimba(PENT(i % 5) * 1.5, i * 0.065, 0.1 + i * 0.006); },
+    fanfare: () => { choir(196, DOM7, 0, 0.35, 0.07); choir(262, MAJ6, 0.4, 0.9, 0.08); [523, 659, 784, 1046].forEach((f, i) => bell(f, 0.45 + i * 0.07, 0.6, 0.08)); gumInflate(0, 0.38, 300, 1400); gumPop(0.4); },
+    medal: () => { choir(131, MAJ6, 0, 1.6, 0.08); choir(262, MAJ6, 0.15, 1.4, 0.05); for (let i = 0; i < 6; i++) bubble(0.3 + i * 0.09, 500 + i * 160); gumPop(0.1); },
+    sparkle: () => { for (let i = 0; i < 4; i++) bubble(i * 0.05, 700 + Math.random() * 900); },
+    intro: () => { choir(262, DOM7, 0, 0.3, 0.07); choir(349, MAJ6, 0.32, 0.5, 0.07); gumInflate(0.1, 0.28, 400, 1200); gumPop(0.58); },
+  },
 };
-export const EFFECT_NAMES = Object.keys(EFFECTS);
+// a sad little "womp" by the quartet, gliding down
+function shapeSlide(root, start) { MAJ6.forEach((semi, i) => tone(root * Math.pow(1.0595, semi), start, 0.4, { type: "sawtooth", gain: 0.06, slide: root * Math.pow(1.0595, semi) * 0.75, attack: 0.03, lp: 900 })); }
+export const EFFECT_NAMES = Object.keys(LIB.fire);
+
+// For tests: which effects each look defines, and a way to run one without the mute switch.
+export const _effectsFor = (l) => Object.keys(LIB[l] || {});
+export function _run(name, arg) { LIB[look][name](arg); }
 
 export function play(name, arg) {
-  if (muted || !EFFECTS[name]) return false;
+  if (muted || !LIB[look][name]) return false;
   if (!unlock()) return false;
-  try { EFFECTS[name](arg); stats.played++; stats.byName[name] = (stats.byName[name] || 0) + 1; return true; }
+  try { LIB[look][name](arg); stats.played++; stats.byName[name] = (stats.byName[name] || 0) + 1; return true; }
   catch { return false; }
 }

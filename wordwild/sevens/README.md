@@ -10,6 +10,7 @@ Practice the 7 times table, 7 x 0 through 7 x 20 (or the classic 0 to 12). Stati
 | **Stopwatch** | A clock that counts up from the moment Start is pressed; best time is kept per range. |
 | **Beat the clock** | Every fact before time runs out. 0 to 12: Bronze 90 s, Silver 75 s, Gold 60 s. 0 to 20: Bronze 150 s, Silver 120 s, Gold 90 s. The background turns yellow, then orange, then flashing red as time runs short. Medals are remembered per range. |
 
+**Number pad:** the game has its own big on-screen keypad (0 to 9, backspace, and a green check), so the phone's keyboard never opens and cannot cover a button. A computer keyboard works too: digits, Backspace and Enter.
 **Clues** show a rhyme or trick, a dot array (7 in a row, n rows) and a skip-counting strip. In the timed modes a clue you ask for adds 5 seconds.
 **Extras:** streak cheers at 3 in a row and every 5, confetti on right answers and a big finale, number animations, and about a dozen synthesized sound effects (no audio files).
 

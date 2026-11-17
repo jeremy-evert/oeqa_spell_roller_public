@@ -177,28 +177,42 @@ function question() {
       <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
       <form class="entry" id="form" autocomplete="off">
         <label class="label" for="ans">Your answer</label>
-        <div class="answer-row">
-          <input id="ans" class="num" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false">
-          <button class="big go check" type="submit">Check ✓</button>
-        </div>
+        <input id="ans" class="num" type="text" inputmode="none" readonly maxlength="3" autocomplete="off" aria-describedby="msg" placeholder="?">
         <p class="wrong" id="msg" role="status" aria-live="polite"></p>
-        <div class="btns">
-          <button class="big alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
-          <button class="big ghost" type="button" id="skip">Skip</button>
+        <div class="keypad" role="group" aria-label="Number pad">
+          ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button type="button" class="key" data-key="${d}">${d}</button>`).join("")}
+          <button type="button" class="key back" data-key="back" aria-label="Backspace">⌫</button>
+          <button type="button" class="key" data-key="0">0</button>
+          <button type="submit" class="key check" aria-label="Check my answer">✓</button>
         </div>
       </form>
+      <div class="btns two">
+        <button class="big alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
+        <button class="big ghost" type="button" id="skip">Skip</button>
+      </div>
       <div id="hintbox" aria-live="polite"></div>
     </div>
     <button class="link reset" id="quit">Stop and go back</button>`;
   $("#form").addEventListener("submit", (e) => { e.preventDefault(); submit(); });
-  $("#ans").addEventListener("input", (e) => { const d = e.target.value.slice(-1); if (/\d/.test(d)) S.play("tap", Number(d)); });
+  app.querySelectorAll(".key[data-key]").forEach((k) => k.addEventListener("click", () => press(k.dataset.key)));
   $("#clue").addEventListener("click", () => showClue(true));
   $("#skip").addEventListener("click", skip);
   $("#quit").addEventListener("click", () => { if (g.mode === "practice" || confirm("Stop this run?")) menu(); });
-  const ans = $("#ans");
-  ans.addEventListener("focus", () => setTimeout(() => ans.scrollIntoView({ block: "center", behavior: "auto" }), 250));
-  ans.focus({ preventScroll: true });
 }
+
+// The on-screen number pad (and a real keyboard, for desktops) edit the answer box.
+function press(key) {
+  const input = $("#ans"); if (!input || !g || g.ended) return;
+  if (key === "back") { input.value = input.value.slice(0, -1); S.play("tap", 0); }
+  else if (/^\d$/.test(key) && input.value.length < 3) { input.value += key; S.play("tap", Number(key)); }
+  $("#msg").textContent = "";
+}
+document.addEventListener("keydown", (e) => {
+  if (!g || g.ended || !$("#ans") || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (/^\d$/.test(e.key)) { e.preventDefault(); press(e.key); }
+  else if (e.key === "Backspace") { e.preventDefault(); press("back"); }
+  else if (e.key === "Enter" && document.activeElement && document.activeElement.closest && !document.activeElement.closest("button")) { e.preventDefault(); submit(); }
+});
 
 function showClue(manual) {
   const f = g.queue[0];
@@ -211,7 +225,7 @@ function showClue(manual) {
 function submit() {
   const f = g.queue[0], input = $("#ans"), msg = $("#msg");
   const val = parseAnswer(input.value);
-  if (val === null) { msg.textContent = "Type a number, then press Check."; input.focus(); return; }
+  if (val === null) { msg.textContent = "Tap the numbers, then press ✓."; return; }
   if (isCorrect(f, input.value)) {
     g.streak++; const cheer = streakCheer(g.streak);
     const r = $("#ans").getBoundingClientRect();
@@ -230,7 +244,6 @@ function submit() {
   if (g.mode !== "practice" || g.usedClue || g.tries < 2) msg.textContent = "Not quite. Try again!";
   else { msg.textContent = "Not quite. Here is a clue to help!"; showClue(false); }
   if (g.mode !== "practice" && g.tries >= 2 && !g.usedClue) msg.textContent = "Not quite. Stuck? Tap 💡 (+5s).";
-  input.focus();
 }
 
 function skip() { S.play("boing"); g.streak = 0; g.queue.push(g.queue.shift()); question(); }

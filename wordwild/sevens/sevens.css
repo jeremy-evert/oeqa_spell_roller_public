@@ -39,10 +39,13 @@ main, header.site, footer.site { position: relative; z-index: 2; }
 .big-num { font-variant-numeric: tabular-nums; font-size: 1.5em; font-weight: 900; }
 h1.big-num { font-size: clamp(2.6rem, 14vw, 4.2rem); text-align: center; }
 .outcome { text-align: center; font-weight: 800; font-size: 1.15rem; }
-input.num { letter-spacing: 0; }
-.answer-row { display: flex; gap: 8px; align-items: stretch; }
-.answer-row input { flex: 1 1 auto; min-width: 0; }
-.answer-row .check { flex: 0 0 auto; min-width: 7.5em; min-height: 60px; flex-direction: row; }
+input.num { text-align: center; font-size: 2.2rem; letter-spacing: 4px; min-height: 66px; caret-color: transparent; background: #fff; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0 4px; }
+.key { min-height: 58px; font-size: 1.9rem; font-weight: 900; border: 3px solid #1f1b3a; border-radius: 16px; background: #fff; color: #1f1b3a; box-shadow: 0 4px 0 #1f1b3a; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; }
+.key:active { transform: translateY(3px); box-shadow: 0 1px 0 #1f1b3a; background: var(--accent2); color: #fff; }
+.key.back { background: #ffe9a8; } .key.check { background: var(--good); color: #fff; }
+.btns.two .big { flex: 1 1 140px; }
+@media (max-height: 760px) { .key { min-height: 46px; font-size: 1.5rem; } .btns.two { margin-top: 4px; } .btns.two .big { min-height: 46px; padding: 4px 10px; } input.num { min-height: 54px; font-size: 1.9rem; } .story { font-size: 1rem; margin: .1em 0 .3em; } }
 .big.ghost { background: #fff; color: #1f1b3a; }
 .picks { display: flex; flex-wrap: wrap; gap: 8px; }
 .pick { flex: 1 1 90px; min-height: 52px; border: 3px solid #1f1b3a; border-radius: 14px; background: #fff; color: #1f1b3a; font-weight: 800; padding: 6px 10px; box-shadow: 3px 3px 0 #1f1b3a; display: flex; flex-direction: column; align-items: center; justify-content: center; }

@@ -81,7 +81,8 @@ const climb = (s) => Math.pow(1.0595, Math.min(s, 12));
 /* ---------- three sound worlds ---------- */
 const LIB = {
   fire: {
-    tap: (d = 0) => { noise(0, 0.04, { gain: 0.34, freq: 2200, q: 0.7 }); tone(180 + (d % 10) * 22, 0, 0.07, { type: "square", gain: 0.14 }); },
+    // a warm "ember thump": a soft rounded tone that dips a little, a low puff underneath, a different low note for each digit
+    tap: (d = 0) => { const f = [165, 196, 220, 262, 294][d % 5] * (d % 10 >= 5 ? 1.5 : 1); tone(f, 0, 0.14, { type: "triangle", gain: 0.3, slide: f * 0.82, attack: 0.004, lp: 1300 }); noise(0, 0.06, { gain: 0.14, freq: 450, type: "lowpass" }); },
     whoosh: () => { noise(0, 0.3, { gain: 0.24, freq: 250, sweepTo: 2600, type: "lowpass", q: 0.6 }); tone(120, 0, 0.3, { gain: 0.14, slide: 400 }); },
     pop: () => { noise(0, 0.1, { gain: 0.18, freq: 700, type: "lowpass" }); tone(140, 0, 0.1, { gain: 0.18, slide: 60 }); crackle(0.03, 0.15, { gain: 0.1, rate: 40 }); },
     correct: (s = 0) => { const b = 294 * climb(s); whump(0); [1, 1.25, 1.5].forEach((r, i) => brass(b * r, 0.08 + i * 0.08, 0.2, 0.12)); crackle(0.05, 0.35, { gain: 0.08, rate: 30 }); },

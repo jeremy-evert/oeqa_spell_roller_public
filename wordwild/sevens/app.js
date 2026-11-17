@@ -88,7 +88,7 @@ function patternHtml(n) {
 
 /* ---------- menu ---------- */
 function menu() {
-  stopTicker(); g = null; setAlert(0); lastLevel = 0; confetti.clear(); document.body.classList.remove("playing");
+  closeSheet(); stopTicker(); g = null; setAlert(0); lastLevel = 0; confetti.clear(); document.body.classList.remove("playing");
   const max = state.range, best = state.best[max];
   const themeBtns = THEMES.map((t) => `<button class="pick ${t.id === state.theme ? "on" : ""}" data-theme="${t.id}" aria-pressed="${t.id === state.theme}"><span aria-hidden="true">${t.icon}</span>${t.label}</button>`).join("");
   const rangeBtns = RANGES.map((r) => `<button class="pick ${r.max === max ? "on" : ""}" data-range="${r.max}" aria-pressed="${r.max === max}">${r.label}<small>${r.sub}</small></button>`).join("");
@@ -162,7 +162,7 @@ function tick() {
 
 /* ---------- a question ---------- */
 function question() {
-  const f = g.queue[0]; g.tries = 0; g.usedClue = false;
+  const f = g.queue[0]; g.tries = 0; g.usedClue = false; g.clueLevel = 0;
   const done = g.results.length;
   const timed = g.mode !== "practice";
   const clockText = g.mode === "clock" ? formatTime(remaining()) : g.mode === "stopwatch" ? formatTime(elapsed()) : "";
@@ -174,10 +174,11 @@ function question() {
     <div class="bar" aria-hidden="true"><i id="barfill" style="width:${pct}%"></i></div>
     <div class="card" id="card">
       <div class="helpers">
-        <button class="mini alt" type="button" id="clue">💡 Clue${timed ? " (+5s)" : ""}</button>
+        <button class="mini alt" type="button" id="clue">💡 Think${timed ? " (+5s)" : ""}</button>
         <button class="mini" type="button" id="skip">Skip ⏭</button>
       </div>
       <p class="story">${esc(f.q)}</p>
+      <div id="think" class="think" aria-live="polite"></div>
       <p class="sum" aria-label="7 times ${f.n}"><span class="n">7</span><span class="op">×</span><span class="n">${f.n}</span><span class="op">=</span><span class="n qm">?</span></p>
       <form class="entry" id="form" autocomplete="off">
         <label class="label" for="ans">Your answer</label>
@@ -190,12 +191,11 @@ function question() {
           <button type="submit" class="key check" aria-label="Check my answer">✓</button>
         </div>
       </form>
-      <div id="hintbox" aria-live="polite"></div>
     </div>
     <button class="link reset" id="quit">Stop and go back</button>`;
   $("#form").addEventListener("submit", (e) => { e.preventDefault(); submit(); });
   app.querySelectorAll(".key[data-key]").forEach((k) => k.addEventListener("click", () => press(k.dataset.key)));
-  $("#clue").addEventListener("click", () => showClue(true));
+  $("#clue").addEventListener("click", () => giveHelp(true));
   $("#skip").addEventListener("click", skip);
   $("#quit").addEventListener("click", () => { if (g.mode === "practice" || confirm("Stop this run?")) menu(); });
 }
@@ -208,18 +208,38 @@ function press(key) {
   $("#msg").textContent = "";
 }
 document.addEventListener("keydown", (e) => {
-  if (!g || g.ended || !$("#ans") || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === "Escape") closeSheet();
+  if (!g || g.ended || !$("#ans") || document.querySelector(".sheet-back") || e.ctrlKey || e.metaKey || e.altKey) return;
   if (/^\d$/.test(e.key)) { e.preventDefault(); press(e.key); }
   else if (e.key === "Backspace") { e.preventDefault(); press("back"); }
   else if (e.key === "Enter" && document.activeElement && document.activeElement.closest && !document.activeElement.closest("button")) { e.preventDefault(); submit(); }
 });
 
-function showClue(manual) {
-  const f = g.queue[0];
-  if (manual && g.mode !== "practice" && !g.usedClue) { g.t0 -= CLUE_PENALTY_MS; flyPop("+5s", "bad"); }
-  g.usedClue = true; S.play("clue");
-  $("#hintbox").innerHTML = `<div class="hint">💡 ${esc(f.clue)}</div>${dotsHtml(f.n)}${patternHtml(f.n)}`;
-  $("#hintbox").scrollIntoView({ block: "nearest", behavior: reduceMotion() ? "auto" : "smooth" });
+// Two levels of help. Level 1 "think" is a strategy with no answer in it; level 2 is the full clue: rhyme, dots, pattern.
+function giveHelp(manual) {
+  const f = g.queue[0], timed = g.mode !== "practice";
+  if (g.clueLevel >= 2) return openSheet(f);          // already at the top: just show it again, no charge
+  g.clueLevel++; g.usedClue = true; S.play("clue");
+  if (manual && timed) { g.t0 -= CLUE_PENALTY_MS; flyPop("+5s", "bad"); }
+  $("#think").innerHTML = `<strong>Think:</strong> ${esc(f.think)}`;
+  const btn = $("#clue");
+  btn.textContent = g.clueLevel === 1 ? `💡 More help${timed ? " (+5s)" : ""}` : "💡 Show again";
+  if (g.clueLevel === 2) openSheet(f);
+}
+
+function closeSheet() { const el = document.querySelector(".sheet-back"); if (el) el.remove(); }
+function openSheet(f) {
+  closeSheet();
+  const el = document.createElement("div");
+  el.className = "sheet-back";
+  el.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="Help for 7 times ${f.n}">
+      <p class="think"><strong>Think:</strong> ${esc(f.think)}</p>
+      <div class="hint">💡 ${esc(f.clue)}</div>${dotsHtml(f.n)}${patternHtml(f.n)}
+      <button class="big go" type="button" id="gotit">Got it!</button></div>`;
+  el.addEventListener("click", (e) => { if (e.target === el) closeSheet(); });
+  document.body.append(el);
+  el.querySelector("#gotit").addEventListener("click", closeSheet);
+  el.querySelector("#gotit").focus({ preventScroll: true });
 }
 
 function submit() {
@@ -241,16 +261,18 @@ function submit() {
   input.value = "";
   const card = $("#card"); card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
   document.body.classList.add("oops"); setTimeout(() => document.body.classList.remove("oops"), 450);
-  if (g.mode !== "practice" || g.usedClue || g.tries < 2) msg.textContent = "Not quite. Try again!";
-  else { msg.textContent = "Not quite. Here is a clue to help!"; showClue(false); }
-  if (g.mode !== "practice" && g.tries >= 2 && !g.usedClue) msg.textContent = "Not quite. Stuck? Tap 💡 (+5s).";
+  msg.textContent = "Not quite. Try again!";
+  if (g.mode === "practice") {
+    if (g.tries >= 2 && g.clueLevel < 1) { msg.textContent = "Not quite. Here is something to think about!"; giveHelp(false); }
+    else if (g.tries >= 4 && g.clueLevel < 2) { msg.textContent = "Not quite. Here is more help!"; giveHelp(false); }
+  } else if (g.tries >= 2 && g.clueLevel < 1) msg.textContent = "Not quite. Stuck? Tap 💡 (+5s).";
 }
 
 function skip() { S.play("boing"); g.streak = 0; g.queue.push(g.queue.shift()); question(); }
 
 /* ---------- the end ---------- */
 function finish(allDone) {
-  if (g.ended) return; g.ended = true; stopTicker(); setAlert(0);
+  if (g.ended) return; closeSheet(); g.ended = true; stopTicker(); setAlert(0);
   const ms = Math.min(elapsed(), g.mode === "clock" ? g.limitMs : Infinity), stars = g.results.filter((r) => r === "star").length;
   state.plays++;
   let body = "", after = () => {};

@@ -94,3 +94,20 @@ test("save then load round-trips, including theme and range", () => {
 });
 
 test("three themes", () => { assert.deepEqual(THEMES.map((t) => t.id), ["fire", "space", "candy"]); });
+
+test("every fact has a think hint that teaches a strategy but never states the answer", () => {
+  for (const f of FACTS) {
+    assert.ok(f.think && f.think.length > 15, `think for ${f.n}`);
+    if (f.n >= 3) assert.ok(!new RegExp(`\\b${f.a}\\b`).test(f.think), `think for ${f.n} must not contain ${f.a}`);
+  }
+});
+
+test("every 'N sevens is M' claim in a think hint is true", () => {
+  let claims = 0;
+  for (const f of FACTS) for (const m of f.think.matchAll(/(\d+) sevens is (\d+)/g)) { claims++; assert.equal(7 * Number(m[1]), Number(m[2]), `${f.n}: ${m[0]}`); }
+  assert.ok(claims >= 15);
+});
+
+test("the 17 hint is the one Jeremy wrote", () => {
+  assert.match(FACTS[17].think, /17 is 3 less than 20/); assert.match(FACTS[17].think, /20 sevens is 140/); assert.match(FACTS[17].think, /3 sevens is 21/);
+});

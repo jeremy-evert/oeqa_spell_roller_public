@@ -13,6 +13,13 @@ export const OUTCOME = Object.freeze({
 });
 export const INDEPENDENT_KEYS = [OUTCOME.INDEPENDENT];
 
+// Optional cosmetic rewards only: never affect the spelling score or unlock the lessons.
+export const HAT_STYLES = Object.freeze([
+  { id: "classic", label: "Classic graduation cap", unlockAt: 0 },
+  { id: "starlight", label: "Purple sparkle cap", unlockAt: 10 },
+  { id: "sunshine", label: "Golden sunshine cap", unlockAt: 25 },
+]);
+
 export const MAX_ATTEMPTS_BEFORE_OFFER = 2; // after this many wrong tries the card offers hint / study
 
 export function normalize(input) {
@@ -98,7 +105,7 @@ const emptyStats = () => ({ runs: 0, independent: 0, afterRetry: 0, afterHint: 0
 export function blankState() {
   const words = {};
   for (const w of WORDS) words[w.word] = emptyStats();
-  return { schema: SCHEMA, words, sessions: [], settings: { muted: false, reducedMotion: null, accessible: false } };
+  return { schema: SCHEMA, words, sessions: [], practicePoints: 0, settings: { muted: false, reducedMotion: null, accessible: false, hatStyle: "classic" } };
 }
 
 const NUM = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : 0);
@@ -107,6 +114,7 @@ const NUM = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : 0);
 export function migrate(raw) {
   const base = blankState();
   if (!raw || typeof raw !== "object" || raw.schema !== SCHEMA) return base;
+  base.practicePoints = NUM(raw.practicePoints);
   for (const w of WORDS) {
     const r = raw.words && typeof raw.words === "object" ? raw.words[w.word] : null;
     if (!r || typeof r !== "object") continue;
@@ -120,6 +128,8 @@ export function migrate(raw) {
     base.settings.muted = raw.settings.muted === true;
     base.settings.reducedMotion = typeof raw.settings.reducedMotion === "boolean" ? raw.settings.reducedMotion : null;
     base.settings.accessible = raw.settings.accessible === true;
+    const choice = HAT_STYLES.find((h) => h.id === raw.settings.hatStyle);
+    if (choice && base.practicePoints >= choice.unlockAt) base.settings.hatStyle = choice.id;
   }
   if (Array.isArray(raw.sessions)) {
     base.sessions = raw.sessions.slice(-20).filter((s) => s && typeof s === "object").map((s) => ({
@@ -135,6 +145,8 @@ export class Progress {
     const s = this.state.words[word.toLowerCase()];
     if (!s) throw new Error("Unknown word: " + word);
     s.runs++; s.last = outcome; s.lastSeen = this.now();
+    // Award effort, not perfection; never deduct points for an incorrect attempt.
+    if (outcome !== OUTCOME.SKIPPED) this.state.practicePoints += 2;
     if (outcome === OUTCOME.INDEPENDENT) s.independent++;
     else if (outcome === OUTCOME.AFTER_RETRY) s.afterRetry++;
     else if (outcome === OUTCOME.AFTER_HINT) s.afterHint++;
@@ -145,7 +157,20 @@ export class Progress {
     if (outcome !== OUTCOME.INDEPENDENT) s.tricky = true;
     else s.tricky = false;
   }
-  recordStudy(word) { const s = this.state.words[word.toLowerCase()]; if (s) { s.studied++; s.lastSeen = this.now(); } }
+  recordStudy(word) {
+    const s = this.state.words[word.toLowerCase()];
+    if (s) {
+      // One point for studying a word once; unlimited flips cannot farm points.
+      if (!s.studied) this.state.practicePoints++;
+      s.studied++; s.lastSeen = this.now();
+    }
+  }
+  chooseHatStyle(id) {
+    const choice = HAT_STYLES.find((hat) => hat.id === id);
+    if (!choice || this.state.practicePoints < choice.unlockAt) return false;
+    this.state.settings.hatStyle = choice.id;
+    return true;
+  }
   setTricky(word, v) { const s = this.state.words[word.toLowerCase()]; if (s) s.tricky = !!v; }
   recordSession(mode, outcomes) {
     this.state.sessions.push({ at: this.now(), mode, total: outcomes.length,
@@ -167,7 +192,7 @@ export class Progress {
       rows,
     };
   }
-  reset() { const keep = this.state.settings; this.state = blankState(); this.state.settings = keep; }
+  reset() { const keep = { ...this.state.settings, hatStyle: "classic" }; this.state = blankState(); this.state.settings = keep; }
 }
 
 // ---- rounds ---------------------------------------------------------------------------------------------

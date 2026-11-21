@@ -28,3 +28,11 @@ Spelling notes and chunk choices are word-specific teaching aids, not universal 
 
 ## Testing
 From this directory: `node --test`. This is a static HTML/CSS/JS game; no build, account, external library, or CDN is needed.
+
+## Magdalena's playtest improvements (List 15)
+
+- Every five-word break offers a prominent **Continue** button. At the end of a set, it starts a new surprise round of five instead of leaving a dead end.
+- A **Practice tricky words** button is available after finishing only if words actually need review. The main Continue button stays visible.
+- Professor Potato's retry face now has kind eyebrows and a little smile instead of an angry expression.
+- **Potato Points** are cosmetic rewards in this edition. 2 points for each completed spelling (even with hints or retries), and 1 point for studying a word the first time. Incorrect answers never subtract points. No accounts, purchases or leaderboards.
+- Unlock a purple sparkle graduation cap at 10 points or a golden cap at 25 points. Both are just costumes, not quiz advantages. Points and selected cap stay in the existing List 15 browser-only storage.

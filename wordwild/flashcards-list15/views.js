@@ -3,7 +3,7 @@
 // alt text, attributes or class names. Audio file names are built in voice.js and never put in the DOM.
 import { WORDS } from "./words.js";
 import { sceneSVG, potatoSVG } from "./art.js";
-import { OUTCOME, rounds } from "./engine.js";
+import { OUTCOME, rounds, HAT_STYLES } from "./engine.js";
 
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -18,7 +18,12 @@ export const OUTCOME_LABEL = {
 const STATUS_NOTE = { "word-specific": "", "supported general pattern": "" };
 
 export const CHEERS = ["Spelltacular!", "Brain muscles: flexed!", "That was smoother than a banana slide!", "Look at you go!", "Spelling superpowers: activated!"];
-export const OOPS = ["Oof! Even a professor potato makes mistakes.", "Whoopsie-daisy! Your brain is warming up.", "Not yet. Mashed potatoes are made of tries!", "Close the book on that one? Nope, try again!"];
+export const OOPS = [
+  "Professor Potato is still smiling. Let's try again!",
+  "Not yet, but you're learning. You've got this!",
+  "Close one! Would hearing it again help?",
+  "Good try! We'll figure this tricky part out together.",
+];
 
 const blankClue = (w) => esc(w.clue).replace(/_{3,}/g, '<span class="blank" aria-label="blank">______</span>');
 
@@ -58,6 +63,19 @@ export function homeView(progress, settings, voiceReady) {
     <h2>Your progress <span class="tag">saved on this device only</span></h2>
     <p class="count"><b>${sum.independentNow}</b> of 20 words spelled by yourself on the latest try. ${sum.practiced} tried so far.</p>
     <ol class="dots" aria-label="Progress by card">${dots(progress)}</ol>
+    <h2>Professor Potato's Hat Closet <span class="tag">just for fun</span></h2>
+    <p class="points-count"><b>${progress.state.practicePoints}</b> Potato Points! Earn 2 for spelling a word (even with help), or 1 for studying a new flip card. Wrong answers never lose points.</p>
+    <div class="hat-choices" role="group" aria-label="Choose Professor Potato's hat">
+    ${HAT_STYLES.map((hat) => {
+      const unlocked = progress.state.practicePoints >= hat.unlockAt;
+      const selected = settings.hatStyle === hat.id;
+      return `<button class="hat-choice${selected ? " selected" : ""}" type="button" data-action="choose-hat" data-hat="${hat.id}" aria-pressed="${selected}" ${unlocked ? "" : "disabled"}>
+        <span class="hat-sample hat-sample-${hat.id}" aria-hidden="true">🎓</span><span>${esc(hat.label)}</span>
+        <small>${unlocked ? selected ? "Wearing it!" : "Unlocked · Pick me!" : "Unlock at " + hat.unlockAt + " points"}</small>
+      </button>`;
+    }).join("")}
+    </div>
+    <p class="note">Hats are cosmetic. All quizzes, hints, and accessibility tools stay available to everyone.</p>
     <h2>Settings</h2>
     <div class="settings">
       <label><input type="checkbox" data-setting="sfx" ${settings.muted ? "" : "checked"}> Sound effects</label>
@@ -155,13 +173,25 @@ export function flipBackView({ w, index, total }) {
   </section>`;
 }
 
-export function breakView({ rows, kindLabel, hasMore, stats, overall }) {
+export function breakView({ rows, kindLabel, hasMore, nextCard, totalCards, trickyCount = 0, stats, overall }) {
+  const perfect = stats.independent === rows.length;
   return `
   <section class="break" aria-labelledby="bh">
-    <div class="hero">${potatoSVG("cheer")}<div class="bubble"><h2 id="bh">${esc(kindLabel)} done!</h2><p>${stats.independent} of ${rows.length} spelled all by yourself. Everyone gets some wrong; that is how brains grow.</p>${overall ? `<p><b>Whole game: ${overall.independent} of ${overall.total} spelled all by yourself.</b></p>` : ""}</div></div>
+    <div class="hero">${potatoSVG("cheer")}<div class="bubble">
+      <h2 id="bh">${perfect ? "Perfect five!" : esc(kindLabel) + " done!"}</h2>
+      <p>${stats.independent} of ${rows.length} spelled all by yourself. ${perfect ? "Wonderful work!" : "Every try helps your brain learn."}</p>
+      ${overall ? `<p><b>Whole game: ${overall.independent} of ${overall.total} spelled independently.</b></p>` : ""}
+      ${hasMore ? `<p><b>${nextCard - 1} of ${totalCards} complete.</b> Your game is not over yet!</p>` : "<p>You finished this set. Great work!</p>"}
+    </div></div>
     <ul class="results">${rows.map((r) => `<li><span aria-hidden="true">${OUTCOME_LABEL[r.outcome].icon}</span> <b>${esc(r.word)}</b> <span class="muted">${OUTCOME_LABEL[r.outcome].text}</span></li>`).join("")}</ul>
-    <div class="btns">${hasMore ? `<button class="big go" data-action="continue">Keep going →</button>` : ""}
-    <button class="btn" data-action="start-review">Practice the tricky ones</button><button class="btn" data-action="home">Back to menu</button></div>
+    <div class="break-action">
+    ${hasMore
+      ? `<button class="big go continue-main" data-action="continue">Continue to card ${nextCard} of ${totalCards} →<small>Keep going in your game</small></button>`
+      : `<button class="big go continue-main" data-action="play-another-five">Continue practicing →<small>Play another five words</small></button>`}
+    </div>
+    ${!hasMore && trickyCount ? `<div class="btns"><button class="btn" data-action="start-review">Practice ${trickyCount} tricky ${trickyCount === 1 ? "word" : "words"}</button></div>` : ""}
+    ${!hasMore && !trickyCount ? '<p class="no-tricky">No tricky words to review. You are ready for another round!</p>' : ""}
+    <div class="break-exit"><button class="link" data-action="home">Leave game · Back to menu</button></div>
   </section>`;
 }
 

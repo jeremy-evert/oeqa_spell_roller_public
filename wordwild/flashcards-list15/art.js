@@ -214,20 +214,27 @@ export function sceneSVG(id, alt) {
 }
 
 // ---- Professor Potato: the host. Moods change the face only. ----------------------------------------------
+let selectedHatStyle = "classic";
+export function setPotatoHat(id) {
+  selectedHatStyle = ["classic", "starlight", "sunshine"].includes(id) ? id : "classic";
+}
 export function potatoSVG(mood = "happy") {
   const mouth = {
     happy: `<path d="M70 120 q30 28 60 0" fill="#fff" stroke="#3a1f0a" stroke-width="4"/>`,
     cheer: `<path d="M64 116 q36 46 72 0z" fill="#7a1f14" stroke="#3a1f0a" stroke-width="4"/><path d="M80 130 q20 12 40 0" fill="#ff8a8a"/>`,
-    oops: `<ellipse cx="100" cy="128" rx="14" ry="11" fill="#7a1f14" stroke="#3a1f0a" stroke-width="4"/>`,
+    oops: `<path d="M85 127 Q100 140 115 127" fill="none" stroke="#3a1f0a" stroke-width="4" stroke-linecap="round"/>`,
     think: `<path d="M78 126 q22 -8 44 4" fill="none" stroke="#3a1f0a" stroke-width="4" stroke-linecap="round"/>`,
   }[mood] || "";
-  const brow = mood === "oops" ? `<path d="M62 76 l26 6 M138 76 l-26 6" stroke="#3a1f0a" stroke-width="4" stroke-linecap="round"/>` : "";
-  const sweat = mood === "oops" ? `<path d="M150 70 q8 14 0 20 q-8 -6 0 -20z" fill="#7ad0ff" stroke="#2a7aa8" stroke-width="2"/>` : "";
+  const brow = mood === "oops" ? `<path d="M62 78 Q74 72 87 79 M113 79 Q126 72 138 78" fill="none" stroke="#3a1f0a" stroke-width="3" stroke-linecap="round"/>` : "";
+  const sweat = "";
+  const capColor = selectedHatStyle === "sunshine" ? "#d99616" : selectedHatStyle === "starlight" ? "#7954d4" : "#2b2b3a";
+  const capTrim = selectedHatStyle === "sunshine" ? "#815315" : selectedHatStyle === "starlight" ? "#392477" : "#14141e";
+  const capSparkles = selectedHatStyle === "classic" ? "" : '<circle cx="83" cy="41" r="3" fill="#fff4b0"/><circle cx="111" cy="35" r="3" fill="#fff4b0"/><circle cx="139" cy="40" r="2" fill="#fff4b0"/>';
   return `<svg class="potato mood-${mood}" viewBox="0 0 200 200" role="img" aria-label="Professor Potato, a potato in a graduation cap">
     <ellipse cx="100" cy="190" rx="52" ry="8" fill="#000" opacity=".15"/>
     <path d="M100 46 C150 40 176 86 170 128 C164 170 130 186 98 184 C62 182 32 160 30 120 C28 80 54 52 100 46z" fill="#c8995a" stroke="#6d4620" stroke-width="5"/>
     <g fill="#a87438" opacity=".7"><ellipse cx="60" cy="150" rx="6" ry="4"/><ellipse cx="140" cy="158" rx="5" ry="3.5"/><ellipse cx="120" cy="64" rx="5" ry="3"/><ellipse cx="46" cy="110" rx="4" ry="3"/></g>
-    <polygon points="100,12 176,40 100,56 24,40" fill="#2b2b3a" stroke="#14141e" stroke-width="3"/><rect x="70" y="44" width="60" height="16" rx="3" fill="#2b2b3a"/>
+    <polygon points="100,12 176,40 100,56 24,40" fill="${capColor}" stroke="${capTrim}" stroke-width="3"/><rect x="70" y="44" width="60" height="16" rx="3" fill="${capColor}"/>${capSparkles}
     <line x1="168" y1="42" x2="184" y2="78" stroke="#ffd34d" stroke-width="4"/><circle cx="184" cy="82" r="6" fill="#ffd34d"/>
     ${eye(76, 96, 13, 1)}${eye(124, 96, 13, 1)}${brow}${mouth}${sweat}
     <circle cx="52" cy="116" r="9" fill="#ff8a8a" opacity=".5"/><circle cx="148" cy="116" r="9" fill="#ff8a8a" opacity=".5"/></svg>`;

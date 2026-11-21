@@ -5,6 +5,7 @@ import { homeView, cardView, resultView, flipFrontView, flipBackView, breakView,
 import * as sfx from "./sfx.js";
 import * as voice from "./voice.js";
 import { load, save, wipe } from "./storage.js";
+import { setPotatoHat } from "./art.js";
 
 const app = document.getElementById("app");
 const byWord = Object.fromEntries(WORDS.map((w) => [w.word, w]));
@@ -12,6 +13,7 @@ const progress = new Progress(load());
 const settings = progress.state.settings;
 if (settings.reducedMotion === null) settings.reducedMotion = !!globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 sfx.setMuted(settings.muted);
+setPotatoHat(settings.hatStyle);
 applyCalm();
 
 let session = null; // { mode, label, words, idx, outcomes, batchStart, run, hint, stage, line }
@@ -84,7 +86,8 @@ function next() {
     progress.recordSession(session.mode, rows.map((r) => r.outcome)); persist();
     sfx.play("fanfare"); confetti(true);
     render(breakView({ rows, kindLabel: session.idx >= session.words.length ? session.label : "Five cards",
-      hasMore: session.idx < session.words.length, stats: { independent: rows.filter((r) => r.outcome === OUTCOME.INDEPENDENT).length },
+      hasMore: session.idx < session.words.length, nextCard: session.idx + 1, totalCards: session.words.length,
+      trickyCount: progress.reviewList().length, stats: { independent: rows.filter((r) => r.outcome === OUTCOME.INDEPENDENT).length },
       overall: session.idx >= session.words.length && session.words.length > 5
         ? { independent: session.outcomes.filter((r) => r.outcome === OUTCOME.INDEPENDENT).length, total: session.outcomes.length } : null }), "#bh");
     return;
@@ -126,11 +129,13 @@ app.addEventListener("click", (e) => {
       render(flipBackView({ w, index: session.idx, total: session.words.length }), "#ch"); return;
     case "next": sfx.play("pop"); if (session.run && !session.run.done && session.mode !== "flip") { session.run.skip(); return finishCard(); } return next();
     case "continue": sfx.play("pop"); return showCard(true);
+    case "play-another-five": return startSession("listen", "surprise");
+    case "choose-hat": if (progress.chooseHatStyle(t.dataset.hat)) { setPotatoHat(settings.hatStyle); persist(); sfx.play("pop"); } return home();
     case "start-review": return startSession("review");
     case "reset-ask": document.getElementById("resetbox").innerHTML =
       ` Really erase all progress on this device? <button class="btn" data-action="reset-yes">Yes, erase it</button> <button class="btn" data-action="reset-no">Cancel</button>`; return;
     case "reset-no": document.getElementById("resetbox").textContent = ""; return;
-    case "reset-yes": progress.reset(); wipe(); persist(); sfx.play("pop"); return home();
+    case "reset-yes": progress.reset(); setPotatoHat(settings.hatStyle); wipe(); persist(); sfx.play("pop"); return home();
   }
 });
 

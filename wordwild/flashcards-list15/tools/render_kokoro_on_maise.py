@@ -62,7 +62,11 @@ def duration_seconds(mp3: Path) -> float:
 
 def convert_to_mp3(samples, sample_rate: int, mp3: Path) -> float:
     import soundfile as sf
-    with tempfile.TemporaryDirectory(prefix="wordwild-kokoro-") as td:
+    # Keep temporary WAV/MP3 files on the destination filesystem. A temporary
+    # directory in /tmp may be on a different mount (EXDEV on os.replace).
+    # Staging here preserves atomic publication of each verified clip.
+    mp3.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".wordwild-kokoro-", dir=mp3.parent) as td:
         wav = Path(td) / "render.wav"
         encoded = Path(td) / "render.mp3"
         sf.write(wav, samples, sample_rate, subtype="PCM_16")
@@ -74,7 +78,6 @@ def convert_to_mp3(samples, sample_rate: int, mp3: Path) -> float:
                         "-ar", str(RATE), "-ac", "1", "-codec:a", "libmp3lame",
                         "-b:a", "64k", str(encoded)], check=True)
         duration = duration_seconds(encoded)
-        mp3.parent.mkdir(parents=True, exist_ok=True)
         os.replace(encoded, mp3)
     return duration
 

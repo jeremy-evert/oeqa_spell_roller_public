@@ -1,7 +1,7 @@
 // List 15 edition, with its own progress key. Controller: wires views, engine, sound, voice and storage together. All scoring rules live in engine.js.
 import { WORDS } from "./words.js";
 import { CardRun, OUTCOME, Progress, rounds, shuffled } from "./engine.js";
-import { homeView, cardView, resultView, flipFrontView, flipBackView, breakView, emptyReviewView, CHEERS, OOPS } from "./views.js";
+import { homeView, shopView, lockerView, profileView, cardView, resultView, flipFrontView, flipBackView, breakView, emptyReviewView, CHEERS, OOPS } from "./views.js";
 import * as sfx from "./sfx.js";
 import * as voice from "./voice.js";
 import { load, save, wipe } from "./storage.js";
@@ -19,9 +19,19 @@ applyTheme();
 
 let session = null; // { mode, label, words, idx, outcomes, batchStart, run, hint, stage, line }
 let voiceReady = false;
-let openClosetCategory = "hatStyle";
+let currentPage = "menu";
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
-const persist = () => save(progress.state);
+function refreshHeader() {
+  const balance = document.getElementById("points-badge");
+  if (balance) balance.textContent = progress.state.pointBalance + " pts";
+  document.querySelectorAll("#site-nav [data-page]").forEach(button => {
+    const active = button.dataset.page === currentPage;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
+}
+const persist = () => { const ok = save(progress.state); refreshHeader(); return ok; };
 
 function applyCalm() { document.body.classList.toggle("calm", !!settings.reducedMotion); }
 function applyTheme() { document.body.dataset.theme = settings.backgroundTheme || "original"; }
@@ -33,7 +43,19 @@ function render(html, focusSel) {
   window.scrollTo?.(0, 0);
 }
 
-function home() { session = null; voice.stop(); render(homeView(progress, settings, voiceReady, openClosetCategory)); }
+function showPage(page, feedback = "") {
+  if (!["menu","shop","locker","profile"].includes(page)) return;
+  currentPage = page;
+  session = null;
+  voice.stop();
+  const html = page === "shop" ? shopView(progress, new Date().getMonth()+1, feedback)
+    : page === "locker" ? lockerView(progress)
+    : page === "profile" ? profileView(progress, settings, voiceReady)
+    : homeView(progress, settings, voiceReady);
+  render(html);
+  refreshHeader();
+}
+function home() { showPage("menu"); }
 
 // ---- sessions ----------------------------------------------------------------------------------------------
 function startSession(mode, roundKey) {
@@ -113,12 +135,29 @@ function confetti(big = false) {
 }
 
 // ---- events ------------------------------------------------------------------------------------------------
-app.addEventListener("click", (e) => {
+document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-action]"); if (!t || t.tagName === "FORM") return;
   sfx.unlock();
   const a = t.dataset.action;
   const w = session && session.words[session.idx];
   switch (a) {
+    case "nav": return showPage(t.dataset.page);
+    case "buy": {
+      if (currentPage !== "shop") return;
+      const result = progress.purchase(t.dataset.key, t.dataset.item);
+      if (result.ok) {
+        persist(); sfx.play("fanfare");
+        return showPage("shop", "Purchased! It's yours forever. Visit the Locker to wear it.");
+      }
+      return showPage("shop", result.reason || "Could not buy that item.");
+    }
+    case "equip": {
+      if (currentPage !== "locker") return;
+      if (progress.equip(t.dataset.key, t.dataset.item)) {
+        setPotatoStyle(settings); applyTheme(); persist(); sfx.play("pop");
+      }
+      return showPage("locker");
+    }
     case "start": return startSession(t.dataset.mode, t.dataset.round);
     case "home": sfx.play("pop"); return home();
     case "say": case "say-result": sfx.play("pop"); return void voice.say(w.word, w.sentence, t.dataset.kind);
@@ -133,29 +172,6 @@ app.addEventListener("click", (e) => {
     case "next": sfx.play("pop"); if (session.run && !session.run.done && session.mode !== "flip") { session.run.skip(); return finishCard(); } return next();
     case "continue": sfx.play("pop"); return showCard(true);
     case "play-another-five": return startSession("listen", "surprise");
-    case "choose-hat":
-      if (progress.chooseHatStyle(t.dataset.hat)) {
-        openClosetCategory = "hatStyle";
-        setPotatoStyle(settings); persist(); sfx.play("pop");
-      }
-      return home();
-    case "choose-cosmetic": {
-      const key = t.dataset.key, item = t.dataset.item;
-      const method = {
-        hatStyle: () => progress.chooseHatStyle(item),
-        accessoryStyle: () => progress.chooseAccessory(item),
-        potatoColor: () => progress.choosePotatoColor(item),
-        backgroundTheme: () => progress.chooseBackground(item),
-      }[key];
-      if (method?.()) {
-        openClosetCategory = key;
-        setPotatoStyle(settings);
-        applyTheme();
-        persist();
-        sfx.play("pop");
-      }
-      return home();
-    }
     case "start-review": return startSession("review");
     case "reset-ask": document.getElementById("resetbox").innerHTML =
       ` Really erase all progress on this device? <button class="btn" data-action="reset-yes">Yes, erase it</button> <button class="btn" data-action="reset-no">Cancel</button>`; return;

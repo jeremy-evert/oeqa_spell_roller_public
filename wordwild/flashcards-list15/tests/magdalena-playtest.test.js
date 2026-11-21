@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { WORDS } from "../words.js";
 import { OUTCOME, Progress, blankState, migrate } from "../engine.js";
-import { breakView, homeView } from "../views.js";
+import { breakView, homeView, shopView, lockerView, profileView } from "../views.js";
 import { potatoSVG, setPotatoHat } from "../art.js";
 
 const rows = (outcome) => WORDS.slice(0, 5).map((w) => ({ word: w.word, outcome }));
@@ -32,31 +32,38 @@ test("review only appears when there are tricky words, without hiding Continue",
   assert.match(html, /data-action="play-another-five"/);
 });
 
-test("Potato Points reward effort and never deduct for incorrect attempts", () => {
+test("Potato Points reward effort, purchases spend balance but never history", () => {
   const p = new Progress(blankState());
   p.record(WORDS[0].word, OUTCOME.AFTER_HINT);
   assert.equal(p.state.practicePoints, 2);
+  assert.equal(p.state.pointBalance, 2);
   p.record(WORDS[1].word, OUTCOME.SKIPPED);
-  assert.equal(p.state.practicePoints, 2);
+  assert.equal(p.state.pointBalance, 2);
   p.recordStudy(WORDS[2].word);
   p.recordStudy(WORDS[2].word);
-  assert.equal(p.state.practicePoints, 3);
-  assert.equal(p.chooseHatStyle("starlight"), false);
-  for (let i = 0; i < 4; i++) p.record(WORDS[3].word, OUTCOME.AFTER_RETRY);
+  assert.equal(p.state.pointBalance, 3);
+  for(let i=0;i<4;i++) p.record(WORDS[3].word, OUTCOME.AFTER_RETRY);
+  assert.equal(p.state.pointBalance, 11);
+  const bought = p.purchase("hatStyle", "bluecap");
+  assert.equal(bought.ok, true);
+  assert.equal(p.state.pointBalance, 6);
   assert.equal(p.state.practicePoints, 11);
-  assert.equal(p.chooseHatStyle("starlight"), true);
-  assert.equal(p.chooseHatStyle("sunshine"), false);
+  assert.equal(p.equip("hatStyle", "bluecap"), true);
+  assert.equal(p.state.pointBalance, 6);
+  assert.equal(p.purchase("hatStyle", "bluecap").ok, false);
+  assert.equal(p.purchase("hatStyle", "crown").ok, false);
   const restored = migrate(JSON.parse(JSON.stringify(p.state)));
-  assert.equal(restored.settings.hatStyle, "starlight");
-  assert.equal(restored.practicePoints, 11);
+  assert.equal(restored.settings.hatStyle, "bluecap");
+  assert.equal(restored.pointBalance, 6);
 });
 
-test("dress-up closet is optional, cosmetic, and present in List 15 menu", () => {
+test("Shop, Locker and Profile show separate sections", () => {
   const p = new Progress(blankState());
-  const html = homeView(p, p.state.settings, true);
-  assert.match(html, /Dress-Up Closet/);
-  assert.match(html, /Potato Points/);
-  assert.match(html, /All quizzes, hints, and accessibility tools stay available/);
+  assert.match(homeView(p,p.state.settings,true), /List 15 Menu/);
+  assert.match(shopView(p,11), /Potato Shop/);
+  assert.match(lockerView(p), /Your Potato Locker/);
+  assert.match(profileView(p,p.state.settings,true), /My Profile/);
+  assert.match(shopView(p,11), /Seasonal celebrations/);
 });
 
 test("Professor Potato has a smiling mistake face and earns colored hats", () => {

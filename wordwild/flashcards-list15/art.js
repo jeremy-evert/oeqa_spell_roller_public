@@ -190,10 +190,10 @@ const LIST15_SCENES = Object.fromEntries(LIST15_SCENE_DATA.map(([id, big, little
     <rect x="64" y="216" width="18" height="67" rx="5" fill="#704930"/>
     <rect x="317" y="216" width="18" height="67" rx="5" fill="#704930"/>
     <g transform="translate(${left} 82) rotate(-6)"><rect x="-63" y="-54" width="127" height="120" rx="27" fill="#fff" fill-opacity=".18" stroke="#fff" stroke-opacity=".52" stroke-width="4"/>
-      <text x="0" y="37" font-size="99" text-anchor="middle" font-family="system-ui, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">${big}</text>
+      <text x="0" y="37" font-size="99" text-anchor="middle" font-family="system-ui, 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif">${big}</text>
     </g>
     <g transform="translate(${right} 139) rotate(9)"><rect x="-51" y="-44" width="106" height="92" rx="21" fill="#fff" fill-opacity=".30" stroke="#fff" stroke-opacity=".72" stroke-width="4"/>
-      <text x="2" y="30" font-size="73" text-anchor="middle" font-family="system-ui, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">${little}</text>
+      <text x="2" y="30" font-size="73" text-anchor="middle" font-family="system-ui, 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif">${little}</text>
     </g>
     <path d="M189 70 Q207 38 227 69" stroke="#5d4675" stroke-width="4" fill="none" stroke-linecap="round"/>
     <circle cx="196" cy="60" r="3" fill="#5d4675"/><circle cx="216" cy="61" r="3" fill="#5d4675"/>

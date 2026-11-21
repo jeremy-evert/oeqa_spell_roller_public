@@ -64,7 +64,7 @@ export function homeView(progress, settings, voiceReady) {
       <label><input type="checkbox" data-setting="calm" ${settings.reducedMotion ? "checked" : ""}> Calm mode (less wiggling and confetti)</label>
       <label><input type="checkbox" data-setting="accessible" ${settings.accessible ? "checked" : ""}> Accessible mode: show the word on the card (does <b>not</b> count as spelling by yourself)</label>
     </div>
-    <p class="note">${voiceReady ? "Narration: local Kokoro voice, no internet needed." : "Narration clips not found, so the game uses your browser voice if it has one. You can always read the clue."}</p>
+    <p class="note">${voiceReady ? "Narration: local Kokoro voice, no internet needed." : "Kokoro narration is not installed yet. You can still read the clues and use Flip & Learn. No robot voice will play."}</p>
     <div class="reset"><button class="link" data-action="reset-ask">Reset my progress</button><span id="resetbox"></span></div>
   </section>`;
 }

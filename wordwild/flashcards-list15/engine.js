@@ -271,7 +271,7 @@ export class Progress {
       this.state.ownedCosmetics[key].includes(id);
   }
   purchase(key, id, month = new Date().getMonth() + 1) {
-    const catalog = COSMETIC_CATALOGS[key];
+    const catalog = Object.hasOwn(COSMETIC_CATALOGS,key) ? COSMETIC_CATALOGS[key] : null;
     const item = catalog?.find(entry=>entry.id===id);
     if (!item) return {ok:false,reason:"Unknown item"};
     if (this.isOwned(key,id)) return {ok:false,reason:"Already owned"};

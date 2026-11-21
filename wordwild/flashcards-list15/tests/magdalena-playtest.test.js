@@ -51,10 +51,10 @@ test("Potato Points reward effort and never deduct for incorrect attempts", () =
   assert.equal(restored.practicePoints, 11);
 });
 
-test("hat closet is optional, cosmetic, and present in List 15 menu", () => {
+test("dress-up closet is optional, cosmetic, and present in List 15 menu", () => {
   const p = new Progress(blankState());
   const html = homeView(p, p.state.settings, true);
-  assert.match(html, /Hat Closet/);
+  assert.match(html, /Dress-Up Closet/);
   assert.match(html, /Potato Points/);
   assert.match(html, /All quizzes, hints, and accessibility tools stay available/);
 });

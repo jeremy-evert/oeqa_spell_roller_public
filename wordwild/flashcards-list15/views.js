@@ -54,8 +54,15 @@ const shopGroup = (progress, key, label, items, month) => {
     const price = itemPrice(item,month);
     const affordable = progress.state.pointBalance >= price;
     const season = Array.isArray(item.seasonMonths) && item.seasonMonths.includes(month);
+    const preview = key === "backgroundTheme"
+      ? `<div class="theme-swatch theme-swatch-${item.id}"></div>`
+      : potatoSVG("happy", {
+          hatStyle:key === "hatStyle" ? item.id : "classic",
+          accessoryStyle:key === "accessoryStyle" ? item.id : "none",
+          potatoColor:key === "potatoColor" ? item.id : "classic",
+        });
     return `<article class="shop-card${owned ? ' already-owned' : ''}">
-      <div class="costume-emoji" aria-hidden="true">${item.icon}</div>
+      <div class="shop-avatar-preview" aria-hidden="true">${preview}</div>
       <h4>${esc(item.label)}</h4>
       ${season ? '<small class="season-label">In-season special</small>' : ''}
       <p class="shop-price">${price ? price + ' points' : 'Free'}</p>

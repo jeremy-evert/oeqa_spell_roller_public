@@ -14,10 +14,44 @@ export const OUTCOME = Object.freeze({
 export const INDEPENDENT_KEYS = [OUTCOME.INDEPENDENT];
 
 // Optional cosmetic rewards only: never affect the spelling score or unlock the lessons.
+// Cosmetics unlock from total practice points. Items are kept forever; points are not spent.
 export const HAT_STYLES = Object.freeze([
-  { id: "classic", label: "Classic graduation cap", unlockAt: 0 },
-  { id: "starlight", label: "Purple sparkle cap", unlockAt: 10 },
-  { id: "sunshine", label: "Golden sunshine cap", unlockAt: 25 },
+  { id: "none", label: "No hat", unlockAt: 0, icon: "🥔" },
+  { id: "classic", label: "Graduation cap", unlockAt: 0, icon: "🎓" },
+  { id: "bluecap", label: "Blue graduation cap", unlockAt: 2, icon: "🎓" },
+  { id: "dino", label: "Dinosaur hood", unlockAt: 8, icon: "🦖" },
+  { id: "starlight", label: "Purple sparkle cap", unlockAt: 10, icon: "✨" },
+  { id: "tiara", label: "Crystal tiara", unlockAt: 12, icon: "💎" },
+  { id: "crown", label: "Royal crown", unlockAt: 20, icon: "👑" },
+  { id: "sunshine", label: "Golden graduation cap", unlockAt: 25, icon: "🌟" },
+  { id: "wizard", label: "Starry wizard hat", unlockAt: 40, icon: "🪄" },
+  { id: "space", label: "Space explorer helmet", unlockAt: 60, icon: "🚀" },
+]);
+export const ACCESSORY_STYLES = Object.freeze([
+  { id: "none", label: "No accessory", unlockAt: 0, icon: "🥔" },
+  { id: "bowtie", label: "Snazzy bow tie", unlockAt: 4, icon: "🎀" },
+  { id: "glasses", label: "Funny glasses", unlockAt: 6, icon: "👓" },
+  { id: "bandana", label: "Adventure bandana", unlockAt: 10, icon: "🧣" },
+  { id: "cape", label: "Superhero cape", unlockAt: 22, icon: "🦸" },
+  { id: "wings", label: "Dragon wings", unlockAt: 45, icon: "🐉" },
+]);
+export const POTATO_COLORS = Object.freeze([
+  { id: "classic", label: "Original potato", unlockAt: 0, icon: "🥔" },
+  { id: "rose", label: "Rose potato", unlockAt: 0, icon: "🌸" },
+  { id: "mint", label: "Mint potato", unlockAt: 0, icon: "🍃" },
+  { id: "lavender", label: "Lavender potato", unlockAt: 4, icon: "🪻" },
+  { id: "golden", label: "Golden potato", unlockAt: 16, icon: "☀️" },
+]);
+export const BACKGROUND_THEMES = Object.freeze([
+  { id: "original", label: "Original sunset", unlockAt: 0, icon: "🌅" },
+  { id: "pink", label: "Pink", unlockAt: 0, icon: "🩷" },
+  { id: "blue", label: "Blue", unlockAt: 0, icon: "💙" },
+  { id: "green", label: "Green", unlockAt: 0, icon: "💚" },
+  { id: "yellow", label: "Yellow", unlockAt: 0, icon: "💛" },
+  { id: "red", label: "Red", unlockAt: 3, icon: "❤️" },
+  { id: "orange", label: "Orange", unlockAt: 3, icon: "🧡" },
+  { id: "purple", label: "Purple", unlockAt: 3, icon: "💜" },
+  { id: "rainbow", label: "Rainbow", unlockAt: 14, icon: "🌈" },
 ]);
 
 export const MAX_ATTEMPTS_BEFORE_OFFER = 2; // after this many wrong tries the card offers hint / study
@@ -105,7 +139,7 @@ const emptyStats = () => ({ runs: 0, independent: 0, afterRetry: 0, afterHint: 0
 export function blankState() {
   const words = {};
   for (const w of WORDS) words[w.word] = emptyStats();
-  return { schema: SCHEMA, words, sessions: [], practicePoints: 0, settings: { muted: false, reducedMotion: null, accessible: false, hatStyle: "classic" } };
+  return { schema: SCHEMA, words, sessions: [], practicePoints: 0, settings: { muted: false, reducedMotion: null, accessible: false, hatStyle: "classic", accessoryStyle: "none", potatoColor: "classic", backgroundTheme: "original" } };
 }
 
 const NUM = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : 0);
@@ -128,8 +162,14 @@ export function migrate(raw) {
     base.settings.muted = raw.settings.muted === true;
     base.settings.reducedMotion = typeof raw.settings.reducedMotion === "boolean" ? raw.settings.reducedMotion : null;
     base.settings.accessible = raw.settings.accessible === true;
-    const choice = HAT_STYLES.find((h) => h.id === raw.settings.hatStyle);
-    if (choice && base.practicePoints >= choice.unlockAt) base.settings.hatStyle = choice.id;
+    // Preserve old hats and previously earned points across this upgrade.
+    for (const [key, catalog] of [
+      ["hatStyle", HAT_STYLES], ["accessoryStyle", ACCESSORY_STYLES],
+      ["potatoColor", POTATO_COLORS], ["backgroundTheme", BACKGROUND_THEMES],
+    ]) {
+      const choice = catalog.find((item) => item.id === raw.settings[key]);
+      if (choice && base.practicePoints >= choice.unlockAt) base.settings[key] = choice.id;
+    }
   }
   if (Array.isArray(raw.sessions)) {
     base.sessions = raw.sessions.slice(-20).filter((s) => s && typeof s === "object").map((s) => ({
@@ -165,12 +205,16 @@ export class Progress {
       s.studied++; s.lastSeen = this.now();
     }
   }
-  chooseHatStyle(id) {
-    const choice = HAT_STYLES.find((hat) => hat.id === id);
+  chooseCosmetic(key, id, catalog) {
+    const choice = catalog.find((item) => item.id === id);
     if (!choice || this.state.practicePoints < choice.unlockAt) return false;
-    this.state.settings.hatStyle = choice.id;
+    this.state.settings[key] = choice.id;
     return true;
   }
+  chooseHatStyle(id) { return this.chooseCosmetic("hatStyle", id, HAT_STYLES); }
+  chooseAccessory(id) { return this.chooseCosmetic("accessoryStyle", id, ACCESSORY_STYLES); }
+  choosePotatoColor(id) { return this.chooseCosmetic("potatoColor", id, POTATO_COLORS); }
+  chooseBackground(id) { return this.chooseCosmetic("backgroundTheme", id, BACKGROUND_THEMES); }
   setTricky(word, v) { const s = this.state.words[word.toLowerCase()]; if (s) s.tricky = !!v; }
   recordSession(mode, outcomes) {
     this.state.sessions.push({ at: this.now(), mode, total: outcomes.length,
@@ -192,7 +236,11 @@ export class Progress {
       rows,
     };
   }
-  reset() { const keep = { ...this.state.settings, hatStyle: "classic" }; this.state = blankState(); this.state.settings = keep; }
+  reset() {
+    const { muted, reducedMotion, accessible } = this.state.settings;
+    this.state = blankState();
+    Object.assign(this.state.settings, { muted, reducedMotion, accessible });
+  }
 }
 
 // ---- rounds ---------------------------------------------------------------------------------------------

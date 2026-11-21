@@ -8,7 +8,16 @@
 </head>
 <body>
 <a class="skip" href="#app">Skip to the game</a>
-<header class="site"><span class="logo" aria-hidden="true">🥔🎓</span><strong>WordWild Flashcards</strong><span class="sub">List 15</span></header>
+<header class="site">
+  <div class="site-brand"><span class="logo" aria-hidden="true">🥔🎓</span><strong>WordWild Flashcards</strong><span class="sub">List 15</span></div>
+  <nav id="site-nav" class="header-nav" aria-label="Professor Potato sections">
+    <button class="nav-tab active" type="button" data-action="nav" data-page="menu" aria-current="page">🎮 Menu</button>
+    <button class="nav-tab" type="button" data-action="nav" data-page="shop">🛍️ Shop</button>
+    <button class="nav-tab" type="button" data-action="nav" data-page="locker">🧳 Locker</button>
+    <button class="nav-tab" type="button" data-action="nav" data-page="profile">⭐ Profile</button>
+  </nav>
+  <div class="points-badge" aria-live="polite" aria-label="Potato Points balance">🥔 <span id="points-badge">0 pts</span></div>
+</header>
 <main id="app" tabindex="-1"><p class="loading">Warming up Professor Potato…</p></main>
 <div id="fx" aria-hidden="true"></div>
 <noscript><p class="loading">Turn on JavaScript to play. Progress stays on this device.</p></noscript>

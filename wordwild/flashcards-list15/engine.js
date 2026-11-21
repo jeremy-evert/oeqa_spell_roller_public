@@ -13,46 +13,87 @@ export const OUTCOME = Object.freeze({
 });
 export const INDEPENDENT_KEYS = [OUTCOME.INDEPENDENT];
 
-// Optional cosmetic rewards only: never affect the spelling score or unlock the lessons.
-// Cosmetics unlock from total practice points. Items are kept forever; points are not spent.
+
+/* Potato Shop catalogue. Prices use spendable points; bought items live in the Locker.
+   Hat order is deliberate: standard caps, metallic/rainbow caps, themed hats, seasonal last. */
 export const HAT_STYLES = Object.freeze([
-  { id: "none", label: "No hat", unlockAt: 0, icon: "🥔" },
-  { id: "classic", label: "Graduation cap", unlockAt: 0, icon: "🎓" },
-  { id: "bluecap", label: "Blue graduation cap", unlockAt: 2, icon: "🎓" },
-  { id: "dino", label: "Dinosaur hood", unlockAt: 8, icon: "🦖" },
-  { id: "starlight", label: "Purple sparkle cap", unlockAt: 10, icon: "✨" },
-  { id: "tiara", label: "Crystal tiara", unlockAt: 12, icon: "💎" },
-  { id: "crown", label: "Royal crown", unlockAt: 20, icon: "👑" },
-  { id: "sunshine", label: "Golden graduation cap", unlockAt: 25, icon: "🌟" },
-  { id: "wizard", label: "Starry wizard hat", unlockAt: 40, icon: "🪄" },
-  { id: "space", label: "Space explorer helmet", unlockAt: 60, icon: "🚀" },
+ {id:"none",label:"No hat",price:0,icon:"🥔",group:"Standard graduation caps"},
+ {id:"classic",label:"Classic black graduation cap",price:0,icon:"🎓",group:"Standard graduation caps"},
+ {id:"redcap",label:"Red graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"bluecap",label:"Blue graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"greencap",label:"Green graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"pinkcap",label:"Pink graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"purplecap",label:"Purple graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"orangecap",label:"Orange graduation cap",price:5,icon:"🎓",group:"Standard graduation caps"},
+ {id:"sunshine",label:"Gold graduation cap",price:15,icon:"🌟",group:"Gold, silver and rainbow caps"},
+ {id:"silvercap",label:"Silver graduation cap",price:15,icon:"🥈",group:"Gold, silver and rainbow caps"},
+ {id:"rainbowcap",label:"Rainbow graduation cap",price:15,icon:"🌈",group:"Gold, silver and rainbow caps"},
+ {id:"starlight",label:"Purple sparkle cap (original)",price:15,icon:"✨",group:"Gold, silver and rainbow caps"},
+ {id:"tiara",label:"Crystal tiara",price:20,icon:"💎",group:"Costume hats and hoods"},
+ {id:"crown",label:"Royal crown",price:20,icon:"👑",group:"Costume hats and hoods"},
+ {id:"dino",label:"Dinosaur hood",price:20,icon:"🦖",group:"Costume hats and hoods"},
+ {id:"wizard",label:"Magician's hat",price:20,icon:"🪄",group:"Costume hats and hoods"},
+ {id:"space",label:"Space explorer helmet",price:20,icon:"🚀",group:"Costume hats and hoods"},
+ {id:"turkey",label:"Thanksgiving turkey hat",price:10,seasonMonths:[11],icon:"🦃",group:"Seasonal celebrations"},
+ {id:"pumpkin",label:"Jack-o'-lantern hat",price:10,seasonMonths:[10,11],icon:"🎃",group:"Seasonal celebrations"},
+ {id:"santa",label:"Santa hat",price:10,seasonMonths:[11,12],icon:"🎅",group:"Seasonal celebrations"},
+ {id:"heart",label:"Valentine heart hat",price:10,seasonMonths:[2],icon:"❤️",group:"Seasonal celebrations"},
+ {id:"easter",label:"Easter egg hat",price:10,seasonMonths:[3,4],icon:"🥚",group:"Seasonal celebrations"}
 ]);
 export const ACCESSORY_STYLES = Object.freeze([
-  { id: "none", label: "No accessory", unlockAt: 0, icon: "🥔" },
-  { id: "bowtie", label: "Snazzy bow tie", unlockAt: 4, icon: "🎀" },
-  { id: "glasses", label: "Funny glasses", unlockAt: 6, icon: "👓" },
-  { id: "bandana", label: "Adventure bandana", unlockAt: 10, icon: "🧣" },
-  { id: "cape", label: "Superhero cape", unlockAt: 22, icon: "🦸" },
-  { id: "wings", label: "Dragon wings", unlockAt: 45, icon: "🐉" },
+ {id:"none",label:"No accessory",price:0,icon:"🥔"},
+ {id:"bowtie",label:"Snazzy bow tie",price:4,icon:"🎀"},
+ {id:"glasses",label:"Funny glasses",price:6,icon:"👓"},
+ {id:"bandana",label:"Adventure bandana",price:8,icon:"🧣"},
+ {id:"cape",label:"Superhero cape",price:12,icon:"🦸"},
+ {id:"wings",label:"Dragon wings",price:20,icon:"🐉"}
 ]);
 export const POTATO_COLORS = Object.freeze([
-  { id: "classic", label: "Original potato", unlockAt: 0, icon: "🥔" },
-  { id: "rose", label: "Rose potato", unlockAt: 0, icon: "🌸" },
-  { id: "mint", label: "Mint potato", unlockAt: 0, icon: "🍃" },
-  { id: "lavender", label: "Lavender potato", unlockAt: 4, icon: "🪻" },
-  { id: "golden", label: "Golden potato", unlockAt: 16, icon: "☀️" },
+ {id:"classic",label:"Original potato",price:0,icon:"🥔"},
+ {id:"rose",label:"Rose potato",price:0,icon:"🌸"},
+ {id:"mint",label:"Mint potato",price:0,icon:"🍃"},
+ {id:"lavender",label:"Lavender potato",price:3,icon:"🪻"},
+ {id:"golden",label:"Golden potato",price:8,icon:"☀️"}
 ]);
 export const BACKGROUND_THEMES = Object.freeze([
-  { id: "original", label: "Original sunset", unlockAt: 0, icon: "🌅" },
-  { id: "pink", label: "Pink", unlockAt: 0, icon: "🩷" },
-  { id: "blue", label: "Blue", unlockAt: 0, icon: "💙" },
-  { id: "green", label: "Green", unlockAt: 0, icon: "💚" },
-  { id: "yellow", label: "Yellow", unlockAt: 0, icon: "💛" },
-  { id: "red", label: "Red", unlockAt: 3, icon: "❤️" },
-  { id: "orange", label: "Orange", unlockAt: 3, icon: "🧡" },
-  { id: "purple", label: "Purple", unlockAt: 3, icon: "💜" },
-  { id: "rainbow", label: "Rainbow", unlockAt: 14, icon: "🌈" },
+ {id:"original",label:"Original sunset",price:0,icon:"🌅"},
+ {id:"pink",label:"Pink",price:0,icon:"🩷"},
+ {id:"blue",label:"Blue",price:0,icon:"💙"},
+ {id:"green",label:"Green",price:0,icon:"💚"},
+ {id:"yellow",label:"Yellow",price:0,icon:"💛"},
+ {id:"red",label:"Red",price:3,icon:"❤️"},
+ {id:"orange",label:"Orange",price:3,icon:"🧡"},
+ {id:"purple",label:"Purple",price:3,icon:"💜"},
+ {id:"rainbow",label:"Rainbow",price:8,icon:"🌈"}
 ]);
+export const COSMETIC_CATALOGS = Object.freeze({
+ hatStyle:HAT_STYLES, accessoryStyle:ACCESSORY_STYLES,
+ potatoColor:POTATO_COLORS, backgroundTheme:BACKGROUND_THEMES
+});
+export const SHOP_GROUPS = Object.freeze([
+ {key:"hatStyle",label:"Hats & headgear"},
+ {key:"accessoryStyle",label:"Accessories"},
+ {key:"potatoColor",label:"Potato colors"},
+ {key:"backgroundTheme",label:"Background colors"}
+]);
+
+// In-season items are the priciest within the seasonal section, not the whole shop.
+// Once bought, an item belongs to the Locker even after the season changes.
+export function itemPrice(item, month = new Date().getMonth() + 1) {
+ return item.seasonMonths && item.seasonMonths.includes(month) ? 18 : item.price;
+}
+const freeOwned = () => Object.fromEntries(Object.entries(COSMETIC_CATALOGS).map(
+ ([key,items]) => [key,items.filter(item=>item.price===0).map(item=>item.id)]
+));
+
+// Legacy "unlock at X lifetime points" was not a purchase. Honor old unlocks as gifts
+// rather than removing choices or spending points during this shop upgrade.
+const OLD_COSTS = Object.freeze({
+ hatStyle:{none:0,classic:0,bluecap:2,dino:8,starlight:10,tiara:12,crown:20,sunshine:25,wizard:40,space:60},
+ accessoryStyle:{none:0,bowtie:4,glasses:6,bandana:10,cape:22,wings:45},
+ potatoColor:{classic:0,rose:0,mint:0,lavender:4,golden:16},
+ backgroundTheme:{original:0,pink:0,blue:0,green:0,yellow:0,red:3,orange:3,purple:3,rainbow:14}
+});
 
 export const MAX_ATTEMPTS_BEFORE_OFFER = 2; // after this many wrong tries the card offers hint / study
 
@@ -139,7 +180,7 @@ const emptyStats = () => ({ runs: 0, independent: 0, afterRetry: 0, afterHint: 0
 export function blankState() {
   const words = {};
   for (const w of WORDS) words[w.word] = emptyStats();
-  return { schema: SCHEMA, words, sessions: [], practicePoints: 0, settings: { muted: false, reducedMotion: null, accessible: false, hatStyle: "classic", accessoryStyle: "none", potatoColor: "classic", backgroundTheme: "original" } };
+  return { schema: SCHEMA, shopVersion: 2, words, sessions: [], practicePoints: 0, pointBalance: 0, ownedCosmetics: freeOwned(), settings: { muted: false, reducedMotion: null, accessible: false, hatStyle: "classic", accessoryStyle: "none", potatoColor: "classic", backgroundTheme: "original" } };
 }
 
 const NUM = (v) => (Number.isFinite(v) && v >= 0 ? Math.floor(v) : 0);
@@ -149,6 +190,26 @@ export function migrate(raw) {
   const base = blankState();
   if (!raw || typeof raw !== "object" || raw.schema !== SCHEMA) return base;
   base.practicePoints = NUM(raw.practicePoints);
+  if (raw.shopVersion === 2) {
+    base.pointBalance = Math.min(base.practicePoints, NUM(raw.pointBalance));
+    for (const [key,catalog] of Object.entries(COSMETIC_CATALOGS)) {
+      const stored = Array.isArray(raw.ownedCosmetics?.[key]) ? raw.ownedCosmetics[key] : [];
+      const known = new Set(catalog.map(item => item.id));
+      base.ownedCosmetics[key] = [...new Set([...base.ownedCosmetics[key],...stored.filter(id => known.has(id))])];
+    }
+  } else {
+    // One-time upgrade of the old cumulative-unlock game: preserve balances
+    // and grant previously available cosmetics without charging for them.
+    base.pointBalance = base.practicePoints;
+    for (const [key, costs] of Object.entries(OLD_COSTS)) {
+      base.ownedCosmetics[key] = [...new Set([
+        ...base.ownedCosmetics[key],
+        ...Object.entries(costs).filter(([id,cost]) =>
+          base.practicePoints >= cost && COSMETIC_CATALOGS[key].some(item => item.id === id)
+        ).map(([id]) => id)
+      ])];
+    }
+  }
   for (const w of WORDS) {
     const r = raw.words && typeof raw.words === "object" ? raw.words[w.word] : null;
     if (!r || typeof r !== "object") continue;
@@ -168,7 +229,7 @@ export function migrate(raw) {
       ["potatoColor", POTATO_COLORS], ["backgroundTheme", BACKGROUND_THEMES],
     ]) {
       const choice = catalog.find((item) => item.id === raw.settings[key]);
-      if (choice && base.practicePoints >= choice.unlockAt) base.settings[key] = choice.id;
+      if (choice && base.ownedCosmetics[key].includes(choice.id)) base.settings[key] = choice.id;
     }
   }
   if (Array.isArray(raw.sessions)) {
@@ -186,7 +247,7 @@ export class Progress {
     if (!s) throw new Error("Unknown word: " + word);
     s.runs++; s.last = outcome; s.lastSeen = this.now();
     // Award effort, not perfection; never deduct points for an incorrect attempt.
-    if (outcome !== OUTCOME.SKIPPED) this.state.practicePoints += 2;
+    if (outcome !== OUTCOME.SKIPPED) { this.state.practicePoints += 2; this.state.pointBalance += 2; }
     if (outcome === OUTCOME.INDEPENDENT) s.independent++;
     else if (outcome === OUTCOME.AFTER_RETRY) s.afterRetry++;
     else if (outcome === OUTCOME.AFTER_HINT) s.afterHint++;
@@ -201,20 +262,35 @@ export class Progress {
     const s = this.state.words[word.toLowerCase()];
     if (s) {
       // One point for studying a word once; unlimited flips cannot farm points.
-      if (!s.studied) this.state.practicePoints++;
+      if (!s.studied) { this.state.practicePoints++; this.state.pointBalance++; }
       s.studied++; s.lastSeen = this.now();
     }
   }
-  chooseCosmetic(key, id, catalog) {
-    const choice = catalog.find((item) => item.id === id);
-    if (!choice || this.state.practicePoints < choice.unlockAt) return false;
-    this.state.settings[key] = choice.id;
+  isOwned(key, id) {
+    return Object.hasOwn(COSMETIC_CATALOGS,key) &&
+      this.state.ownedCosmetics[key].includes(id);
+  }
+  purchase(key, id, month = new Date().getMonth() + 1) {
+    const catalog = Object.hasOwn(COSMETIC_CATALOGS,key) ? COSMETIC_CATALOGS[key] : null;
+    const item = catalog?.find(entry=>entry.id===id);
+    if (!item) return {ok:false,reason:"Unknown item"};
+    if (this.isOwned(key,id)) return {ok:false,reason:"Already owned"};
+    const price = itemPrice(item,month);
+    if (this.state.pointBalance < price) return {ok:false,reason:"Not enough Potato Points"};
+    this.state.pointBalance -= price;
+    this.state.ownedCosmetics[key].push(id);
+    return {ok:true,price};
+  }
+  equip(key,id) {
+    if (!this.isOwned(key,id)) return false;
+    this.state.settings[key] = id;
     return true;
   }
-  chooseHatStyle(id) { return this.chooseCosmetic("hatStyle", id, HAT_STYLES); }
-  chooseAccessory(id) { return this.chooseCosmetic("accessoryStyle", id, ACCESSORY_STYLES); }
-  choosePotatoColor(id) { return this.chooseCosmetic("potatoColor", id, POTATO_COLORS); }
-  chooseBackground(id) { return this.chooseCosmetic("backgroundTheme", id, BACKGROUND_THEMES); }
+  // Backwards-compatible convenience methods only equip already-owned items.
+  chooseHatStyle(id) { return this.equip("hatStyle",id); }
+  chooseAccessory(id) { return this.equip("accessoryStyle",id); }
+  choosePotatoColor(id) { return this.equip("potatoColor",id); }
+  chooseBackground(id) { return this.equip("backgroundTheme",id); }
   setTricky(word, v) { const s = this.state.words[word.toLowerCase()]; if (s) s.tricky = !!v; }
   recordSession(mode, outcomes) {
     this.state.sessions.push({ at: this.now(), mode, total: outcomes.length,

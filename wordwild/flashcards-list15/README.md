@@ -11,7 +11,7 @@ Open [Professor Potato: List 15](https://jeremy-evert.github.io/oeqa_spell_rolle
 - **Progress:** Separately saved in this browser only under `wordwild.flashcards.list15.v1`; no account or uploads.
 
 ## Audio
-The original List 14 game has separately recorded Kokoro `af_heart` narration. The List 15 words and sentences require **60 locally generated Kokoro clips** (20 normal, 20 slow, 20 sentences). No browser text-to-speech fallback is allowed. The interface works with visible clues and flip cards until approved files arrive.
+The original List 14 game has separately recorded Kokoro `af_heart` narration. List 15 includes **60 locally generated and verified Kokoro clips** (20 normal, 20 slow, 20 sentences), voiced by `af_heart`. No browser text-to-speech fallback is allowed. The written spelling activities remain usable if audio is unavailable.
 
 **Render on Maise** from this folder:
 
@@ -37,15 +37,25 @@ From this directory: `node --test`. This is a static HTML/CSS/JS game; no build,
 - **Potato Points** are cosmetic rewards in this edition. 2 points for each completed spelling (even with hints or retries), and 1 point for studying a word the first time. Incorrect answers never subtract points. No accounts, purchases or leaderboards.
 - Unlock a purple sparkle graduation cap at 10 points or a golden cap at 25 points. Both are just costumes, not quiz advantages. Points and selected cap stay in the existing List 15 browser-only storage.
 
-## Magdalena's Potato Dress-Up Closet (November 2026)
+## List 15: Menu, Shop, Locker and Profile
 
-The List 15 menu includes an optional dress-up closet with four independently selectable categories. All designs are original inline SVG and CSS, and are not gender-restricted:
+The four main navigation tabs appear in the **top header** of every game screen:
 
-- **10 hats/headgear:** including free classic graduation cap, blue cap (2 points), dinosaur hood (8), crystal tiara (12), royal crown (20), wizard hat (40), space helmet (60), and previous purple/golden graduation caps.
-- **6 accessories:** including free none, bow tie (4), glasses (6), bandana (10), superhero cape (22), dragon wings (45).
-- **5 potato body colors:** original, rose and mint free, lavender (4), and golden (16).
-- **9 page backgrounds:** original plus pink, blue, green and yellow free; red, orange and purple (3); full rainbow gradient (14).
+- **Menu:** the existing illustrated spelling quizzes, Flip & Learn, four five-word rounds, All 20 and Quick Review.
+- **Shop:** displays every item, including items the user cannot afford yet. Standard colored graduation caps (red, blue, green, pink, purple and orange) cost **5 Potato Points** each. Gold, silver and rainbow caps cost **15**. Non-seasonal themed headgear (dinosaur hood, tiara, crown, magician hat and astronaut helmet) costs **20**.
+- **Locker:** shows items already owned and lets the user change hats, accessories, potato color and page background **without paying again**.
+- **Profile:** tracks available/earned points, independent spelling, practice history and device-local accessibility settings. The header always shows the available points.
 
-These are **cumulative unlock thresholds**, not prices deducted from a balance. Practice points are easy to earn (2 for a completed spelling, including helped attempts; 1 for studying a word once), and previously earned points and old hat choices are preserved. Items never provide spelling advantages. No accounts, child details, ads, purchases, leaderboards or external assets.
+Seasonal headgear (Thanksgiving turkey, Halloween pumpkin, Christmas Santa hat, Valentine heart and Easter egg) is listed **last**, costs 10 points outside its season and 18 points in designated months (a small seasonal premium). Purchased seasonal items remain in the Locker all year.
 
-The little Professor Potato in the menu is the player's customizable avatar and keeps the costume on all game screens. Backgrounds use light pastel gradients with the normal high-contrast text and game buttons.
+The Shop uses **spendable** Potato Points. Spending reduces the available wallet balance, but never changes total earned points or the spelling score. Item ownership is permanent in the browser's local storage unless progress is explicitly reset. Free starter costumes/colors remain owned.
+
+**Backward compatibility:** existing List 15 points and old cumulative-unlock rewards are migrated. On first upgrade, previously available items are granted as gifts without subtracting existing points. The original List 14 game is unchanged.
+
+## Exact-length spelling blanks
+
+Clues display one blank per **letter** in the target word, for example `over` → `____` and `understand` → `__________`. Apostrophe punctuation is not counted as a letter (`o’clock` has six letter blanks). Letter-length guidance does not reveal the answer. Spelling checks still require the apostrophe.
+
+## Testing
+
+In `wordwild/flashcards-list15/`, run `node --test`. The tests cover purchase/locker persistence, cost tiers, seasonal prices, legacy migrations, the exact 20 spellings and their hidden-answer masks, original Kokoro audio data, and the complete quiz flow.

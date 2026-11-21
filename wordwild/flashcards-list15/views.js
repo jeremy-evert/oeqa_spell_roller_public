@@ -65,7 +65,7 @@ export function homeView(progress, settings, voiceReady, openClosetCategory = "h
   const r = rounds();
   return `
   <section class="home" aria-labelledby="h">
-    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Flashcards</h1><p>First flip and learn. Then take the spelling quiz!</p></div></div>
+    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Flashcards</h1><p>First flip and learn. Then take the spelling quiz!</p><a class="closet-jump" href="#dressup-closet">🎨 Dress up Professor Potato →</a></div></div>
     <p class="how">Pick a game. In <b>Listen &amp; Spell</b> the word stays hidden until <i>you</i> type it, so it really trains your brain.</p>
     <h2>Listen &amp; Spell <span class="tag">the scored game</span></h2>
     <div class="grid">
@@ -83,7 +83,7 @@ export function homeView(progress, settings, voiceReady, openClosetCategory = "h
     <h2>Your progress <span class="tag">saved on this device only</span></h2>
     <p class="count"><b>${sum.independentNow}</b> of 20 words spelled by yourself on the latest try. ${sum.practiced} tried so far.</p>
     <ol class="dots" aria-label="Progress by card">${dots(progress)}</ol>
-    <h2>Professor Potato's Dress-Up Closet <span class="tag">just for fun</span></h2>
+    <h2 id="dressup-closet">Professor Potato's Dress-Up Closet <span class="tag">just for fun</span></h2>
     <div class="dress-up-preview" aria-label="Your potato avatar">
       <div class="dress-up-potato">${potatoSVG("happy")}</div>
       <div><p><b>Your very own Professor Potato!</b></p>

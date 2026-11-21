@@ -3,7 +3,7 @@
 // alt text, attributes or class names. Audio file names are built in voice.js and never put in the DOM.
 import { WORDS } from "./words.js";
 import { sceneSVG, potatoSVG } from "./art.js";
-import { OUTCOME, rounds, HAT_STYLES, ACCESSORY_STYLES, POTATO_COLORS, BACKGROUND_THEMES } from "./engine.js";
+import { OUTCOME, rounds, HAT_STYLES, ACCESSORY_STYLES, POTATO_COLORS, BACKGROUND_THEMES, SHOP_GROUPS, itemPrice } from "./engine.js";
 
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -25,7 +25,11 @@ export const OOPS = [
   "Good try! We'll figure this tricky part out together.",
 ];
 
-const blankClue = (w) => esc(w.clue).replace(/_{3,}/g, '<span class="blank" aria-label="blank">______</span>');
+export const letterCount = (word) => [...word].filter(ch => /[a-z]/i.test(ch)).length;
+const blankClue = (w) => esc(w.clue).replace(/_{3,}/g, () => {
+  const count = letterCount(w.word);
+  return '<span class="blank" aria-label="' + count + ' letters">' + '_'.repeat(count) + '</span>';
+});
 
 function dots(progress) {
   return WORDS.map((w, i) => {
@@ -39,73 +43,132 @@ function dots(progress) {
   }).join("");
 }
 
-// A compact dress-up closet: each cosmetic is earned with practice, never purchased.
-function closetShelf({ title, key, items, selected, points, isOpen }) {
-  const current = items.find((item) => item.id === selected) || items[0];
-  const cards = items.map((item) => {
-    const unlocked = points >= item.unlockAt;
-    const wearing = item.id === selected;
-    return `<button type="button" class="costume-choice${wearing ? " selected" : ""}"
-      data-action="choose-cosmetic" data-key="${key}" data-item="${item.id}"
-      aria-pressed="${wearing}" ${unlocked ? "" : "disabled"}>
-      <span class="costume-emoji" aria-hidden="true">${item.icon}</span>
-      <span>${esc(item.label)}</span>
-      <small>${wearing ? "Wearing it!" : unlocked ? "Choose this!" : item.unlockAt + " points to unlock"}</small>
-    </button>`;
-  }).join("");
-  return `<details class="closet-shelf" ${isOpen ? "open" : ""}>
-      <summary><strong>${esc(title)}</strong><span class="shelf-selected">Selected: ${esc(current.label)}</span></summary>
-      <div class="costume-grid" role="group" aria-label="${esc(title)}">${cards}</div>
-    </details>`;
-}
 
-export function homeView(progress, settings, voiceReady, openClosetCategory = "hatStyle") {
+function selectionCatalog(progress, key) {
+  const items = ({hatStyle:HAT_STYLES,accessoryStyle:ACCESSORY_STYLES,potatoColor:POTATO_COLORS,backgroundTheme:BACKGROUND_THEMES})[key];
+  return items.filter(item => progress.isOwned(key,item.id));
+}
+const shopGroup = (progress, key, label, items, month) => {
+  const cards = items.map(item => {
+    const owned = progress.isOwned(key,item.id);
+    const price = itemPrice(item,month);
+    const affordable = progress.state.pointBalance >= price;
+    const season = Array.isArray(item.seasonMonths) && item.seasonMonths.includes(month);
+    return `<article class="shop-card${owned ? ' already-owned' : ''}">
+      <div class="costume-emoji" aria-hidden="true">${item.icon}</div>
+      <h4>${esc(item.label)}</h4>
+      ${season ? '<small class="season-label">In-season special</small>' : ''}
+      <p class="shop-price">${price ? price + ' points' : 'Free'}</p>
+      ${owned
+        ? '<span class="ownership">✓ Owned · Find it in Locker</span>'
+        : `<button class="btn shop-buy" type="button" data-action="buy" data-key="${key}" data-item="${item.id}" ${affordable ? '' : 'disabled'}>${affordable ? 'Buy for ' + price + ' points' : 'Need ' + (price - progress.state.pointBalance) + ' more points'}</button>`}
+    </article>`;
+  }).join("");
+  return `<section class="shop-group"><h3>${esc(label)}</h3><div class="shop-grid">${cards}</div></section>`;
+};
+
+export function homeView(progress, settings, voiceReady) {
   const sum = progress.summary();
   const reviewCount = progress.reviewList().length;
-  const r = rounds();
-  return `
-  <section class="home" aria-labelledby="h">
-    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Flashcards</h1><p>First flip and learn. Then take the spelling quiz!</p><a class="closet-jump" href="#dressup-closet">🎨 Dress up Professor Potato →</a></div></div>
-    <p class="how">Pick a game. In <b>Listen &amp; Spell</b> the word stays hidden until <i>you</i> type it, so it really trains your brain.</p>
+  return `<section class="home" aria-labelledby="h">
+    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Menu</h1>
+      <p>First flip and learn. Then take the spelling quiz!</p>
+      <p><button class="link" data-action="nav" data-page="shop">🛒 Visit the Potato Shop</button>
+      <button class="link" data-action="nav" data-page="locker">👑 Dress up in the Locker</button></p>
+    </div></div>
+    <p>Earn Potato Points by practicing. Use the top tabs to visit the Shop, Locker, or Profile.</p>
     <h2>Listen &amp; Spell <span class="tag">the scored game</span></h2>
     <div class="grid">
-      ${r.map((_, i) => `<button class="big" data-action="start" data-mode="listen" data-round="${i}">Round ${i + 1}<small>cards ${i * 5 + 1} to ${i * 5 + 5}</small></button>`).join("")}
+      ${rounds().map((_,i)=>`<button class="big" data-action="start" data-mode="listen" data-round="${i}">Round ${i+1}<small>cards ${i*5+1} to ${i*5+5}</small></button>`).join("")}
       <button class="big alt" data-action="start" data-mode="listen" data-round="surprise">Surprise 5<small>random mix</small></button>
-      <button class="big alt" data-action="start" data-mode="listen" data-round="all">All 20<small>the full marathon (with breaks)</small></button>
+      <button class="big alt" data-action="start" data-mode="listen" data-round="all">All 20<small>the full marathon, with breaks!</small></button>
     </div>
     <h2>Other ways to play</h2>
     <div class="grid">
-      <button class="big" data-action="start" data-mode="flip">Flip &amp; Learn<small>study with pictures, then try from memory</small></button>
-      <button class="big" data-action="start" data-mode="review" ${reviewCount ? "" : "disabled"}>Quick Review<small>${reviewCount ? reviewCount + " word" + (reviewCount === 1 ? "" : "s") + " to practice" : "nothing to review yet"}</small></button>
-      <button class="big off" disabled aria-describedby="voicenote">Speak &amp; Check<small>unavailable offline</small></button>
+      <button class="big" data-action="start" data-mode="flip">Flip &amp; Learn<small>illustrated cards, then spell from memory</small></button>
+      <button class="big" data-action="start" data-mode="review" ${reviewCount ? "" : "disabled"}>Quick Review<small>${reviewCount ? reviewCount + " tricky word(s)" : "Nothing tricky right now!"}</small></button>
+      <button class="big off" disabled>Speak &amp; Check<small>unavailable offline</small></button>
     </div>
-    <p id="voicenote" class="note">Voice answer checking is unavailable offline. Speaking a word is not the same as spelling it, so typing is how we check.</p>
-    <h2>Your progress <span class="tag">saved on this device only</span></h2>
-    <p class="count"><b>${sum.independentNow}</b> of 20 words spelled by yourself on the latest try. ${sum.practiced} tried so far.</p>
+    <p class="count"><b>${sum.independentNow}</b> of 20 words spelled independently on the latest try. ${sum.practiced} tried so far.</p>
+    <p class="note">${voiceReady ? 'Narration: original Kokoro voice.' : 'Kokoro narration unavailable. The spelling game still works without audio.'}</p>
+  </section>`;
+}
+
+export function shopView(progress, month = new Date().getMonth()+1, feedback = "") {
+  const hats = HAT_STYLES.filter(item => !item.seasonMonths);
+  const seasonal = HAT_STYLES.filter(item => item.seasonMonths);
+  const groups = ["Standard graduation caps","Gold, silver and rainbow caps","Costume hats and hoods"];
+  const headgear = groups.map(group => shopGroup(progress,"hatStyle",group,hats.filter(item => item.group===group),month)).join("");
+  const other = [
+    shopGroup(progress,"accessoryStyle","Accessories",ACCESSORY_STYLES,month),
+    shopGroup(progress,"potatoColor","Potato colors",POTATO_COLORS,month),
+    shopGroup(progress,"backgroundTheme","Background colors",BACKGROUND_THEMES,month),
+  ].join("");
+  return `<section class="shop-page" aria-labelledby="shop-heading">
+    <h1 id="shop-heading">🛍️ Potato Shop</h1>
+    <p class="shop-wallet"><strong>${progress.state.pointBalance} Potato Points</strong> available to spend · ${progress.state.practicePoints} earned in total</p>
+    <p>Buy something once, keep it forever! You can wear it later in your <button class="link" data-action="nav" data-page="locker">Locker</button>.</p>
+    ${feedback ? `<p class="shop-feedback" role="status">${esc(feedback)}</p>` : ""}
+    ${headgear}
+    ${other}
+    ${shopGroup(progress,"hatStyle","Seasonal celebrations",seasonal,month)}
+    <p class="note">Seasonal outfits are listed last. Those celebrating this month cost 18 points; other seasonal hats cost 10. Once purchased, they stay yours all year. No real money, ads or account.</p>
+  </section>`;
+}
+
+export function lockerView(progress) {
+  const settings = progress.state.settings;
+  const groups = SHOP_GROUPS.map(({key,label}) => {
+    const items = selectionCatalog(progress,key);
+    const cards = items.map(item => {
+      const selected = settings[key]===item.id;
+      return `<button class="costume-choice${selected ? ' selected' : ''}" type="button"
+        data-action="equip" data-key="${key}" data-item="${item.id}" aria-pressed="${selected}">
+        <span class="costume-emoji" aria-hidden="true">${item.icon}</span>
+        <span>${esc(item.label)}</span><small>${selected ? 'Wearing it!' : 'Put it on'}</small>
+      </button>`;
+    }).join("");
+    return `<section class="locker-group"><h2>${esc(label)}</h2><div class="costume-grid" role="group" aria-label="${esc(label)}">${cards}</div></section>`;
+  }).join("");
+  const total = SHOP_GROUPS.reduce((count,category) => count + selectionCatalog(progress,category.key).length,0);
+  return `<section class="locker-page" aria-labelledby="locker-heading">
+    <h1 id="locker-heading">🧳 Your Potato Locker</h1>
+    <p>Everything you've bought stays here, even after the season ends. Changing your outfit is always free!</p>
+    <div class="dress-up-preview"><div class="dress-up-potato">${potatoSVG("happy")}</div>
+      <div><p><b>Your Professor Potato</b></p><p>${total} pieces owned, including free choices.</p>
+      <p>Want more outfits? <button class="link" data-action="nav" data-page="shop">Visit the Shop</button></p></div>
+    </div>
+    ${groups}
+    <p class="note">Mix and match anything you own. All costume styles and colors are for everyone.</p>
+  </section>`;
+}
+
+export function profileView(progress, settings, voiceReady) {
+  const sum = progress.summary(), sessions=progress.state.sessions;
+  const totalSpells = WORDS.reduce((acc,w)=>acc+progress.state.words[w.word].runs,0);
+  return `<section class="profile-page" aria-labelledby="profile-heading">
+    <h1 id="profile-heading">⭐ My Profile</h1>
+    <p class="note">Only saved in this browser on this device. No account or personal information required.</p>
+    <div class="profile-stats">
+      <div><strong>${progress.state.pointBalance}</strong><small>Points to spend</small></div>
+      <div><strong>${progress.state.practicePoints}</strong><small>Total points earned</small></div>
+      <div><strong>${sum.independentNow}/20</strong><small>Latest independent spellings</small></div>
+      <div><strong>${totalSpells}</strong><small>Total spelling practices</small></div>
+    </div>
+    <h2>Spelling progress</h2>
+    <p>You've tried ${sum.practiced} different words. ${progress.reviewList().length} words could use another try.</p>
     <ol class="dots" aria-label="Progress by card">${dots(progress)}</ol>
-    <h2 id="dressup-closet">Professor Potato's Dress-Up Closet <span class="tag">just for fun</span></h2>
-    <div class="dress-up-preview" aria-label="Your potato avatar">
-      <div class="dress-up-potato">${potatoSVG("happy")}</div>
-      <div><p><b>Your very own Professor Potato!</b></p>
-      <p>Pick a hat, accessory, potato color, and background. Mix everything any way you like.</p>
-      <p class="note">Dinosaur costumes, crowns, tiaras, and rainbow colors are for everyone!</p></div>
-    </div>
-    <p class="points-count"><b>${progress.state.practicePoints}</b> Potato Points earned!
-      Earn 2 for spelling a word (even with help), or 1 for studying a new flip card. Mistakes never cost points.
-      Items unlock when you've earned enough points, and unlocking never spends them.</p>
-    ${closetShelf({title:"Hats & headgear",key:"hatStyle",items:HAT_STYLES,selected:settings.hatStyle,points:progress.state.practicePoints,isOpen:openClosetCategory==="hatStyle"})}
-    ${closetShelf({title:"Fun accessories",key:"accessoryStyle",items:ACCESSORY_STYLES,selected:settings.accessoryStyle || "none",points:progress.state.practicePoints,isOpen:openClosetCategory==="accessoryStyle"})}
-    ${closetShelf({title:"Potato colors",key:"potatoColor",items:POTATO_COLORS,selected:settings.potatoColor || "classic",points:progress.state.practicePoints,isOpen:openClosetCategory==="potatoColor"})}
-    ${closetShelf({title:"Background colors",key:"backgroundTheme",items:BACKGROUND_THEMES,selected:settings.backgroundTheme || "original",points:progress.state.practicePoints,isOpen:openClosetCategory==="backgroundTheme"})}
-    <p class="note">All quizzes, hints, and accessibility tools stay available to everyone. Dressing up is optional!</p>
+    <h2>Practice history</h2>
+    <p>${sessions.length ? 'Recent rounds are saved right here.' : 'Play a round to start your history!'}</p>
+    ${sessions.length ? `<ul class="profile-history">${sessions.slice(-8).reverse().map(s=>`<li>${esc(s.mode)}: ${s.independent}/${s.total} independent · ${esc(s.at.slice(0,10))}</li>`).join("")}</ul>` : ""}
     <h2>Settings</h2>
     <div class="settings">
       <label><input type="checkbox" data-setting="sfx" ${settings.muted ? "" : "checked"}> Sound effects</label>
-      <label><input type="checkbox" data-setting="calm" ${settings.reducedMotion ? "checked" : ""}> Calm mode (less wiggling and confetti)</label>
-      <label><input type="checkbox" data-setting="accessible" ${settings.accessible ? "checked" : ""}> Accessible mode: show the word on the card (does <b>not</b> count as spelling by yourself)</label>
+      <label><input type="checkbox" data-setting="calm" ${settings.reducedMotion ? "checked" : ""}> Calm mode (less movement and confetti)</label>
+      <label><input type="checkbox" data-setting="accessible" ${settings.accessible ? "checked" : ""}> Accessible mode: show spelling on the card (does not count as independent)</label>
     </div>
-    <p class="note">${voiceReady ? "Narration: local Kokoro voice, no internet needed." : "Kokoro narration is not installed yet. You can still read the clues and use Flip & Learn. No robot voice will play."}</p>
-    <div class="reset"><button class="link" data-action="reset-ask">Reset my progress</button><span id="resetbox"></span></div>
+    <p class="note">${voiceReady ? 'Kokoro narration available.' : 'Kokoro narration unavailable.'}</p>
+    <div class="reset"><button class="link" data-action="reset-ask">Reset all my List 15 progress, points and locker</button><span id="resetbox"></span></div>
   </section>`;
 }
 

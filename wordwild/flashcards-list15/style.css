@@ -147,3 +147,20 @@ header.site .sub { margin-left:0; }
  .shop-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
  .shop-card { min-height:188px; }
 }
+
+
+/* Shop cards show actual outfit colors instead of identical emoji thumbnails. */
+.shop-avatar-preview { display:flex; justify-content:center; align-items:center; width:96px; height:98px; }
+.shop-avatar-preview svg { width:96px; height:96px; display:block; }
+.shop-card { min-height:250px; }
+.shop-avatar-preview .theme-swatch { width:78px; height:78px; border:3px solid #493c65; border-radius:16px; box-shadow:inset 0 0 0 4px #fff9; }
+.theme-swatch-original { background:linear-gradient(145deg,#ffe3f1,#d6ecff); }
+.theme-swatch-pink { background:linear-gradient(145deg,#ffe1ec,#ffd4f2); }
+.theme-swatch-blue { background:linear-gradient(145deg,#d8edff,#bfdaff); }
+.theme-swatch-green { background:linear-gradient(145deg,#dcf9d9,#b7eccb); }
+.theme-swatch-yellow { background:linear-gradient(145deg,#fff7c5,#ffe8a9); }
+.theme-swatch-red { background:linear-gradient(145deg,#ffe3dc,#ffc7bb); }
+.theme-swatch-orange { background:linear-gradient(145deg,#ffead0,#ffd1a3); }
+.theme-swatch-purple { background:linear-gradient(145deg,#e9dfff,#d8cbf8); }
+.theme-swatch-rainbow { background:linear-gradient(145deg,#ffe1ee,#ffeec8,#ddf9d5,#d3edff,#eee0ff); }
+@media(max-width:650px) { .shop-card { min-height:246px; } }

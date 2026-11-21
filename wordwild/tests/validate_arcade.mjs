@@ -9,6 +9,7 @@ const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
 
 const expected = [
   ["Professor Potato's Flashcards", "flashcards/"],
+  ["Professor Potato: List 15", "flashcards-list15/"],
   ["Math Mayhem", "math/"],
   ["Impossible 3D Printer", "game/"],
   ["Impossible 3D Printer", "printer-v2/"],

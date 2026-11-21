@@ -1,8 +1,9 @@
 # WordWild: a spelling-game arcade (prototype)
 
-Three small spelling games for a third-grade word list, built as a worked example of **how to build something and show it honestly**. Open the arcade, pick a game, spell the words.
+A growing set of spelling games for a third-grade word list, built as a worked example of **how to build something and show it honestly**. Open the arcade, pick a game, spell the words.
 
-* **Professor Potato's Flashcards** (`flashcards/`): hear a silly sentence, spell the word, meet the professor.
+* **Professor Potato's Flashcards, List 14** (`flashcards/`): the original game with illustrated cards, spelling quiz, and Kokoro audio.
+* **Professor Potato: List 15** (`flashcards-list15/`): flip-and-learn cards plus a spelling quiz for 20 new words, with separate saved progress. Uses browser speech until new Kokoro recordings are available.
 * **Impossible 3D Printer** (`game/`): the first edition. Spell words to feed a printer.
 * **Impossible 3D Printer, second edition** (`printer-v2/`): a Help Me ladder, honest scoring, funny memory tricks, and a robot, castle or rocket that really builds.
 

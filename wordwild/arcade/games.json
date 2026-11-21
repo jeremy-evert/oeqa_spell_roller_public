@@ -4,7 +4,7 @@
     {
       "id": "flashcards-original",
       "title": "Professor Potato's Flashcards",
-      "edition": "ORIGINAL EDITION",
+      "edition": "LIST 14 · ORIGINAL EDITION",
       "href": "flashcards/",
       "entry": "flashcards/index.html",
       "invitation": "Hear a silly sentence, spell the word, and meet Professor Potato.",
@@ -12,9 +12,19 @@
       "hue": "sunshine"
     },
     {
+      "id": "flashcards-list15",
+      "title": "Professor Potato: List 15",
+      "edition": "LIST 15 · FLIP CARDS + SPELLING QUIZ",
+      "href": "flashcards-list15/",
+      "entry": "flashcards-list15/index.html",
+      "invitation": "Study 20 funny illustrated flip cards, then test your spelling with Professor Potato.",
+      "art": "potato",
+      "hue": "mint"
+    },
+    {
       "id": "math-mayhem",
       "title": "Math Mayhem",
-      "edition": "MATH \u00b7 FACT DRILLS",
+      "edition": "MATH · FACT DRILLS",
       "href": "math/",
       "entry": "math/index.html",
       "invitation": "Flames, silly clues, a stopwatch, and medal challenges. Pick any times table from 1 to 20.",
@@ -24,7 +34,7 @@
     {
       "id": "printer-workshop",
       "title": "Impossible 3D Printer",
-      "edition": "ORIGINAL PRINTER \u00b7 PLAYABLE",
+      "edition": "ORIGINAL PRINTER · PLAYABLE",
       "href": "game/",
       "entry": "game/index.html",
       "invitation": "The first impossible printer experiment. See what it builds!",
@@ -34,7 +44,7 @@
     {
       "id": "printer-v2",
       "title": "Impossible 3D Printer",
-      "edition": "SECOND EDITION \u00b7 PLAYABLE PREVIEW",
+      "edition": "SECOND EDITION · PLAYABLE PREVIEW",
       "href": "printer-v2/",
       "entry": "printer-v2/index.html",
       "invitation": "Hear the sentence, get help, spell words, and build a robot, rocket, or castle.",
@@ -44,7 +54,7 @@
     {
       "id": "flashcards-illustrated",
       "title": "Flashcards: Illustrated Edition",
-      "edition": "ILLUSTRATED EDITION \u00b7 IN DEVELOPMENT",
+      "edition": "ILLUSTRATED EDITION · IN DEVELOPMENT",
       "href": "flashcards-v2/",
       "entry": "flashcards-v2/index.html",
       "invitation": "The doodles are gathering their pencils.",

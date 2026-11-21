@@ -160,7 +160,13 @@ app.addEventListener("click", (e) => {
     case "reset-ask": document.getElementById("resetbox").innerHTML =
       ` Really erase all progress on this device? <button class="btn" data-action="reset-yes">Yes, erase it</button> <button class="btn" data-action="reset-no">Cancel</button>`; return;
     case "reset-no": document.getElementById("resetbox").textContent = ""; return;
-    case "reset-yes": progress.reset(); setPotatoStyle(settings); applyTheme(); wipe(); persist(); sfx.play("pop"); return home();
+    case "reset-yes": {
+      progress.reset();
+      // The UI holds a settings reference; keep it in sync when reset creates new state.
+      Object.assign(settings, progress.state.settings);
+      progress.state.settings = settings;
+      setPotatoStyle(settings); applyTheme(); wipe(); persist(); sfx.play("pop"); return home();
+    }
   }
 });
 

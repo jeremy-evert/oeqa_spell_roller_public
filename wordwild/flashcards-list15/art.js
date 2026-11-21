@@ -215,8 +215,15 @@ export function sceneSVG(id, alt) {
 
 // ---- Professor Potato: the host. Moods change the face only. ----------------------------------------------
 let selectedHatStyle = "classic";
+let selectedAccessoryStyle = "none";
+let selectedPotatoColor = "classic";
 export function setPotatoHat(id) {
-  selectedHatStyle = ["classic", "starlight", "sunshine"].includes(id) ? id : "classic";
+  selectedHatStyle = ["none","classic","bluecap","dino","starlight","tiara","crown","sunshine","wizard","space"].includes(id) ? id : "classic";
+}
+export function setPotatoStyle({hatStyle="classic", accessoryStyle="none", potatoColor="classic"}={}) {
+  setPotatoHat(hatStyle);
+  selectedAccessoryStyle = ["none","bowtie","glasses","bandana","cape","wings"].includes(accessoryStyle) ? accessoryStyle : "none";
+  selectedPotatoColor = ["classic","rose","mint","lavender","golden"].includes(potatoColor) ? potatoColor : "classic";
 }
 export function potatoSVG(mood = "happy") {
   const mouth = {
@@ -227,15 +234,41 @@ export function potatoSVG(mood = "happy") {
   }[mood] || "";
   const brow = mood === "oops" ? `<path d="M62 78 Q74 72 87 79 M113 79 Q126 72 138 78" fill="none" stroke="#3a1f0a" stroke-width="3" stroke-linecap="round"/>` : "";
   const sweat = "";
-  const capColor = selectedHatStyle === "sunshine" ? "#d99616" : selectedHatStyle === "starlight" ? "#7954d4" : "#2b2b3a";
-  const capTrim = selectedHatStyle === "sunshine" ? "#815315" : selectedHatStyle === "starlight" ? "#392477" : "#14141e";
+  const capColor = selectedHatStyle === "sunshine" ? "#d99616" : selectedHatStyle === "starlight" ? "#7954d4" : selectedHatStyle === "bluecap" ? "#317ac8" : "#2b2b3a";
+  const capTrim = selectedHatStyle === "sunshine" ? "#815315" : selectedHatStyle === "starlight" ? "#392477" : selectedHatStyle === "bluecap" ? "#164078" : "#14141e";
   const capSparkles = selectedHatStyle === "classic" ? "" : '<circle cx="83" cy="41" r="3" fill="#fff4b0"/><circle cx="111" cy="35" r="3" fill="#fff4b0"/><circle cx="139" cy="40" r="2" fill="#fff4b0"/>';
-  return `<svg class="potato mood-${mood}" viewBox="0 0 200 200" role="img" aria-label="Professor Potato, a potato in a graduation cap">
-    <ellipse cx="100" cy="190" rx="52" ry="8" fill="#000" opacity=".15"/>
-    <path d="M100 46 C150 40 176 86 170 128 C164 170 130 186 98 184 C62 182 32 160 30 120 C28 80 54 52 100 46z" fill="#c8995a" stroke="#6d4620" stroke-width="5"/>
-    <g fill="#a87438" opacity=".7"><ellipse cx="60" cy="150" rx="6" ry="4"/><ellipse cx="140" cy="158" rx="5" ry="3.5"/><ellipse cx="120" cy="64" rx="5" ry="3"/><ellipse cx="46" cy="110" rx="4" ry="3"/></g>
-    <polygon points="100,12 176,40 100,56 24,40" fill="${capColor}" stroke="${capTrim}" stroke-width="3"/><rect x="70" y="44" width="60" height="16" rx="3" fill="${capColor}"/>${capSparkles}
-    <line x1="168" y1="42" x2="184" y2="78" stroke="#ffd34d" stroke-width="4"/><circle cx="184" cy="82" r="6" fill="#ffd34d"/>
+
+  const shades = {
+    classic:["#c8995a","#a87438"], rose:["#e9b0bd","#cc7e97"],
+    mint:["#a8ddb6","#62b68c"], lavender:["#c0b3e7","#9583c8"], golden:["#f1cf76","#cf9e3e"]
+  };
+  const [bodyColor, spotColor] = shades[selectedPotatoColor];
+  const graduate = ["classic","starlight","sunshine","bluecap"].includes(selectedHatStyle);
+  const customHats = {
+    none: "",
+    dino: '<path d="M40 77 Q34 41 65 36 L76 15 L88 36 L102 10 L117 35 L135 19 L143 40 Q166 51 160 78 L145 70 Q103 48 54 75Z" fill="#50b46e" stroke="#267845" stroke-width="4"/><path d="M78 17 L88 36 L70 35Z M102 12 L114 36 L91 34Z M135 20 L140 43 L122 35Z" fill="#f5ea91"/><circle cx="58" cy="60" r="5" fill="#fff"/><circle cx="60" cy="60" r="2" fill="#234d32"/>',
+    tiara: '<path d="M54 63 L62 34 L82 49 L101 16 L121 49 L141 32 L150 63 Q101 45 54 63Z" fill="#e9f3ff" stroke="#62539d" stroke-width="4"/><path d="M60 64 Q101 46 144 64" fill="none" stroke="#6655ac" stroke-width="6"/><polygon points="101,29 112,43 101,56 90,43" fill="#64c9eb"/><circle cx="66" cy="48" r="5" fill="#e89adf"/><circle cx="135" cy="48" r="5" fill="#e89adf"/>',
+    crown: '<path d="M52 64 L45 22 L72 42 L101 10 L128 42 L156 22 L148 64Z" fill="#ffd35b" stroke="#945b12" stroke-width="5"/><rect x="53" y="59" width="95" height="13" rx="5" fill="#f1b522" stroke="#945b12" stroke-width="3"/><polygon points="101,29 111,43 101,56 91,43" fill="#e14c74"/><circle cx="70" cy="51" r="5" fill="#6a9fe3"/><circle cx="132" cy="51" r="5" fill="#6a9fe3"/>',
+    wizard: '<path d="M49 68 L106 5 L146 68 Q103 55 49 68Z" fill="#574bbb" stroke="#342b73" stroke-width="4"/><ellipse cx="98" cy="66" rx="75" ry="12" fill="#7167d7" stroke="#342b73" stroke-width="4"/><polygon points="100,17 104,26 114,27 107,34 109,43 100,38 91,43 93,34 86,27 96,26" fill="#ffec95"/><circle cx="126" cy="51" r="5" fill="#ffec95"/>',
+    space: '<path d="M40 81 Q42 18 101 14 Q161 17 162 81" fill="#b4ddf5" fill-opacity=".45" stroke="#4e779a" stroke-width="7"/><path d="M43 76 Q100 45 160 76" fill="none" stroke="#4e779a" stroke-width="7"/><path d="M69 33 Q89 19 104 24" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".8"/><circle cx="149" cy="34" r="6" fill="#f9d45a"/>'
+  };
+  const accessoriesBehind = {
+    cape: '<path d="M54 103 Q20 132 12 181 Q100 210 188 179 Q180 128 147 101" fill="#ef6657" stroke="#9c292d" stroke-width="4"/><path d="M90 128 L81 182" stroke="#ffb89c" stroke-width="5"/>',
+    wings: '<path d="M42 116 Q4 63 4 51 L41 68 L45 35 L69 90" fill="#79b89d" stroke="#376b5f" stroke-width="4"/><path d="M158 116 Q196 63 196 51 L159 68 L155 35 L131 90" fill="#79b89d" stroke="#376b5f" stroke-width="4"/>'
+  }[selectedAccessoryStyle] || "";
+  const accessoriesFront = {
+    bowtie: '<path d="M91 156 L62 143 L63 171 L91 162 L109 162 L137 171 L138 143 L109 156Z" fill="#f16e6e" stroke="#963f59" stroke-width="4"/><circle cx="100" cy="159" r="8" fill="#ffd575" stroke="#963f59" stroke-width="3"/>',
+    glasses: '<circle cx="76" cy="96" r="23" fill="none" stroke="#3f366b" stroke-width="5"/><circle cx="124" cy="96" r="23" fill="none" stroke="#3f366b" stroke-width="5"/><path d="M99 92 Q100 87 101 92 M53 93 L35 84 M147 93 L165 84" stroke="#3f366b" stroke-width="5" fill="none"/>',
+    bandana: '<path d="M57 149 Q103 174 147 149 L139 167 Q100 188 65 167Z" fill="#4a98c8" stroke="#286287" stroke-width="4"/><path d="M137 159 L156 177 L135 173" fill="#4a98c8" stroke="#286287" stroke-width="3"/>',
+    cape: '<path d="M68 149 Q101 164 132 149" fill="none" stroke="#ffc05d" stroke-width="7"/><circle cx="101" cy="154" r="6" fill="#ffd35a" stroke="#9d6132" stroke-width="2"/>',
+    wings: '<path d="M62 153 Q100 165 139 153" fill="none" stroke="#3c8066" stroke-width="4"/>'
+  }[selectedAccessoryStyle] || "";
+  const alternateHat = graduate ? "" : (customHats[selectedHatStyle] || "");
+  return `<svg class="potato mood-${mood}" viewBox="0 0 200 200" role="img" aria-label="Professor Potato smiling">
+    <ellipse cx="100" cy="190" rx="52" ry="8" fill="#000" opacity=".15"/>${accessoriesBehind}
+    <path d="M100 46 C150 40 176 86 170 128 C164 170 130 186 98 184 C62 182 32 160 30 120 C28 80 54 52 100 46z" fill="${bodyColor}" stroke="#6d4620" stroke-width="5"/>
+    <g fill="${spotColor}" opacity=".7"><ellipse cx="60" cy="150" rx="6" ry="4"/><ellipse cx="140" cy="158" rx="5" ry="3.5"/><ellipse cx="120" cy="64" rx="5" ry="3"/><ellipse cx="46" cy="110" rx="4" ry="3"/></g>
+    ${graduate ? '<polygon points="100,12 176,40 100,56 24,40" fill="' + capColor + '" stroke="' + capTrim + '" stroke-width="3"/><rect x="70" y="44" width="60" height="16" rx="3" fill="' + capColor + '"/>' + capSparkles + '<line x1="168" y1="42" x2="184" y2="78" stroke="#ffd34d" stroke-width="4"/><circle cx="184" cy="82" r="6" fill="#ffd34d"/>' : alternateHat}
     ${eye(76, 96, 13, 1)}${eye(124, 96, 13, 1)}${brow}${mouth}${sweat}
-    <circle cx="52" cy="116" r="9" fill="#ff8a8a" opacity=".5"/><circle cx="148" cy="116" r="9" fill="#ff8a8a" opacity=".5"/></svg>`;
+    <circle cx="52" cy="116" r="9" fill="#ff8a8a" opacity=".5"/><circle cx="148" cy="116" r="9" fill="#ff8a8a" opacity=".5"/>${accessoriesFront}</svg>`;
 }

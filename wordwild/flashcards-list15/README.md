@@ -36,3 +36,16 @@ From this directory: `node --test`. This is a static HTML/CSS/JS game; no build,
 - Professor Potato's retry face now has kind eyebrows and a little smile instead of an angry expression.
 - **Potato Points** are cosmetic rewards in this edition. 2 points for each completed spelling (even with hints or retries), and 1 point for studying a word the first time. Incorrect answers never subtract points. No accounts, purchases or leaderboards.
 - Unlock a purple sparkle graduation cap at 10 points or a golden cap at 25 points. Both are just costumes, not quiz advantages. Points and selected cap stay in the existing List 15 browser-only storage.
+
+## Magdalena's Potato Dress-Up Closet (November 2026)
+
+The List 15 menu includes an optional dress-up closet with four independently selectable categories. All designs are original inline SVG and CSS, and are not gender-restricted:
+
+- **10 hats/headgear:** including free classic graduation cap, blue cap (2 points), dinosaur hood (8), crystal tiara (12), royal crown (20), wizard hat (40), space helmet (60), and previous purple/golden graduation caps.
+- **6 accessories:** including free none, bow tie (4), glasses (6), bandana (10), superhero cape (22), dragon wings (45).
+- **5 potato body colors:** original, rose and mint free, lavender (4), and golden (16).
+- **9 page backgrounds:** original plus pink, blue, green and yellow free; red, orange and purple (3); full rainbow gradient (14).
+
+These are **cumulative unlock thresholds**, not prices deducted from a balance. Practice points are easy to earn (2 for a completed spelling, including helped attempts; 1 for studying a word once), and previously earned points and old hat choices are preserved. Items never provide spelling advantages. No accounts, child details, ads, purchases, leaderboards or external assets.
+
+The little Professor Potato in the menu is the player's customizable avatar and keeps the costume on all game screens. Backgrounds use light pastel gradients with the normal high-contrast text and game buttons.

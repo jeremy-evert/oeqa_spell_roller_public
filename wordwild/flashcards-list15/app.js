@@ -5,7 +5,7 @@ import { homeView, cardView, resultView, flipFrontView, flipBackView, breakView,
 import * as sfx from "./sfx.js";
 import * as voice from "./voice.js";
 import { load, save, wipe } from "./storage.js";
-import { setPotatoHat } from "./art.js";
+import { setPotatoStyle } from "./art.js";
 
 const app = document.getElementById("app");
 const byWord = Object.fromEntries(WORDS.map((w) => [w.word, w]));
@@ -13,15 +13,18 @@ const progress = new Progress(load());
 const settings = progress.state.settings;
 if (settings.reducedMotion === null) settings.reducedMotion = !!globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 sfx.setMuted(settings.muted);
-setPotatoHat(settings.hatStyle);
+setPotatoStyle(settings);
 applyCalm();
+applyTheme();
 
 let session = null; // { mode, label, words, idx, outcomes, batchStart, run, hint, stage, line }
 let voiceReady = false;
+let openClosetCategory = "hatStyle";
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const persist = () => save(progress.state);
 
 function applyCalm() { document.body.classList.toggle("calm", !!settings.reducedMotion); }
+function applyTheme() { document.body.dataset.theme = settings.backgroundTheme || "original"; }
 
 function render(html, focusSel) {
   app.innerHTML = html;
@@ -30,7 +33,7 @@ function render(html, focusSel) {
   window.scrollTo?.(0, 0);
 }
 
-function home() { session = null; voice.stop(); render(homeView(progress, settings, voiceReady)); }
+function home() { session = null; voice.stop(); render(homeView(progress, settings, voiceReady, openClosetCategory)); }
 
 // ---- sessions ----------------------------------------------------------------------------------------------
 function startSession(mode, roundKey) {
@@ -130,12 +133,40 @@ app.addEventListener("click", (e) => {
     case "next": sfx.play("pop"); if (session.run && !session.run.done && session.mode !== "flip") { session.run.skip(); return finishCard(); } return next();
     case "continue": sfx.play("pop"); return showCard(true);
     case "play-another-five": return startSession("listen", "surprise");
-    case "choose-hat": if (progress.chooseHatStyle(t.dataset.hat)) { setPotatoHat(settings.hatStyle); persist(); sfx.play("pop"); } return home();
+    case "choose-hat":
+      if (progress.chooseHatStyle(t.dataset.hat)) {
+        openClosetCategory = "hatStyle";
+        setPotatoStyle(settings); persist(); sfx.play("pop");
+      }
+      return home();
+    case "choose-cosmetic": {
+      const key = t.dataset.key, item = t.dataset.item;
+      const method = {
+        hatStyle: () => progress.chooseHatStyle(item),
+        accessoryStyle: () => progress.chooseAccessory(item),
+        potatoColor: () => progress.choosePotatoColor(item),
+        backgroundTheme: () => progress.chooseBackground(item),
+      }[key];
+      if (method?.()) {
+        openClosetCategory = key;
+        setPotatoStyle(settings);
+        applyTheme();
+        persist();
+        sfx.play("pop");
+      }
+      return home();
+    }
     case "start-review": return startSession("review");
     case "reset-ask": document.getElementById("resetbox").innerHTML =
       ` Really erase all progress on this device? <button class="btn" data-action="reset-yes">Yes, erase it</button> <button class="btn" data-action="reset-no">Cancel</button>`; return;
     case "reset-no": document.getElementById("resetbox").textContent = ""; return;
-    case "reset-yes": progress.reset(); setPotatoHat(settings.hatStyle); wipe(); persist(); sfx.play("pop"); return home();
+    case "reset-yes": {
+      progress.reset();
+      // The UI holds a settings reference; keep it in sync when reset creates new state.
+      Object.assign(settings, progress.state.settings);
+      progress.state.settings = settings;
+      setPotatoStyle(settings); applyTheme(); wipe(); persist(); sfx.play("pop"); return home();
+    }
   }
 });
 

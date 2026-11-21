@@ -76,3 +76,35 @@ input[type=text] { font:inherit; font-size:1.6rem; font-weight:800; text-align:c
 .hat-sample { font-size:2rem; }
 .hat-sample-starlight { filter:hue-rotate(65deg); }
 .hat-sample-sunshine { filter:hue-rotate(320deg); }
+
+
+/* Inclusive dress-up shop. Every item is purely cosmetic; all lessons remain available. */
+.dress-up-preview { display:flex; align-items:center; gap:14px; background:#fff; border:3px solid var(--ink); border-radius:18px; padding:12px; margin:12px 0; }
+.dress-up-potato { flex:0 0 110px; }
+.dress-up-potato svg { display:block; width:100%; height:auto; }
+.dress-up-preview p { margin:.3em 0; }
+.closet-shelf { border:2px solid var(--ink); background:rgba(255,255,255,.85); border-radius:14px; margin:10px 0; overflow:hidden; }
+.closet-shelf summary { cursor:pointer; min-height:56px; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px 14px; }
+.closet-shelf summary:hover { background:#f7f1ff; }
+.closet-shelf summary:focus-visible { outline:4px solid var(--focus); outline-offset:-4px; }
+.shelf-selected { font-size:.82rem; color:var(--muted); }
+.costume-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; padding:10px; border-top:2px solid var(--ink); }
+.costume-choice { min-height:108px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px; border:3px solid var(--ink); background:#fff; border-radius:14px; padding:8px; font-size:.9rem; text-align:center; font-weight:800; box-shadow:2px 2px 0 var(--ink); }
+.costume-choice.selected { outline:3px solid #1b975a; outline-offset:2px; background:#e8fff3; }
+.costume-choice:disabled { background:#eeeaf1; color:#5a5675; cursor:not-allowed; box-shadow:none; }
+.costume-choice small { font-size:.76rem; font-weight:600; }
+.costume-emoji { font-size:2rem; line-height:1.2; }
+body[data-theme="pink"] { --bg1:#ffe1ec; --bg2:#ffd4f2; }
+body[data-theme="blue"] { --bg1:#d8edff; --bg2:#bfdaff; }
+body[data-theme="green"] { --bg1:#dcf9d9; --bg2:#b7eccb; }
+body[data-theme="yellow"] { --bg1:#fff7c5; --bg2:#ffe8a9; }
+body[data-theme="red"] { --bg1:#ffe3dc; --bg2:#ffc7bb; }
+body[data-theme="orange"] { --bg1:#ffead0; --bg2:#ffd1a3; }
+body[data-theme="purple"] { --bg1:#e9dfff; --bg2:#d8cbf8; }
+body[data-theme="rainbow"] { background:linear-gradient(145deg,#ffe1ee 0%,#ffeec8 24%,#ddf9d5 49%,#d3edff 74%,#eee0ff 100%); background-attachment:fixed; }
+@media (max-width:480px) {
+ .dress-up-preview { flex-direction:column; text-align:center; }
+ .dress-up-potato { flex:auto; width:105px; }
+ .costume-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .closet-shelf summary { font-size:.96rem; }
+}

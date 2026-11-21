@@ -3,7 +3,7 @@
 // alt text, attributes or class names. Audio file names are built in voice.js and never put in the DOM.
 import { WORDS } from "./words.js";
 import { sceneSVG, potatoSVG } from "./art.js";
-import { OUTCOME, rounds, HAT_STYLES } from "./engine.js";
+import { OUTCOME, rounds, HAT_STYLES, ACCESSORY_STYLES, POTATO_COLORS, BACKGROUND_THEMES } from "./engine.js";
 
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -39,13 +39,33 @@ function dots(progress) {
   }).join("");
 }
 
-export function homeView(progress, settings, voiceReady) {
+// A compact dress-up closet: each cosmetic is earned with practice, never purchased.
+function closetShelf({ title, key, items, selected, points, isOpen }) {
+  const current = items.find((item) => item.id === selected) || items[0];
+  const cards = items.map((item) => {
+    const unlocked = points >= item.unlockAt;
+    const wearing = item.id === selected;
+    return `<button type="button" class="costume-choice${wearing ? " selected" : ""}"
+      data-action="choose-cosmetic" data-key="${key}" data-item="${item.id}"
+      aria-pressed="${wearing}" ${unlocked ? "" : "disabled"}>
+      <span class="costume-emoji" aria-hidden="true">${item.icon}</span>
+      <span>${esc(item.label)}</span>
+      <small>${wearing ? "Wearing it!" : unlocked ? "Choose this!" : item.unlockAt + " points to unlock"}</small>
+    </button>`;
+  }).join("");
+  return `<details class="closet-shelf" ${isOpen ? "open" : ""}>
+      <summary><strong>${esc(title)}</strong><span class="shelf-selected">Selected: ${esc(current.label)}</span></summary>
+      <div class="costume-grid" role="group" aria-label="${esc(title)}">${cards}</div>
+    </details>`;
+}
+
+export function homeView(progress, settings, voiceReady, openClosetCategory = "hatStyle") {
   const sum = progress.summary();
   const reviewCount = progress.reviewList().length;
   const r = rounds();
   return `
   <section class="home" aria-labelledby="h">
-    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Flashcards</h1><p>First flip and learn. Then take the spelling quiz!</p></div></div>
+    <div class="hero">${potatoSVG("happy")}<div class="bubble"><h1 id="h">List 15 Flashcards</h1><p>First flip and learn. Then take the spelling quiz!</p><a class="closet-jump" href="#dressup-closet">🎨 Dress up Professor Potato →</a></div></div>
     <p class="how">Pick a game. In <b>Listen &amp; Spell</b> the word stays hidden until <i>you</i> type it, so it really trains your brain.</p>
     <h2>Listen &amp; Spell <span class="tag">the scored game</span></h2>
     <div class="grid">
@@ -63,19 +83,21 @@ export function homeView(progress, settings, voiceReady) {
     <h2>Your progress <span class="tag">saved on this device only</span></h2>
     <p class="count"><b>${sum.independentNow}</b> of 20 words spelled by yourself on the latest try. ${sum.practiced} tried so far.</p>
     <ol class="dots" aria-label="Progress by card">${dots(progress)}</ol>
-    <h2>Professor Potato's Hat Closet <span class="tag">just for fun</span></h2>
-    <p class="points-count"><b>${progress.state.practicePoints}</b> Potato Points! Earn 2 for spelling a word (even with help), or 1 for studying a new flip card. Wrong answers never lose points.</p>
-    <div class="hat-choices" role="group" aria-label="Choose Professor Potato's hat">
-    ${HAT_STYLES.map((hat) => {
-      const unlocked = progress.state.practicePoints >= hat.unlockAt;
-      const selected = settings.hatStyle === hat.id;
-      return `<button class="hat-choice${selected ? " selected" : ""}" type="button" data-action="choose-hat" data-hat="${hat.id}" aria-pressed="${selected}" ${unlocked ? "" : "disabled"}>
-        <span class="hat-sample hat-sample-${hat.id}" aria-hidden="true">🎓</span><span>${esc(hat.label)}</span>
-        <small>${unlocked ? selected ? "Wearing it!" : "Unlocked · Pick me!" : "Unlock at " + hat.unlockAt + " points"}</small>
-      </button>`;
-    }).join("")}
+    <h2 id="dressup-closet">Professor Potato's Dress-Up Closet <span class="tag">just for fun</span></h2>
+    <div class="dress-up-preview" aria-label="Your potato avatar">
+      <div class="dress-up-potato">${potatoSVG("happy")}</div>
+      <div><p><b>Your very own Professor Potato!</b></p>
+      <p>Pick a hat, accessory, potato color, and background. Mix everything any way you like.</p>
+      <p class="note">Dinosaur costumes, crowns, tiaras, and rainbow colors are for everyone!</p></div>
     </div>
-    <p class="note">Hats are cosmetic. All quizzes, hints, and accessibility tools stay available to everyone.</p>
+    <p class="points-count"><b>${progress.state.practicePoints}</b> Potato Points earned!
+      Earn 2 for spelling a word (even with help), or 1 for studying a new flip card. Mistakes never cost points.
+      Items unlock when you've earned enough points, and unlocking never spends them.</p>
+    ${closetShelf({title:"Hats & headgear",key:"hatStyle",items:HAT_STYLES,selected:settings.hatStyle,points:progress.state.practicePoints,isOpen:openClosetCategory==="hatStyle"})}
+    ${closetShelf({title:"Fun accessories",key:"accessoryStyle",items:ACCESSORY_STYLES,selected:settings.accessoryStyle || "none",points:progress.state.practicePoints,isOpen:openClosetCategory==="accessoryStyle"})}
+    ${closetShelf({title:"Potato colors",key:"potatoColor",items:POTATO_COLORS,selected:settings.potatoColor || "classic",points:progress.state.practicePoints,isOpen:openClosetCategory==="potatoColor"})}
+    ${closetShelf({title:"Background colors",key:"backgroundTheme",items:BACKGROUND_THEMES,selected:settings.backgroundTheme || "original",points:progress.state.practicePoints,isOpen:openClosetCategory==="backgroundTheme"})}
+    <p class="note">All quizzes, hints, and accessibility tools stay available to everyone. Dressing up is optional!</p>
     <h2>Settings</h2>
     <div class="settings">
       <label><input type="checkbox" data-setting="sfx" ${settings.muted ? "" : "checked"}> Sound effects</label>

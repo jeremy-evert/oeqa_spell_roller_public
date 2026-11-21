@@ -225,7 +225,12 @@ export function setPotatoStyle({hatStyle="classic", accessoryStyle="none", potat
   selectedAccessoryStyle = ["none","bowtie","glasses","bandana","cape","wings"].includes(accessoryStyle) ? accessoryStyle : "none";
   selectedPotatoColor = ["classic","rose","mint","lavender","golden"].includes(potatoColor) ? potatoColor : "classic";
 }
-export function potatoSVG(mood = "happy") {
+let potatoGradientCount = 0;
+export function potatoSVG(mood = "happy", preview = null) {
+  const hatStyle = preview?.hatStyle ?? selectedHatStyle;
+  const accessoryStyle = preview?.accessoryStyle ?? selectedAccessoryStyle;
+  const potatoColor = preview?.potatoColor ?? selectedPotatoColor;
+  const gradientId = "potato-rainbow-grad-" + (++potatoGradientCount);
   const mouth = {
     happy: `<path d="M70 120 q30 28 60 0" fill="#fff" stroke="#3a1f0a" stroke-width="4"/>`,
     cheer: `<path d="M64 116 q36 46 72 0z" fill="#7a1f14" stroke="#3a1f0a" stroke-width="4"/><path d="M80 130 q20 12 40 0" fill="#ff8a8a"/>`,
@@ -238,18 +243,18 @@ export function potatoSVG(mood = "happy") {
     classic:"#2b2b3a",redcap:"#d3444a",bluecap:"#317ac8",
     greencap:"#29975b",pinkcap:"#e179a5",purplecap:"#7954d4",
     orangecap:"#ec8c37",sunshine:"#d99616",silvercap:"#c8d3df",
-    rainbowcap:"url(#potato-rainbow-grad)",starlight:"#7954d4"
+    rainbowcap:"url(#" + gradientId + ")",starlight:"#7954d4"
   };
-  const capColor = capPalette[selectedHatStyle] || "#2b2b3a";
-  const capTrim = selectedHatStyle === "sunshine" ? "#815315" : selectedHatStyle === "silvercap" ? "#627b95" : selectedHatStyle === "rainbowcap" ? "#4f4591" : selectedHatStyle === "classic" ? "#14141e" : "#51325f";
-  const capSparkles = selectedHatStyle === "classic" ? "" : '<circle cx="83" cy="41" r="3" fill="#fff4b0"/><circle cx="111" cy="35" r="3" fill="#fff4b0"/><circle cx="139" cy="40" r="2" fill="#fff4b0"/>';
+  const capColor = capPalette[hatStyle] || "#2b2b3a";
+  const capTrim = hatStyle === "sunshine" ? "#815315" : hatStyle === "silvercap" ? "#627b95" : hatStyle === "rainbowcap" ? "#4f4591" : hatStyle === "classic" ? "#14141e" : "#51325f";
+  const capSparkles = hatStyle === "classic" ? "" : '<circle cx="83" cy="41" r="3" fill="#fff4b0"/><circle cx="111" cy="35" r="3" fill="#fff4b0"/><circle cx="139" cy="40" r="2" fill="#fff4b0"/>';
 
   const shades = {
     classic:["#c8995a","#a87438"], rose:["#e9b0bd","#cc7e97"],
     mint:["#a8ddb6","#62b68c"], lavender:["#c0b3e7","#9583c8"], golden:["#f1cf76","#cf9e3e"]
   };
-  const [bodyColor, spotColor] = shades[selectedPotatoColor];
-  const graduate = ["classic","redcap","bluecap","greencap","pinkcap","purplecap","orangecap","sunshine","silvercap","rainbowcap","starlight"].includes(selectedHatStyle);
+  const [bodyColor, spotColor] = shades[potatoColor];
+  const graduate = ["classic","redcap","bluecap","greencap","pinkcap","purplecap","orangecap","sunshine","silvercap","rainbowcap","starlight"].includes(hatStyle);
   const customHats = {
     none: "",
     dino: '<path d="M40 77 Q34 41 65 36 L76 15 L88 36 L102 10 L117 35 L135 19 L143 40 Q166 51 160 78 L145 70 Q103 48 54 75Z" fill="#50b46e" stroke="#267845" stroke-width="4"/><path d="M78 17 L88 36 L70 35Z M102 12 L114 36 L91 34Z M135 20 L140 43 L122 35Z" fill="#f5ea91"/><circle cx="58" cy="60" r="5" fill="#fff"/><circle cx="60" cy="60" r="2" fill="#234d32"/>',
@@ -266,17 +271,17 @@ export function potatoSVG(mood = "happy") {
   const accessoriesBehind = {
     cape: '<path d="M54 103 Q20 132 12 181 Q100 210 188 179 Q180 128 147 101" fill="#ef6657" stroke="#9c292d" stroke-width="4"/><path d="M90 128 L81 182" stroke="#ffb89c" stroke-width="5"/>',
     wings: '<path d="M42 116 Q4 63 4 51 L41 68 L45 35 L69 90" fill="#79b89d" stroke="#376b5f" stroke-width="4"/><path d="M158 116 Q196 63 196 51 L159 68 L155 35 L131 90" fill="#79b89d" stroke="#376b5f" stroke-width="4"/>'
-  }[selectedAccessoryStyle] || "";
+  }[accessoryStyle] || "";
   const accessoriesFront = {
     bowtie: '<path d="M91 156 L62 143 L63 171 L91 162 L109 162 L137 171 L138 143 L109 156Z" fill="#f16e6e" stroke="#963f59" stroke-width="4"/><circle cx="100" cy="159" r="8" fill="#ffd575" stroke="#963f59" stroke-width="3"/>',
     glasses: '<circle cx="76" cy="96" r="23" fill="none" stroke="#3f366b" stroke-width="5"/><circle cx="124" cy="96" r="23" fill="none" stroke="#3f366b" stroke-width="5"/><path d="M99 92 Q100 87 101 92 M53 93 L35 84 M147 93 L165 84" stroke="#3f366b" stroke-width="5" fill="none"/>',
     bandana: '<path d="M57 149 Q103 174 147 149 L139 167 Q100 188 65 167Z" fill="#4a98c8" stroke="#286287" stroke-width="4"/><path d="M137 159 L156 177 L135 173" fill="#4a98c8" stroke="#286287" stroke-width="3"/>',
     cape: '<path d="M68 149 Q101 164 132 149" fill="none" stroke="#ffc05d" stroke-width="7"/><circle cx="101" cy="154" r="6" fill="#ffd35a" stroke="#9d6132" stroke-width="2"/>',
     wings: '<path d="M62 153 Q100 165 139 153" fill="none" stroke="#3c8066" stroke-width="4"/>'
-  }[selectedAccessoryStyle] || "";
-  const alternateHat = graduate ? "" : (customHats[selectedHatStyle] || "");
+  }[accessoryStyle] || "";
+  const alternateHat = graduate ? "" : (customHats[hatStyle] || "");
   return `<svg class="potato mood-${mood}" viewBox="0 0 200 200" role="img" aria-label="Professor Potato smiling">
-    <defs><linearGradient id="potato-rainbow-grad" x1="0" y1="0" x2="1" y2="0">
+    <defs><linearGradient id="${gradientId}" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#df5b69"/><stop offset=".2" stop-color="#eaa045"/>
       <stop offset=".4" stop-color="#eedc65"/><stop offset=".6" stop-color="#68b987"/>
       <stop offset=".8" stop-color="#69a4e9"/><stop offset="1" stop-color="#be80d9"/>
